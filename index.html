@@ -198,6 +198,34 @@
                                 </button>
                             </div>
 
+                            <!-- BRIDE PHOTO GUESSING GAME -->
+                            <div id="photo-game-card" class="bg-gradient-to-br from-lavender/40 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
+                                        <span>📸</span> Guess the Era (Photo Game)
+                                    </h3>
+                                    <span id="photo-game-badge" class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+40 pts</span>
+                                </div>
+                                <p id="photo-game-desc" class="text-slate-700 text-xs mb-3 font-medium">Match baby and childhood pictures of Julia to the correct age/era!</p>
+                                <button id="photo-game-btn" onclick="startPhotoGame()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 shadow-md transition-all active:scale-98">
+                                    Play Photo Game 🎮
+                                </button>
+                            </div>
+
+                            <!-- NEWLY ADDED GAME: WHO KNOWS THE BRIDE BEST? -->
+                            <div id="bride-best-card" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
+                                        <span>💍</span> Who Knows the Bride Best?
+                                    </h3>
+                                    <span id="bride-best-badge" class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+100 pts</span>
+                                </div>
+                                <p id="bride-best-desc" class="text-slate-700 text-xs mb-3 font-medium">Test your deep lore on Julia's childhood pets, slip & slides, and party tricks!</p>
+                                <button id="bride-best-btn" onclick="startBrideBestGame()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 shadow-md transition-all active:scale-98">
+                                    Play Bride Trivia 🧠
+                                </button>
+                            </div>
+
                             <div id="card-pregame-photo" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
@@ -428,6 +456,35 @@
         </div>
     </div>
 
+    <!-- PHOTO GAME MODAL -->
+    <div id="photo-game-modal" class="fixed inset-0 bg-plum/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30">
+            <div class="flex justify-between items-center border-b border-lavender pb-3">
+                <h3 class="font-display text-lg font-bold text-plum">Guess the Era</h3>
+                <span id="photo-game-progress" class="text-xs font-bold text-earthen">Photo 1/2</span>
+            </div>
+            <p id="photo-game-prompt" class="text-base font-bold text-slate-800 text-center"></p>
+            <div class="w-full h-48 bg-lavender/50 rounded-2xl flex items-center justify-center border border-amethyst/30 overflow-hidden">
+                <span id="photo-game-placeholder" class="text-4xl">👶</span>
+            </div>
+            <div id="photo-game-options" class="space-y-2"></div>
+            <button onclick="closePhotoGame()" class="text-xs text-earthen underline w-full text-center pt-2">Cancel Game</button>
+        </div>
+    </div>
+
+    <!-- WHO KNOWS THE BRIDE BEST MODAL -->
+    <div id="bride-best-modal" class="fixed inset-0 bg-plum/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-lavender pb-3 shrink-0">
+                <h3 class="font-display text-lg font-bold text-plum">Who Knows the Bride Best?</h3>
+                <span id="bride-best-progress" class="text-xs font-bold text-earthen">Q 1/10</span>
+            </div>
+            <p id="bride-best-question" class="text-base font-bold text-slate-800 shrink-0"></p>
+            <div id="bride-best-options" class="space-y-2 overflow-y-auto pr-1 flex-grow"></div>
+            <button onclick="closeBrideBestGame()" class="text-xs text-earthen underline w-full text-center pt-2 shrink-0">Cancel Game</button>
+        </div>
+    </div>
+
     <!-- INCOMING DARE POPUP MODAL -->
     <div id="incoming-dare-modal" class="fixed inset-0 bg-plum/95 z-[100] hidden flex-col items-center justify-center p-6 text-center text-ivory space-y-6">
         <div class="animate-bounce text-6xl">☠️</div>
@@ -485,6 +542,29 @@
 
         let currentQuestionIdx = 0;
         let quizScore = 0;
+
+        // PHOTO GAME DATA
+        const photoGameQuestions = [
+            { q: "How old was Julia in this classic toddler picture?", options: ["1 year old", "3 years old", "5 years old", "7 years old"], answer: 1 },
+            { q: "What grade was Julia in during this awkward school photo?", options: ["Kindergarten", "3rd Grade", "7th Grade", "Sophomore in High School"], answer: 2 }
+        ];
+        let currentPhotoGameIdx = 0;
+        let photoGameScore = 0;
+
+        // WHO KNOWS THE BRIDE BEST? DATA
+        const brideBestQuestions = [
+            { q: "The names of Julia's rats were:", options: ["Ella and Roxette", "Ella and Robin", "Ellie and Roxanne", "Effie and Roxanne"], answer: 2 },
+            { q: "Julia and Melody made soap and water slip and slides and played until their knees stung. This took place in:", options: ["The backyard", "The kitchen", "Melody's bedroom", "Julia's bedroom"], answer: 1 },
+            { q: "Julia's rat Ellie was black and floofy and Roxanne was hairless.", options: ["True", "False"], answer: 1 },
+            { q: "Julia and her cousin John made a game where they'd put on a bunch of sweaters and dance around the fireplace, called:", options: ["Fire Fire Sweater Sweater", "The Fire Ritual", "Get Sweaty", "J and J's ritual"], answer: 2 },
+            { q: "At BBBSG, Julia was voted:", options: ["Most likely to survive a deserted island", "Most likely to become famous for something weird", "Most likely to be late to their own wedding", "Most likely to win a dance competition"], answer: 2 },
+            { q: "Julia had a ____ childhood bedroom theme.", options: ["Pink", "Purple", "Blue", "She did not have a theme"], answer: 1 },
+            { q: "Julia's party trick is (iykyk):", options: ["Backwards alphabet", "Line dancing on the spot", "Dislocating her collar bone from when it broke", "Helicopter arms"], answer: 3 },
+            { q: "Julia's favourite childhood activities were:", options: ["Roller blading, dancing, and playing with barbies", "Doing makeovers, skating, and ballet", "Playing with her rats and video games with her sister", "Eating, dancing, and gardening"], answer: 0 },
+            { q: "What decor did Julia install in her childhood bedroom (because she was a gypsy):", options: ["A blue and gold tapestry", "Cloud wallpaper", "Dream catcher", "Colourful Beads"], answer: 3 }
+        ];
+        let currentBrideBestIdx = 0;
+        let brideBestScore = 0;
 
         const allChallengeIds = [
             'pregame-photo',
@@ -580,12 +660,14 @@
                     score: 0,
                     selfieUrl: signupSelfieData,
                     triviaCompleted: false,
+                    photoGameCompleted: false,
+                    brideBestCompleted: false,
                     completedChallenges: [],
                     lastDareTimestamp: null,
                     timestamp: serverTimestamp()
                 });
 
-                currentUser = { id: docRef.id, name: name, passcode: passcode, score: 0, selfieUrl: signupSelfieData, triviaCompleted: false, completedChallenges: [], lastDareTimestamp: null };
+                currentUser = { id: docRef.id, name: name, passcode: passcode, score: 0, selfieUrl: signupSelfieData, triviaCompleted: false, photoGameCompleted: false, brideBestCompleted: false, completedChallenges: [], lastDareTimestamp: null };
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser)); 
 
                 updateUIForLoggedInUser();
@@ -697,22 +779,16 @@
             const correctIdx = triviaQuestions[currentQuestionIdx].answer;
             const optionButtons = optionsContainer.querySelectorAll('button');
 
-            // Disable all options to prevent double-clicking
             optionButtons.forEach(btn => btn.disabled = true);
 
             if (selectedIdx === correctIdx) {
                 quizScore += 1;
-                // Style selected button as correct (Green)
                 buttonElement.className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
             } else {
-                // Style selected button as wrong (Red)
                 buttonElement.className = "w-full p-3 text-left border-2 border-rose-400 bg-rose-50 text-rose-700 rounded-xl font-bold text-sm transition-colors";
-                
-                // Highlight the correct answer
                 optionButtons[correctIdx].className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
             }
 
-            // Wait 1.2 seconds to show the indicator before moving forward
             setTimeout(async () => {
                 currentQuestionIdx++;
 
@@ -733,11 +809,172 @@
                             currentUser.score += totalPoints;
                             localStorage.setItem('vachonUser', JSON.stringify(currentUser));
 
-                            alert(`🎉 Quiz complete! You scored ${quizScore}/${triviaQuestions.length} (+${totalPoints} pts)!\n\nTHE APP IS NOW UNLOCKED! 🔥`);
+                            alert(`🎉 Quiz complete! You scored ${quizScore}/${triviaQuestions.length} (+${totalPoints} pts)!`);
                             updateLockStateUI();
 
                         } catch (e) {
                             console.error("Error updating quiz score:", e);
+                        }
+                    }
+                }
+            }, 1200);
+        }
+
+        // PHOTO GAME FUNCTIONS
+        window.startPhotoGame = function() {
+            if (!currentUser) return alert("Please set up your profile first!");
+            if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
+            currentPhotoGameIdx = 0;
+            photoGameScore = 0;
+            document.getElementById('photo-game-modal').classList.remove('hidden');
+            renderPhotoGameQuestion();
+        };
+
+        window.closePhotoGame = function() {
+            document.getElementById('photo-game-modal').classList.add('hidden');
+        };
+
+        function renderPhotoGameQuestion() {
+            const qData = photoGameQuestions[currentPhotoGameIdx];
+            document.getElementById('photo-game-progress').innerText = `Photo ${currentPhotoGameIdx + 1}/${photoGameQuestions.length}`;
+            document.getElementById('photo-game-prompt').innerText = qData.q;
+            document.getElementById('photo-game-placeholder').innerText = currentPhotoGameIdx === 0 ? "👶" : "🎒";
+            
+            const optionsContainer = document.getElementById('photo-game-options');
+            optionsContainer.innerHTML = '';
+
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full p-3 text-left border border-amethyst/30 rounded-xl font-medium text-sm hover:border-plum hover:bg-lavender/40 transition-colors text-slate-800";
+                btn.innerText = opt;
+                btn.onclick = () => handlePhotoGameAnswer(idx, btn, optionsContainer);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        async function handlePhotoGameAnswer(selectedIdx, buttonElement, optionsContainer) {
+            const correctIdx = photoGameQuestions[currentPhotoGameIdx].answer;
+            const optionButtons = optionsContainer.querySelectorAll('button');
+
+            optionButtons.forEach(btn => btn.disabled = true);
+
+            if (selectedIdx === correctIdx) {
+                photoGameScore += 1;
+                buttonElement.className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
+            } else {
+                buttonElement.className = "w-full p-3 text-left border-2 border-rose-400 bg-rose-50 text-rose-700 rounded-xl font-bold text-sm transition-colors";
+                optionButtons[correctIdx].className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
+            }
+
+            setTimeout(async () => {
+                currentPhotoGameIdx++;
+
+                if (currentPhotoGameIdx < photoGameQuestions.length) {
+                    renderPhotoGameQuestion();
+                } else {
+                    window.closePhotoGame();
+                    const totalPoints = photoGameScore * 15 + 10;
+                    
+                    if (currentUser && currentUser.id) {
+                        try {
+                            const userDoc = await getDoc(doc(db, "users", currentUser.id));
+                            const alreadyDone = userDoc.data().photoGameCompleted;
+                            
+                            if (!alreadyDone) {
+                                await updateDoc(doc(db, "users", currentUser.id), {
+                                    score: increment(totalPoints),
+                                    photoGameCompleted: true
+                                });
+                                currentUser.photoGameCompleted = true;
+                                currentUser.score += totalPoints;
+                                localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+                            }
+
+                            alert(`📸 Photo Game complete! You scored ${photoGameScore}/${photoGameQuestions.length} (+${totalPoints} pts)!`);
+                            updateLockStateUI();
+
+                        } catch (e) {
+                            console.error("Error updating photo game score:", e);
+                        }
+                    }
+                }
+            }, 1200);
+        }
+
+        // WHO KNOWS THE BRIDE BEST? FUNCTIONS
+        window.startBrideBestGame = function() {
+            if (!currentUser) return alert("Please set up your profile first!");
+            if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
+            currentBrideBestIdx = 0;
+            brideBestScore = 0;
+            document.getElementById('bride-best-modal').classList.remove('hidden');
+            renderBrideBestQuestion();
+        };
+
+        window.closeBrideBestGame = function() {
+            document.getElementById('bride-best-modal').classList.add('hidden');
+        };
+
+        function renderBrideBestQuestion() {
+            const qData = brideBestQuestions[currentBrideBestIdx];
+            document.getElementById('bride-best-progress').innerText = `Q ${currentBrideBestIdx + 1}/${brideBestQuestions.length}`;
+            document.getElementById('bride-best-question').innerText = qData.q;
+            
+            const optionsContainer = document.getElementById('bride-best-options');
+            optionsContainer.innerHTML = '';
+
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full p-3 text-left border border-amethyst/30 rounded-xl font-medium text-sm hover:border-plum hover:bg-lavender/40 transition-colors text-slate-800";
+                btn.innerText = opt;
+                btn.onclick = () => handleBrideBestAnswer(idx, btn, optionsContainer);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        async function handleBrideBestAnswer(selectedIdx, buttonElement, optionsContainer) {
+            const correctIdx = brideBestQuestions[currentBrideBestIdx].answer;
+            const optionButtons = optionsContainer.querySelectorAll('button');
+
+            optionButtons.forEach(btn => btn.disabled = true);
+
+            if (selectedIdx === correctIdx) {
+                brideBestScore += 1;
+                buttonElement.className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
+            } else {
+                buttonElement.className = "w-full p-3 text-left border-2 border-rose-400 bg-rose-50 text-rose-700 rounded-xl font-bold text-sm transition-colors";
+                optionButtons[correctIdx].className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
+            }
+
+            setTimeout(async () => {
+                currentBrideBestIdx++;
+
+                if (currentBrideBestIdx < brideBestQuestions.length) {
+                    renderBrideBestQuestion();
+                } else {
+                    window.closeBrideBestGame();
+                    const totalPoints = brideBestScore * 10 + 10;
+                    
+                    if (currentUser && currentUser.id) {
+                        try {
+                            const userDoc = await getDoc(doc(db, "users", currentUser.id));
+                            const alreadyDone = userDoc.data().brideBestCompleted;
+                            
+                            if (!alreadyDone) {
+                                await updateDoc(doc(db, "users", currentUser.id), {
+                                    score: increment(totalPoints),
+                                    brideBestCompleted: true
+                                });
+                                currentUser.brideBestCompleted = true;
+                                currentUser.score += totalPoints;
+                                localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+                            }
+
+                            alert(`💍 Who Knows the Bride Best? complete! You scored ${brideBestScore}/${brideBestQuestions.length} (+${totalPoints} pts)!`);
+                            updateLockStateUI();
+
+                        } catch (e) {
+                            console.error("Error updating bride best score:", e);
                         }
                     }
                 }
@@ -752,6 +989,18 @@
             const triviaCard = document.getElementById('trivia-card');
             const triviaBadge = document.getElementById('trivia-badge');
             const triviaDesc = document.getElementById('trivia-desc');
+
+            const photoGameBtn = document.getElementById('photo-game-btn');
+            const photoGameCard = document.getElementById('photo-game-card');
+            const photoGameBadge = document.getElementById('photo-game-badge');
+            const photoGameDesc = document.getElementById('photo-game-desc');
+            const isPhotoGameDone = currentUser && currentUser.photoGameCompleted;
+
+            const brideBestBtn = document.getElementById('bride-best-btn');
+            const brideBestCard = document.getElementById('bride-best-card');
+            const brideBestBadge = document.getElementById('bride-best-badge');
+            const brideBestDesc = document.getElementById('bride-best-desc');
+            const isBrideBestDone = currentUser && currentUser.brideBestCompleted;
 
             if (isUnlocked) {
                 if (triviaLockBanner) triviaLockBanner.classList.add('hidden');
@@ -782,6 +1031,56 @@
 
             } else {
                 if (triviaLockBanner) triviaLockBanner.classList.remove('hidden');
+            }
+
+            // Photo Game UI state update
+            if (isPhotoGameDone) {
+                if (photoGameBtn) {
+                    photoGameBtn.innerText = "Completed ✓";
+                    photoGameBtn.disabled = true;
+                    photoGameBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-90 cursor-not-allowed shadow-none";
+                }
+                if (photoGameCard) {
+                    photoGameCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
+                }
+                if (photoGameBadge) {
+                    photoGameBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-1 rounded-full border border-moss/30";
+                    photoGameBadge.innerText = "Completed ✓";
+                }
+                if (photoGameDesc) {
+                    photoGameDesc.innerText = "You successfully guessed Julia's childhood eras!";
+                }
+            } else if (!isUnlocked) {
+                if (photoGameCard) photoGameCard.classList.add('opacity-60');
+                if (photoGameBtn) photoGameBtn.disabled = true;
+            } else {
+                if (photoGameCard) photoGameCard.classList.remove('opacity-60');
+                if (photoGameBtn) photoGameBtn.disabled = false;
+            }
+
+            // Who Knows the Bride Best UI state update
+            if (isBrideBestDone) {
+                if (brideBestBtn) {
+                    brideBestBtn.innerText = "Completed ✓";
+                    brideBestBtn.disabled = true;
+                    brideBestBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-90 cursor-not-allowed shadow-none";
+                }
+                if (brideBestCard) {
+                    brideBestCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
+                }
+                if (brideBestBadge) {
+                    brideBestBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-1 rounded-full border border-moss/30";
+                    brideBestBadge.innerText = "Completed ✓";
+                }
+                if (brideBestDesc) {
+                    brideBestDesc.innerText = "You've proven you know all about Julia's deepest childhood lore!";
+                }
+            } else if (!isUnlocked) {
+                if (brideBestCard) brideBestCard.classList.add('opacity-60');
+                if (brideBestBtn) brideBestBtn.disabled = true;
+            } else {
+                if (brideBestCard) brideBestCard.classList.remove('opacity-60');
+                if (brideBestBtn) brideBestBtn.disabled = false;
             }
 
             // Update individual challenges completion status
@@ -862,7 +1161,6 @@
 
             if (!message) return alert("You have to write a dare!");
 
-            // Check Cooldown (30 minutes)
             if (currentUser.lastDareTimestamp) {
                 const lastTime = currentUser.lastDareTimestamp.toDate ? currentUser.lastDareTimestamp.toDate() : new Date(currentUser.lastDareTimestamp);
                 const diffMs = new Date() - lastTime;
@@ -883,7 +1181,7 @@
                     senderName: currentUser.name,
                     targetId: targetId,
                     message: message,
-                    status: 'active', // active, accepted, denied
+                    status: 'active',
                     timestamp: now
                 });
                 
@@ -1024,6 +1322,8 @@
                     const data = docSnap.data();
                     currentUser.score = data.score;
                     currentUser.triviaCompleted = data.triviaCompleted;
+                    currentUser.photoGameCompleted = data.photoGameCompleted;
+                    currentUser.brideBestCompleted = data.brideBestCompleted;
                     currentUser.completedChallenges = data.completedChallenges || [];
                     currentUser.lastDareTimestamp = data.lastDareTimestamp;
                     
@@ -1106,7 +1406,6 @@
                     });
 
                 sortedDares.forEach((dare) => {
-                    // Render on the Active Dares board
                     const card = document.createElement('div');
                     card.className = "bg-white p-4 rounded-2xl border border-amethyst/30 shadow-sm space-y-2";
                     
@@ -1134,7 +1433,6 @@
                     `;
                     dareFeedList.appendChild(card);
 
-                    // Check for screen takeover popup triggers
                     if (initialDaresLoaded && changeTypeIsAdded(snapshot, dare.id)) {
                         if ((dare.targetId === 'all' || dare.targetId === currentUser.id) && dare.senderId !== currentUser.id) {
                             showDarePopup(dare);
@@ -1170,7 +1468,6 @@
             const file = fileInput.files[0];
             if (!file) return;
 
-            // Find specific challenge title from the DOM
             const challengeCardEl = fileInput.closest('.challenge-card');
             const titleEl = challengeCardEl ? challengeCardEl.querySelector('[data-challenge-title]') : null;
             const challengeTitle = titleEl ? titleEl.innerText : "Challenge";

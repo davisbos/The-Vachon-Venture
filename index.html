@@ -583,7 +583,12 @@
 
                     canvas.width = width;
                     canvas.height = height;
+                    
+                    // Horizontally flip photo
+                    ctx.translate(width, 0);
+                    ctx.scale(-1, 1);
                     ctx.drawImage(img, 0, 0, width, height);
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
 
                     signupSelfieData = canvas.toDataURL('image/jpeg', 0.7);
 
@@ -1200,7 +1205,7 @@
                             ${statusBadge}
                         </div>
                         <p class="font-display font-bold text-slate-800 text-sm">${dare.message}</p>
-                        ${(!dare.status || dare.status === 'active') ? `
+                        {(!dare.status || dare.status === 'active') ? `
                             <div class="flex gap-2 pt-1">
                                 <button onclick="updateDareStatus('${dare.id}', 'accepted')" class="flex-1 bg-moss/20 text-fern hover:bg-moss hover:text-white py-2 rounded-xl text-xs font-bold transition-all border border-moss/30">Accept</button>
                                 <button onclick="updateDareStatus('${dare.id}', 'denied')" class="flex-1 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white py-2 rounded-xl text-xs font-bold transition-all border border-rose-200">Deny</button>
@@ -1320,7 +1325,11 @@
                     canvas.width = width;
                     canvas.height = height;
 
+                    // Horizontally flip photo
+                    ctx.translate(width, 0);
+                    ctx.scale(-1, 1);
                     ctx.drawImage(img, 0, 0, width, height);
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
 
                     ctx.save();
                     ctx.translate(canvas.width, canvas.height);

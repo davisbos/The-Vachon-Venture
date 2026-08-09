@@ -6,131 +6,174 @@
     <title>The Vachon Venture</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Custom Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        lavender: '#E6E0F8',
+                        amethyst: '#B1A0D1',
+                        moss: '#7C9D68',
+                        fern: '#4A7356',
+                        ivory: '#FFF8F0',
+                        plum: '#6A4F80',
+                        earthen: '#8D837C',
+                    },
+                    fontFamily: {
+                        display: ['Syne', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background-color: #FFF8F0;
+            color: #2D2338;
+        }
+        .font-display { font-family: 'Syne', sans-serif; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        .dare-glow { box-shadow: 0 0 30px rgba(220, 38, 38, 0.6); }
+        .dare-glow { box-shadow: 0 0 35px rgba(106, 79, 128, 0.45); }
         details summary::-webkit-details-marker { display: none; }
     </style>
 </head>
-<body class="bg-zinc-50 pb-24">
+<body class="bg-ivory pb-28 min-h-screen text-slate-900">
 
     <!-- Preloader -->
-    <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center p-10 text-center">
+    <div id="loading" class="fixed inset-0 bg-ivory z-50 flex items-center justify-center p-10 text-center">
         <div>
-            <h1 class="text-4xl font-bold text-pink-600 mb-2">The Vachon Venture</h1>
-            <p id="loading-status" class="text-zinc-600">Loading adventure...</p>
+            <h1 class="font-display text-4xl font-extrabold text-plum mb-2">The Vachon Venture</h1>
+            <p id="loading-status" class="text-earthen font-bold text-sm">Setting the stage...</p>
         </div>
     </div>
 
-    <!-- MAIN APP STRUCTURE -->
+    <!-- SEPARATE AUTH SCREEN (LOGIN & SIGNUP ONLY) -->
+    <div id="auth-screen" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-lavender via-ivory to-ivory">
+        <div class="bg-white/80 backdrop-blur-md p-6 rounded-3xl border border-amethyst/30 shadow-xl space-y-6 max-w-md w-full my-auto">
+            
+            <div class="text-center space-y-1">
+                <span class="text-4xl">👑</span>
+                <h1 class="font-display text-3xl font-extrabold text-plum tracking-tight">Vachon Venture</h1>
+                <p class="text-earthen text-xs font-semibold uppercase tracking-wider">Julia's Bachelorette Adventure</p>
+            </div>
+
+            <!-- Toggle Mode: Create Profile vs Log In -->
+            <div class="flex bg-lavender/60 p-1 rounded-2xl gap-1 border border-amethyst/20">
+                <button id="toggle-signup-btn" onclick="switchAuthMode('signup')" class="flex-1 py-2.5 font-bold text-xs rounded-xl bg-plum text-white shadow-md transition-all">Create Profile</button>
+                <button id="toggle-login-btn" onclick="switchAuthMode('login')" class="flex-1 py-2.5 font-bold text-xs rounded-xl text-plum hover:bg-white/50 transition-all">Log In 🔓</button>
+            </div>
+
+            <!-- SIGN UP FORM -->
+            <div id="signup-form" class="space-y-4">
+                <div class="border-b border-lavender pb-2">
+                    <h2 class="font-display text-xl font-bold text-plum">What's your name, hoe?</h2>
+                    <p class="text-earthen text-xs mt-0.5">Enter your name, 4-digit PIN, and take a quick selfie to join.</p>
+                </div>
+                
+                <div>
+                    <label class="block text-xs font-bold text-plum uppercase tracking-wider mb-1">Your Name</label>
+                    <input type="text" id="username-input" placeholder="e.g. Sarah" class="w-full p-3.5 bg-ivory border border-amethyst/40 rounded-2xl focus:outline-none focus:border-plum focus:ring-2 focus:ring-plum/20 text-slate-900 placeholder-slate-400 font-semibold text-base">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-plum uppercase tracking-wider mb-1">4-Digit PIN</label>
+                    <input type="password" id="passcode-input" maxlength="4" inputmode="numeric" placeholder="••••" class="w-full p-3.5 bg-ivory border border-amethyst/40 rounded-2xl focus:outline-none focus:border-plum focus:ring-2 focus:ring-plum/20 text-slate-900 placeholder-slate-400 font-semibold text-base tracking-widest">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-plum uppercase tracking-wider mb-1">Take a Selfie</label>
+                    <input type="file" id="signup-selfie-input" accept="image/*" capture="user" class="hidden" onchange="previewSelfie(event)">
+                    <label for="signup-selfie-input" id="selfie-preview-box" class="w-full h-36 border-2 border-dashed border-amethyst rounded-2xl flex flex-col items-center justify-center bg-lavender/30 cursor-pointer hover:bg-lavender/50 transition-colors overflow-hidden">
+                        <span id="selfie-prompt-icon" class="text-3xl mb-1">📸</span>
+                        <span id="selfie-prompt-text" class="text-plum font-bold text-xs">Tap to Snap Selfie</span>
+                        <img id="selfie-img-preview" class="w-full h-full object-cover hidden" alt="Selfie Preview">
+                    </label>
+                </div>
+
+                <button id="complete-profile-btn" onclick="signUpUser()" class="w-full bg-plum text-ivory p-4 rounded-2xl font-bold text-base hover:bg-plum/90 transition-all shadow-lg shadow-plum/20 active:scale-98">
+                    Complete Profile & Join 🌿
+                </button>
+            </div>
+
+            <!-- LOG IN FORM -->
+            <div id="login-form" class="hidden space-y-4">
+                <div class="border-b border-lavender pb-2">
+                    <h2 class="font-display text-xl font-bold text-plum">Welcome Back!</h2>
+                    <p class="text-earthen text-xs mt-0.5">Log into your profile using your name and 4-digit PIN.</p>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-plum uppercase tracking-wider mb-1">Your Name</label>
+                    <input type="text" id="login-name-input" placeholder="Enter your name" class="w-full p-3.5 bg-ivory border border-amethyst/40 rounded-2xl focus:outline-none focus:border-plum focus:ring-2 focus:ring-plum/20 text-slate-900 placeholder-slate-400 font-semibold text-base">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-plum uppercase tracking-wider mb-1">4-Digit PIN</label>
+                    <input type="password" id="login-passcode-input" maxlength="4" inputmode="numeric" placeholder="••••" class="w-full p-3.5 bg-ivory border border-amethyst/40 rounded-2xl focus:outline-none focus:border-plum focus:ring-2 focus:ring-plum/20 text-slate-900 placeholder-slate-400 font-semibold text-base tracking-widest">
+                </div>
+
+                <button onclick="loginUser()" class="w-full bg-plum text-ivory p-4 rounded-2xl font-bold text-base hover:bg-plum/90 transition-all shadow-lg shadow-plum/20 active:scale-98">
+                    Log In 🚀
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN APP STRUCTURE (HIDDEN UNTIL AUTHENTICATED) -->
     <div id="app" class="hidden">
         
         <!-- HEADER (Clickable Profile) -->
-        <header class="bg-white sticky top-0 z-40 border-b border-zinc-100 p-4 flex items-center justify-between">
-            <h1 class="text-2xl font-bold text-pink-600">Vachon Venture</h1>
-            <div id="user-profile-header" onclick="toggleProfileModal()" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity bg-pink-50 py-1 px-3 rounded-full border border-pink-100">
-                <span id="header-user-score" class="font-bold text-sm text-pink-700">0 pts</span>
-                <div id="header-user-avatar" class="w-8 h-8 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold text-xs overflow-hidden border border-pink-300">
+        <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-amethyst/20 p-4 flex items-center justify-between shadow-sm">
+            <h1 class="font-display text-xl font-extrabold text-plum">Vachon Venture</h1>
+            <div id="user-profile-header" onclick="toggleProfileModal()" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity bg-lavender/60 py-1.5 px-3 rounded-full border border-amethyst/30">
+                <span id="header-user-score" class="font-extrabold text-xs text-plum">0 pts</span>
+                <div id="header-user-avatar" class="w-7 h-7 rounded-full bg-plum text-ivory flex items-center justify-center font-bold text-xs overflow-hidden border border-amethyst">
                     VV
                 </div>
             </div>
         </header>
 
         <!-- NAVIGATION TABS -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-200 z-40 grid grid-cols-4 safe-area-inset-bottom text-xs font-bold p-1">
+        <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-amethyst/20 z-40 grid grid-cols-4 safe-area-inset-bottom text-[11px] font-bold p-1.5 shadow-lg">
             <!-- HOME TAB (Featured & Prominent) -->
-            <button class="nav-btn py-3 px-1 text-center active text-white bg-pink-600 rounded-2xl shadow-md transform transition-all scale-105 flex flex-col items-center justify-center gap-0.5" data-tab="quest">
+            <button class="nav-btn py-2.5 px-1 text-center active text-white bg-plum rounded-2xl shadow-md transform transition-all scale-105 flex flex-col items-center justify-center gap-0.5" data-tab="quest">
                 <span class="text-base">🏠</span>
-                <span>HOME</span>
+                <span class="tracking-wide">HOME</span>
             </button>
-            <button class="nav-btn py-3 px-1 text-center text-zinc-400 disabled-tab opacity-50 flex flex-col items-center justify-center gap-0.5" data-tab="dare-pit">
+            <button class="nav-btn py-2.5 px-1 text-center text-earthen disabled-tab opacity-50 flex flex-col items-center justify-center gap-0.5" data-tab="dare-pit">
                 <span class="text-base">☠️</span>
                 <span class="tab-label">Dare Pit 🔒</span>
             </button>
-            <button class="nav-btn py-3 px-1 text-center text-zinc-400 disabled-tab opacity-50 flex flex-col items-center justify-center gap-0.5" data-tab="leaderboard">
+            <button class="nav-btn py-2.5 px-1 text-center text-earthen disabled-tab opacity-50 flex flex-col items-center justify-center gap-0.5" data-tab="leaderboard">
                 <span class="text-base">🏆</span>
                 <span class="tab-label">Leaderboard 🔒</span>
             </button>
-            <button class="nav-btn py-3 px-1 text-center text-zinc-400 disabled-tab opacity-50 flex flex-col items-center justify-center gap-0.5" data-tab="photos">
+            <button class="nav-btn py-2.5 px-1 text-center text-earthen disabled-tab opacity-50 flex flex-col items-center justify-center gap-0.5" data-tab="photos">
                 <span class="text-base">📸</span>
                 <span class="tab-label">Photos 🔒</span>
             </button>
         </nav>
 
         <!-- APP SCREENS -->
-        <main class="p-4">
-
-            <!-- ONBOARDING & LOGIN CARD -->
-            <div id="onboarding-card" class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm space-y-6 max-w-md mx-auto">
-                
-                <!-- Toggle Mode: Create Profile vs Log In -->
-                <div class="flex bg-zinc-100 p-1 rounded-2xl gap-1">
-                    <button id="toggle-signup-btn" onclick="switchAuthMode('signup')" class="flex-1 py-2 font-bold text-sm rounded-xl bg-white shadow-sm text-pink-600 transition-all">Create Profile</button>
-                    <button id="toggle-login-btn" onclick="switchAuthMode('login')" class="flex-1 py-2 font-bold text-sm rounded-xl text-zinc-500 transition-all">Log In 🔓</button>
-                </div>
-
-                <!-- SIGN UP FORM -->
-                <div id="signup-form" class="space-y-4">
-                    <h2 class="text-2xl font-extrabold text-zinc-900">What's your name, hoe?</h2>
-                    <p class="text-zinc-500 text-sm">Enter your name, 4-digit PIN, and take a quick selfie to join the Vachon Venture.</p>
-                    
-                    <div>
-                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Your Name</label>
-                        <input type="text" id="username-input" placeholder="e.g. Sarah" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">4-Digit PIN</label>
-                        <input type="password" id="passcode-input" maxlength="4" inputmode="numeric" placeholder="e.g. 1234" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg tracking-widest">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Take a Selfie</label>
-                        <input type="file" id="signup-selfie-input" accept="image/*" capture="user" class="hidden" onchange="previewSelfie(event)">
-                        <label for="signup-selfie-input" id="selfie-preview-box" class="w-full h-36 border-2 border-dashed border-pink-300 rounded-2xl flex flex-col items-center justify-center bg-pink-50/50 cursor-pointer hover:bg-pink-50 transition-colors overflow-hidden">
-                            <span id="selfie-prompt-icon" class="text-3xl mb-1">📸</span>
-                            <span id="selfie-prompt-text" class="text-pink-600 font-bold text-sm">Tap to Snap Selfie</span>
-                            <img id="selfie-img-preview" class="w-full h-full object-cover hidden" alt="Selfie Preview">
-                        </label>
-                    </div>
-
-                    <button id="complete-profile-btn" onclick="signUpUser()" class="w-full bg-pink-600 text-white p-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-colors shadow-lg shadow-pink-200">
-                        Complete Profile & Join 🚀
-                    </button>
-                </div>
-
-                <!-- LOG IN FORM -->
-                <div id="login-form" class="hidden space-y-4">
-                    <h2 class="text-2xl font-extrabold text-zinc-900">Welcome Back!</h2>
-                    <p class="text-zinc-500 text-sm">Log into your profile using your name and 4-digit PIN.</p>
-
-                    <div>
-                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Your Name</label>
-                        <input type="text" id="login-name-input" placeholder="Enter your name" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">4-Digit PIN</label>
-                        <input type="password" id="login-passcode-input" maxlength="4" inputmode="numeric" placeholder="PIN" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg tracking-widest">
-                    </div>
-
-                    <button onclick="loginUser()" class="w-full bg-pink-600 text-white p-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-colors">
-                        Log In 🚀
-                    </button>
-                </div>
-            </div>
+        <main class="p-4 max-w-lg mx-auto">
 
             <!-- 1. HOME PAGE (QUEST) -->
-            <div id="quest" class="tab-content active space-y-6 max-w-lg mx-auto">
+            <div id="quest" class="tab-content active space-y-5">
                 
                 <!-- LOCK BANNER IF TRIVIA INCOMPLETE -->
-                <div id="trivia-lock-banner" class="bg-amber-50 border-2 border-amber-300 p-4 rounded-2xl flex items-center gap-3">
-                    <span class="text-2xl">🔒</span>
+                <div id="trivia-lock-banner" class="bg-lavender/80 border border-amethyst p-4 rounded-2xl flex items-center gap-3 shadow-sm">
+                    <span class="text-2xl shrink-0">🔒</span>
                     <div>
-                        <h4 class="font-bold text-amber-900 text-sm">App Locked!</h4>
-                        <p class="text-xs text-amber-800">You must complete <b>Julia Trivia</b> below to unlock the rest of the app and challenges!</p>
+                        <h4 class="font-bold text-plum text-xs uppercase tracking-wider">App Locked!</h4>
+                        <p class="text-xs text-slate-700 mt-0.5">Complete <b>Julia Trivia</b> below to unlock the rest of the app and challenges!</p>
                     </div>
                 </div>
 
@@ -138,39 +181,39 @@
                 <div class="space-y-4">
 
                     <!-- CATEGORY 1: THE PRE -->
-                    <details open class="bg-white border border-zinc-200 rounded-3xl overflow-hidden shadow-sm group">
-                        <summary class="flex justify-between items-center p-5 font-extrabold text-xl text-zinc-900 cursor-pointer bg-zinc-50/50 group-open:border-b group-open:border-zinc-100">
+                    <details open class="bg-white border border-amethyst/30 rounded-3xl overflow-hidden shadow-sm group">
+                        <summary class="flex justify-between items-center p-4 font-display font-bold text-lg text-plum cursor-pointer bg-lavender/30 group-open:border-b group-open:border-lavender">
                             <span class="flex items-center gap-2">🍾 The Pre</span>
-                            <span class="text-sm font-normal text-pink-600 bg-pink-100 px-3 py-1 rounded-full">Phase 1</span>
+                            <span class="text-xs font-bold text-fern bg-moss/20 px-3 py-1 rounded-full border border-moss/30">Phase 1</span>
                         </summary>
-                        <div class="p-4 space-y-4 bg-white">
+                        <div class="p-4 space-y-3 bg-white">
                             
                             <!-- MANDATORY STEP 1: JULIA TRIVIA -->
-                            <div id="trivia-card" class="bg-pink-50 border-2 border-pink-400 p-5 rounded-2xl shadow-sm">
+                            <div id="trivia-card" class="bg-gradient-to-br from-lavender/60 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
                                 <div class="flex justify-between items-start mb-2">
-                                    <h3 class="text-lg font-black text-pink-950 flex items-center gap-2">
+                                    <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
                                         <span>👑</span> Julia Trivia
                                     </h3>
-                                    <span class="text-xs font-bold text-white bg-pink-600 px-2.5 py-1 rounded-full">+50 pts</span>
+                                    <span class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+50 pts</span>
                                 </div>
-                                <p class="text-pink-900 text-xs mb-4 font-medium">Mandatory Step! Test how well you know the bride to unlock the rest of the app.</p>
-                                <button id="trivia-btn" onclick="startQuiz()" class="w-full bg-pink-600 text-white p-3.5 rounded-xl font-bold hover:bg-pink-700 shadow-md transition-all active:scale-98">
+                                <p class="text-slate-700 text-xs mb-3 font-medium">Mandatory Step! Test how well you know the bride to unlock the rest of the app.</p>
+                                <button id="trivia-btn" onclick="startQuiz()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 shadow-md transition-all active:scale-98">
                                     Start Quiz 🚀
                                 </button>
                             </div>
 
                             <!-- OUTFIT CHECK-IN -->
-                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-zinc-900">Outfit Check In</h4>
-                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+100 pts</span>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800">Outfit Check In</h4>
+                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
                                     </div>
-                                    <p class="text-xs text-zinc-500">Snap a photo of your pre-game fit and drink!</p>
+                                    <p class="text-xs text-earthen">Snap a photo of your pre-game fit and drink!</p>
                                 </div>
                                 <div class="shrink-0">
                                     <input type="file" id="input-pregame-photo" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('pregame-photo', 100)">
-                                    <label for="input-pregame-photo" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                    <label for="input-pregame-photo" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
@@ -178,66 +221,66 @@
                     </details>
 
                     <!-- CATEGORY 2: AT THE BAR -->
-                    <details class="bg-white border border-zinc-200 rounded-3xl overflow-hidden shadow-sm group">
-                        <summary class="flex justify-between items-center p-5 font-extrabold text-xl text-zinc-900 cursor-pointer bg-zinc-50/50 group-open:border-b group-open:border-zinc-100">
+                    <details class="bg-white border border-amethyst/30 rounded-3xl overflow-hidden shadow-sm group">
+                        <summary class="flex justify-between items-center p-4 font-display font-bold text-lg text-plum cursor-pointer bg-lavender/30 group-open:border-b group-open:border-lavender">
                             <span class="flex items-center gap-2">🍸 At the Bar</span>
-                            <span class="text-sm font-normal text-zinc-500 bg-zinc-100 px-3 py-1 rounded-full">Phase 2</span>
+                            <span class="text-xs font-bold text-plum bg-lavender px-3 py-1 rounded-full border border-amethyst/30">Phase 2</span>
                         </summary>
-                        <div class="p-4 space-y-4 bg-white">
+                        <div class="p-4 space-y-3 bg-white">
 
-                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-zinc-900">Toast at Mudtown Station</h4>
-                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+100 pts</span>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800">Toast at Mudtown Station</h4>
+                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
                                     </div>
-                                    <p class="text-xs text-zinc-500">Take a photo proposing a toast to Julia.</p>
+                                    <p class="text-xs text-earthen">Take a photo proposing a toast to Julia.</p>
                                 </div>
                                 <div class="shrink-0">
                                     <input type="file" id="input-mudtown-toast" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('mudtown-toast', 100)">
-                                    <label for="input-mudtown-toast" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                    <label for="input-mudtown-toast" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
-                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-zinc-900">Cocktail at The Rumpus Room</h4>
-                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+100 pts</span>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800">Cocktail at The Rumpus Room</h4>
+                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
                                     </div>
-                                    <p class="text-xs text-zinc-500">Snap a signature cocktail photo.</p>
+                                    <p class="text-xs text-earthen">Snap a signature cocktail photo.</p>
                                 </div>
                                 <div class="shrink-0">
                                     <input type="file" id="input-rumpus-cocktail" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('rumpus-cocktail', 100)">
-                                    <label for="input-rumpus-cocktail" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                    <label for="input-rumpus-cocktail" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
-                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-zinc-900">Groom Name Double Selfie</h4>
-                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+150 pts</span>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800">Groom Name Double Selfie</h4>
+                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
                                     </div>
-                                    <p class="text-xs text-zinc-500">Find someone with the groom's name and snap a photo.</p>
+                                    <p class="text-xs text-earthen">Find someone with the groom's name and snap a photo.</p>
                                 </div>
                                 <div class="shrink-0">
                                     <input type="file" id="input-groom-selfie" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('groom-selfie', 150)">
-                                    <label for="input-groom-selfie" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                    <label for="input-groom-selfie" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
-                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-zinc-900">Old/New/Borrowed/Blue Find</h4>
-                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+200 pts</span>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800">Old/New/Borrowed/Blue Find</h4>
+                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+200 pts</span>
                                     </div>
-                                    <p class="text-xs text-zinc-500">Find and photograph one of the traditional items.</p>
+                                    <p class="text-xs text-earthen">Find and photograph one of the traditional items.</p>
                                 </div>
                                 <div class="shrink-0">
                                     <input type="file" id="input-wedding-finds" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('wedding-finds', 200)">
-                                    <label for="input-wedding-finds" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                    <label for="input-wedding-finds" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
@@ -245,38 +288,38 @@
                     </details>
 
                     <!-- CATEGORY 3: AFTER THE BAR -->
-                    <details class="bg-white border border-zinc-200 rounded-3xl overflow-hidden shadow-sm group">
-                        <summary class="flex justify-between items-center p-5 font-extrabold text-xl text-zinc-900 cursor-pointer bg-zinc-50/50 group-open:border-b group-open:border-zinc-100">
+                    <details class="bg-white border border-amethyst/30 rounded-3xl overflow-hidden shadow-sm group">
+                        <summary class="flex justify-between items-center p-4 font-display font-bold text-lg text-plum cursor-pointer bg-lavender/30 group-open:border-b group-open:border-lavender">
                             <span class="flex items-center gap-2">🌙 After the Bar</span>
-                            <span class="text-sm font-normal text-zinc-500 bg-zinc-100 px-3 py-1 rounded-full">Phase 3</span>
+                            <span class="text-xs font-bold text-plum bg-lavender px-3 py-1 rounded-full border border-amethyst/30">Phase 3</span>
                         </summary>
-                        <div class="p-4 space-y-4 bg-white">
+                        <div class="p-4 space-y-3 bg-white">
 
-                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-zinc-900">Bride Memory Pose Recreation</h4>
-                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+150 pts</span>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800">Bride Memory Pose Recreation</h4>
+                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
                                     </div>
-                                    <p class="text-xs text-zinc-500">Recreate Julia's signature photo pose.</p>
+                                    <p class="text-xs text-earthen">Recreate Julia's signature photo pose.</p>
                                 </div>
                                 <div class="shrink-0">
                                     <input type="file" id="input-julia-memory" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('julia-memory', 150)">
-                                    <label for="input-julia-memory" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                    <label for="input-julia-memory" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
-                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
                                 <div>
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <h4 class="font-bold text-zinc-900">Request Guilty Pleasure Song</h4>
-                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+100 pts</span>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800">Request Guilty Pleasure Song</h4>
+                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
                                     </div>
-                                    <p class="text-xs text-zinc-500">Request Julia's favorite song at The Harb / H2O.</p>
+                                    <p class="text-xs text-earthen">Request Julia's favorite song at The Harb / H2O.</p>
                                 </div>
                                 <div class="shrink-0">
                                     <input type="file" id="input-harb-dare" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('harb-dare', 100)">
-                                    <label for="input-harb-dare" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                    <label for="input-harb-dare" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
@@ -287,54 +330,52 @@
             </div>
 
             <!-- 2. DARE PIT -->
-            <div id="dare-pit" class="tab-content hidden space-y-6 h-full flex-col items-center pt-8 max-w-md mx-auto">
-                <div class="text-center mb-8">
-                    <h2 class="text-3xl font-extrabold text-red-900 mb-2">The Dare Pit</h2>
-                    <p class="text-zinc-600 text-sm px-4">Submit a ruthless challenge. Target a specific player, or send it to everyone simultaneously.</p>
+            <div id="dare-pit" class="tab-content hidden space-y-6 h-full flex-col items-center pt-4">
+                <div class="text-center mb-4">
+                    <h2 class="font-display text-3xl font-extrabold text-plum mb-1">The Dare Pit</h2>
+                    <p class="text-earthen text-xs px-4">Submit a challenge. Target a specific player or send it to everyone simultaneously.</p>
                 </div>
 
                 <!-- Ominous Submit Button -->
-                <button id="open-dare-btn" onclick="toggleDareForm()" class="dare-glow bg-gradient-to-br from-red-700 to-black text-white w-full py-12 px-6 rounded-[2rem] font-black text-2xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex flex-col items-center justify-center gap-3">
-                    <span class="text-5xl">☠️</span>
+                <button id="open-dare-btn" onclick="toggleDareForm()" class="dare-glow bg-gradient-to-br from-plum via-[#543869] to-black text-ivory w-full py-10 px-6 rounded-[2.5rem] font-display font-extrabold text-2xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex flex-col items-center justify-center gap-2 border border-amethyst/40">
+                    <span class="text-4xl">☠️</span>
                     <span>Submit an<br>Emergency Dare</span>
                 </button>
 
                 <!-- Dare Submission Form -->
-                <div id="dare-form-container" class="hidden bg-white w-full p-6 rounded-3xl shadow-xl border border-red-100 space-y-4">
-                    <h3 class="font-bold text-xl text-red-700 border-b border-red-100 pb-2">Draft Your Dare</h3>
+                <div id="dare-form-container" class="hidden bg-white w-full p-5 rounded-3xl shadow-xl border border-amethyst/30 space-y-4">
+                    <h3 class="font-display font-bold text-lg text-plum border-b border-lavender pb-2">Draft Your Dare</h3>
                     
                     <div>
-                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Target Victim(s)</label>
-                        <select id="dare-target" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-red-500 text-lg bg-zinc-50 font-bold">
+                        <label class="block text-xs font-bold text-plum uppercase tracking-wider mb-1">Target Victim(s)</label>
+                        <select id="dare-target" class="w-full p-3.5 bg-ivory border border-amethyst/40 rounded-2xl focus:outline-none focus:border-plum text-sm font-bold text-slate-800">
                             <option value="all">Everyone 🌍</option>
                         </select>
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">The Dare</label>
-                        <textarea id="dare-message" rows="3" placeholder="e.g. Do a shot without using your hands..." class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-red-500 text-lg resize-none"></textarea>
+                        <label class="block text-xs font-bold text-plum uppercase tracking-wider mb-1">The Dare</label>
+                        <textarea id="dare-message" rows="3" placeholder="e.g. Do a shot without using your hands..." class="w-full p-3.5 bg-ivory border border-amethyst/40 rounded-2xl focus:outline-none focus:border-plum text-sm text-slate-800 resize-none"></textarea>
                     </div>
 
-                    <div class="flex gap-2 pt-2">
-                        <button onclick="toggleDareForm()" class="flex-1 bg-zinc-100 text-zinc-600 p-4 rounded-2xl font-bold hover:bg-zinc-200 transition-colors">Cancel</button>
-                        <button onclick="submitDare()" class="flex-[2] bg-red-600 text-white p-4 rounded-2xl font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-200">Send Dare 🔥</button>
+                    <div class="flex gap-2 pt-1">
+                        <button onclick="toggleDareForm()" class="flex-1 bg-lavender/60 text-plum p-3.5 rounded-2xl font-bold text-sm hover:bg-lavender transition-colors">Cancel</button>
+                        <button onclick="submitDare()" class="flex-[2] bg-plum text-ivory p-3.5 rounded-2xl font-bold text-sm hover:bg-plum/90 transition-colors shadow-md">Send Dare 🔥</button>
                     </div>
                 </div>
             </div>
 
             <!-- 3. LEADERBOARD -->
-            <div id="leaderboard" class="tab-content hidden max-w-md mx-auto">
-                <h2 class="text-2xl font-bold mb-4">Leaderboard</h2>
-                <div id="leaderboard-list" class="space-y-3 bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm"></div>
+            <div id="leaderboard" class="tab-content hidden">
+                <h2 class="font-display text-2xl font-bold text-plum mb-3">Leaderboard</h2>
+                <div id="leaderboard-list" class="space-y-2 bg-white p-4 rounded-3xl border border-amethyst/30 shadow-sm"></div>
             </div>
 
             <!-- 4. PHOTOS -->
-            <div id="photos" class="tab-content hidden space-y-6 max-w-md mx-auto">
-                <div class="flex justify-between items-end mb-4">
-                    <div>
-                        <h2 class="text-2xl font-bold">Photo Vault</h2>
-                        <p class="text-zinc-500 text-sm">Real-time challenge submissions.</p>
-                    </div>
+            <div id="photos" class="tab-content hidden space-y-4">
+                <div>
+                    <h2 class="font-display text-2xl font-bold text-plum">Photo Vault</h2>
+                    <p class="text-earthen text-xs">Real-time challenge submissions.</p>
                 </div>
                 <div id="photo-collage" class="grid grid-cols-2 gap-3 pb-10">
                     <!-- Images populate here -->
@@ -345,50 +386,50 @@
     </div>
 
     <!-- PROFILE MANAGEMENT MODAL -->
-    <div id="profile-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl max-w-sm w-full space-y-6 shadow-xl text-center">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-lg font-bold text-zinc-900">Your Account</h3>
-                <button onclick="toggleProfileModal()" class="text-zinc-400 font-bold hover:text-zinc-600">✕</button>
+    <div id="profile-modal" class="fixed inset-0 bg-plum/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl max-w-sm w-full space-y-5 shadow-2xl text-center border border-amethyst/30">
+            <div class="flex justify-between items-center border-b border-lavender pb-3">
+                <h3 class="font-display text-lg font-bold text-plum">Your Profile</h3>
+                <button onclick="toggleProfileModal()" class="text-earthen font-bold hover:text-plum text-lg">✕</button>
             </div>
             
             <div class="flex flex-col items-center space-y-2">
-                <div id="modal-user-avatar" class="w-20 h-20 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold text-2xl border-4 border-pink-200 shadow-sm overflow-hidden">
+                <div id="modal-user-avatar" class="w-20 h-20 rounded-full bg-plum text-ivory flex items-center justify-center font-bold text-2xl border-4 border-lavender shadow-md overflow-hidden">
                     VV
                 </div>
-                <h4 id="modal-user-name" class="text-xl font-extrabold text-zinc-800"></h4>
-                <span id="modal-user-score" class="text-sm font-bold bg-pink-100 text-pink-700 px-3 py-1 rounded-full">0 points</span>
+                <h4 id="modal-user-name" class="font-display text-xl font-extrabold text-slate-800"></h4>
+                <span id="modal-user-score" class="text-xs font-extrabold bg-moss/20 text-fern px-3 py-1 rounded-full border border-moss/30">0 points</span>
             </div>
 
             <div class="space-y-2 pt-2">
-                <button onclick="logOut()" class="w-full bg-red-50 text-red-600 p-3 rounded-xl font-bold hover:bg-red-100 transition-colors">Log Out / Switch User</button>
-                <button onclick="toggleProfileModal()" class="w-full bg-zinc-100 text-zinc-600 p-3 rounded-xl font-bold hover:bg-zinc-200 transition-colors">Close</button>
+                <button onclick="logOut()" class="w-full bg-rose-50 text-rose-700 p-3 rounded-2xl font-bold text-xs hover:bg-rose-100 transition-colors">Log Out / Switch User</button>
+                <button onclick="toggleProfileModal()" class="w-full bg-lavender/60 text-plum p-3 rounded-2xl font-bold text-xs hover:bg-lavender transition-colors">Close</button>
             </div>
         </div>
     </div>
 
     <!-- TRIVIA MODAL -->
-    <div id="quiz-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-xl">
-            <div class="flex justify-between items-center border-b pb-3">
-                <h3 class="text-lg font-bold text-pink-600">Julia Trivia</h3>
-                <span id="quiz-progress" class="text-xs font-bold text-zinc-400">Q 1/3</span>
+    <div id="quiz-modal" class="fixed inset-0 bg-plum/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30">
+            <div class="flex justify-between items-center border-b border-lavender pb-3">
+                <h3 class="font-display text-lg font-bold text-plum">Julia Trivia</h3>
+                <span id="quiz-progress" class="text-xs font-bold text-earthen">Q 1/3</span>
             </div>
-            <p id="quiz-question" class="text-lg font-bold text-zinc-800"></p>
+            <p id="quiz-question" class="text-base font-bold text-slate-800"></p>
             <div id="quiz-options" class="space-y-2"></div>
-            <button onclick="closeQuiz()" class="text-xs text-zinc-400 underline w-full text-center pt-2">Cancel Quiz</button>
+            <button onclick="closeQuiz()" class="text-xs text-earthen underline w-full text-center pt-2">Cancel Quiz</button>
         </div>
     </div>
 
     <!-- INCOMING DARE POPUP MODAL -->
-    <div id="incoming-dare-modal" class="fixed inset-0 bg-red-700 z-[100] hidden flex-col items-center justify-center p-6 text-center text-white space-y-8 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]">
+    <div id="incoming-dare-modal" class="fixed inset-0 bg-plum/95 z-[100] hidden flex-col items-center justify-center p-6 text-center text-ivory space-y-6">
         <div class="animate-bounce text-6xl">☠️</div>
-        <h2 class="text-4xl font-extrabold uppercase tracking-widest text-red-100 animate-pulse">Incoming Dare!</h2>
-        <div class="bg-black/30 p-6 rounded-3xl w-full max-w-sm border border-red-500/50">
-            <p class="text-sm text-red-200 font-bold uppercase tracking-wider mb-2" id="dare-sender-text">From: Someone</p>
-            <p class="text-3xl font-black leading-tight" id="dare-message-text">Do 10 pushups!</p>
+        <h2 class="font-display text-3xl font-extrabold uppercase tracking-widest text-lavender animate-pulse">Incoming Dare!</h2>
+        <div class="bg-white/10 backdrop-blur-md p-6 rounded-3xl w-full max-w-sm border border-amethyst/30 shadow-2xl">
+            <p class="text-xs text-amethyst font-bold uppercase tracking-wider mb-2" id="dare-sender-text">From: Someone</p>
+            <p class="font-display text-2xl font-black leading-tight text-white" id="dare-message-text">Do 10 pushups!</p>
         </div>
-        <button onclick="closeDarePopup()" class="bg-white text-red-800 hover:bg-red-50 font-black py-4 px-8 rounded-2xl text-xl transition-transform active:scale-95 shadow-2xl w-full max-w-sm">I ACCEPT / DISMISS</button>
+        <button onclick="closeDarePopup()" class="bg-ivory text-plum hover:bg-white font-extrabold py-4 px-8 rounded-2xl text-lg transition-transform active:scale-95 shadow-2xl w-full max-w-sm">I ACCEPT / DISMISS</button>
     </div>
 
     <!-- SCRIPT SECTION -->
@@ -448,13 +489,13 @@
             if (mode === 'signup') {
                 signupForm.classList.remove('hidden');
                 loginForm.classList.add('hidden');
-                signupBtn.className = "flex-1 py-2 font-bold text-sm rounded-xl bg-white shadow-sm text-pink-600 transition-all";
-                loginBtn.className = "flex-1 py-2 font-bold text-sm rounded-xl text-zinc-500 transition-all";
+                signupBtn.className = "flex-1 py-2.5 font-bold text-xs rounded-xl bg-plum text-white shadow-md transition-all";
+                loginBtn.className = "flex-1 py-2.5 font-bold text-xs rounded-xl text-plum hover:bg-white/50 transition-all";
             } else {
                 signupForm.classList.add('hidden');
                 loginForm.classList.remove('hidden');
-                loginBtn.className = "flex-1 py-2 font-bold text-sm rounded-xl bg-white shadow-sm text-pink-600 transition-all";
-                signupBtn.className = "flex-1 py-2 font-bold text-sm rounded-xl text-zinc-500 transition-all";
+                loginBtn.className = "flex-1 py-2.5 font-bold text-xs rounded-xl bg-plum text-white shadow-md transition-all";
+                signupBtn.className = "flex-1 py-2.5 font-bold text-xs rounded-xl text-plum hover:bg-white/50 transition-all";
             }
         };
 
@@ -492,7 +533,7 @@
             } catch (error) {
                 console.error("Error signing up: ", error);
                 alert("Failed to create profile: " + error.message);
-                btn.innerText = "Complete Profile & Join 🚀";
+                btn.innerText = "Complete Profile & Join 🌿";
                 btn.disabled = false;
             }
         };
@@ -585,7 +626,7 @@
 
             qData.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
-                btn.className = "w-full p-3 text-left border border-zinc-200 rounded-xl font-medium hover:border-pink-600 hover:bg-pink-50 transition-colors";
+                btn.className = "w-full p-3 text-left border border-amethyst/30 rounded-xl font-medium text-sm hover:border-plum hover:bg-lavender/40 transition-colors text-slate-800";
                 btn.innerText = opt;
                 btn.onclick = () => handleAnswer(idx);
                 optionsContainer.appendChild(btn);
@@ -637,7 +678,7 @@
                 if (triviaBtn) {
                     triviaBtn.innerText = "Trivia Completed! ✓";
                     triviaBtn.disabled = true;
-                    triviaBtn.className = "w-full bg-emerald-600 text-white p-3.5 rounded-xl font-bold opacity-80 cursor-not-allowed";
+                    triviaBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-80 cursor-not-allowed";
                 }
 
                 // Unlock nav bar options
@@ -723,7 +764,10 @@
         // --- CORE UI & LISTENERS ---
         function updateUIForLoggedInUser() {
             if (!currentUser) return;
-            document.getElementById('onboarding-card').classList.add('hidden');
+            
+            // Hide Auth screen, reveal App screen
+            document.getElementById('auth-screen').classList.add('hidden');
+            document.getElementById('app').classList.remove('hidden');
 
             const avatarDiv = document.getElementById('header-user-avatar');
             if (currentUser.selfieUrl) {
@@ -746,13 +790,12 @@
                 }, 800);
             } else {
                 document.getElementById('loading').classList.add('hidden');
-                document.getElementById('app').classList.remove('hidden');
+                document.getElementById('auth-screen').classList.remove('hidden');
             }
         }
 
         function initializeRealtimeListeners() {
             document.getElementById('loading').classList.add('hidden');
-            document.getElementById('app').classList.remove('hidden');
 
             if (!currentUser || !currentUser.id) return;
 
@@ -782,14 +825,14 @@
 
                 sortedUsers.forEach((u, i) => {
                     const item = document.createElement('div');
-                    item.className = "flex items-center gap-3 p-3 border-b border-zinc-100 last:border-0";
+                    item.className = "flex items-center gap-3 p-3 border-b border-lavender last:border-0";
                     item.innerHTML = `
-                        <span class="font-bold text-zinc-400 w-6">#${i + 1}</span>
-                        <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold border border-pink-200 overflow-hidden shrink-0">
+                        <span class="font-bold text-earthen text-xs w-5">#${i + 1}</span>
+                        <div class="w-9 h-9 rounded-full bg-lavender flex items-center justify-center text-plum font-bold border border-amethyst overflow-hidden shrink-0">
                             ${u.selfieUrl ? `<img src="${u.selfieUrl}" class="w-full h-full object-cover">` : (u.name ? u.name.substring(0,2).toUpperCase() : 'U')}
                         </div>
-                        <span class="flex-grow font-bold text-zinc-800">${u.name || 'Anonymous'}</span>
-                        <span class="font-bold text-pink-600">${u.score || 0} pts</span>
+                        <span class="flex-grow font-bold text-slate-800 text-sm">${u.name || 'Anonymous'}</span>
+                        <span class="font-extrabold text-plum text-xs bg-lavender/50 px-2.5 py-1 rounded-full border border-amethyst/20">${u.score || 0} pts</span>
                     `;
                     leaderboardList.appendChild(item);
 
@@ -815,12 +858,12 @@
 
                 sortedFeed.forEach(f => {
                     const item = document.createElement('div');
-                    item.className = "relative aspect-square bg-zinc-200 rounded-2xl overflow-hidden group shadow-sm";
+                    item.className = "relative aspect-square bg-slate-100 rounded-2xl overflow-hidden group shadow-sm border border-amethyst/20";
                     item.innerHTML = `
                         <img src="${f.photoUrl}" alt="Challenge Photo" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90 flex flex-col justify-end p-3">
-                            <span class="text-white text-xs font-bold truncate">${f.userName}</span>
-                            <span class="text-white/80 text-[10px] truncate">${f.challengeTitle || 'Challenge'}</span>
+                        <div class="absolute inset-0 bg-gradient-to-t from-plum/90 via-transparent to-transparent opacity-90 flex flex-col justify-end p-2.5">
+                            <span class="text-ivory text-xs font-bold truncate">${f.userName}</span>
+                            <span class="text-lavender text-[10px] truncate">${f.challengeTitle || 'Challenge'}</span>
                         </div>
                     `;
                     photoCollage.appendChild(item);
@@ -921,10 +964,10 @@
                     ctx.save();
                     ctx.translate(canvas.width, canvas.height);
                     ctx.rotate(-Math.PI / 4);
-                    ctx.fillStyle = "#ec4899";
+                    ctx.fillStyle = "#6A4F80";
                     ctx.fillRect(-300, -50, 600, 70);
                     
-                    ctx.fillStyle = "white";
+                    ctx.fillStyle = "#FFF8F0";
                     ctx.font = 'bold 28px -apple-system';
                     ctx.textAlign = "center";
                     ctx.fillText("Vachon Venture", 0, -5);
@@ -954,16 +997,16 @@
                 }
 
                 navBtns.forEach(b => {
-                    b.classList.remove('text-white', 'bg-pink-600', 'shadow-md', 'scale-105');
-                    b.classList.add('text-zinc-400');
+                    b.classList.remove('text-white', 'bg-plum', 'shadow-md', 'scale-105');
+                    b.classList.add('text-earthen');
                 });
 
                 if (isHomeTab) {
-                    btn.classList.add('text-white', 'bg-pink-600', 'shadow-md', 'scale-105');
-                    btn.classList.remove('text-zinc-400');
+                    btn.classList.add('text-white', 'bg-plum', 'shadow-md', 'scale-105');
+                    btn.classList.remove('text-earthen');
                 } else {
-                    btn.classList.add('text-pink-600');
-                    btn.classList.remove('text-zinc-400');
+                    btn.classList.add('text-plum');
+                    btn.classList.remove('text-earthen');
                 }
 
                 tabContents.forEach(tab => tab.classList.add('hidden'));

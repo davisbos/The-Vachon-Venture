@@ -143,7 +143,6 @@
 
         <!-- NAVIGATION TABS -->
         <nav class="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-md border-t border-amethyst/20 z-40 grid grid-cols-4 safe-area-inset-bottom text-[11px] font-bold p-1.5 shadow-lg">
-            <!-- HOME TAB (Featured & Prominent) -->
             <button class="nav-btn py-2.5 px-1 text-center active text-white bg-plum rounded-2xl shadow-md transform transition-all scale-105 flex flex-col items-center justify-center gap-0.5" data-tab="quest">
                 <span class="text-base">🏠</span>
                 <span class="tracking-wide">HOME</span>
@@ -168,7 +167,6 @@
             <!-- 1. HOME PAGE (QUEST) -->
             <div id="quest" class="tab-content active space-y-5">
                 
-                <!-- LOCK BANNER IF TRIVIA INCOMPLETE -->
                 <div id="trivia-lock-banner" class="bg-lavender/80 border border-amethyst p-4 rounded-2xl flex items-center gap-3 shadow-sm">
                     <span class="text-2xl shrink-0">🔒</span>
                     <div>
@@ -177,7 +175,6 @@
                     </div>
                 </div>
 
-                <!-- COLLAPSIBLE SECTIONS -->
                 <div class="space-y-4">
 
                     <!-- CATEGORY 1: THE PRE -->
@@ -188,7 +185,6 @@
                         </summary>
                         <div class="p-4 space-y-3 bg-white">
                             
-                            <!-- MANDATORY STEP 1: JULIA TRIVIA -->
                             <div id="trivia-card" class="bg-gradient-to-br from-lavender/60 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
                                 <div class="flex justify-between items-start mb-2">
                                     <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
@@ -202,7 +198,6 @@
                                 </button>
                             </div>
 
-                            <!-- OUTFIT CHECK-IN -->
                             <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
@@ -336,13 +331,11 @@
                     <p class="text-earthen text-xs px-4">Submit a challenge. Target a specific player or send it to everyone simultaneously.</p>
                 </div>
 
-                <!-- Ominous Submit Button -->
                 <button id="open-dare-btn" onclick="toggleDareForm()" class="dare-glow bg-gradient-to-br from-plum via-[#543869] to-black text-ivory w-full py-10 px-6 rounded-[2.5rem] font-display font-extrabold text-2xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex flex-col items-center justify-center gap-2 border border-amethyst/40">
                     <span class="text-4xl">☠️</span>
                     <span>Submit an<br>Emergency Dare</span>
                 </button>
 
-                <!-- Dare Submission Form -->
                 <div id="dare-form-container" class="hidden bg-white w-full p-5 rounded-3xl shadow-xl border border-amethyst/30 space-y-4">
                     <h3 class="font-display font-bold text-lg text-plum border-b border-lavender pb-2">Draft Your Dare</h3>
                     
@@ -377,9 +370,7 @@
                     <h2 class="font-display text-2xl font-bold text-plum">Photo Vault</h2>
                     <p class="text-earthen text-xs">Real-time challenge submissions.</p>
                 </div>
-                <div id="photo-collage" class="grid grid-cols-2 gap-3 pb-10">
-                    <!-- Images populate here -->
-                </div>
+                <div id="photo-collage" class="grid grid-cols-2 gap-3 pb-10"></div>
             </div>
 
         </main>
@@ -464,18 +455,47 @@
         let currentQuestionIdx = 0;
         let quizScore = 0;
 
+        // FIXED: Compresses the selfie to stay well under the 1MB Firestore document limit
         window.previewSelfie = function(event) {
             const file = event.target.files[0];
             if (!file) return;
 
             const reader = new FileReader();
             reader.onload = function(e) {
-                signupSelfieData = e.target.result;
-                const imgPreview = document.getElementById('selfie-img-preview');
-                imgPreview.src = signupSelfieData;
-                imgPreview.classList.remove('hidden');
-                document.getElementById('selfie-prompt-icon').classList.add('hidden');
-                document.getElementById('selfie-prompt-text').classList.add('hidden');
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    const maxDim = 400; // Perfect dimension for profile avatars (< 50KB)
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > maxDim) {
+                            height *= maxDim / width;
+                            width = maxDim;
+                        }
+                    } else {
+                        if (height > maxDim) {
+                            width *= maxDim / height;
+                            height = maxDim;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    signupSelfieData = canvas.toDataURL('image/jpeg', 0.7);
+
+                    const imgPreview = document.getElementById('selfie-img-preview');
+                    imgPreview.src = signupSelfieData;
+                    imgPreview.classList.remove('hidden');
+                    document.getElementById('selfie-prompt-icon').classList.add('hidden');
+                    document.getElementById('selfie-prompt-text').classList.add('hidden');
+                };
             };
             reader.readAsDataURL(file);
         };
@@ -603,7 +623,6 @@
             }
         };
 
-        // --- TRIVIA LOGIC ---
         window.startQuiz = function() {
             if (!currentUser) return alert("Please set up your profile first!");
             currentQuestionIdx = 0;
@@ -681,7 +700,6 @@
                     triviaBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-80 cursor-not-allowed";
                 }
 
-                // Unlock nav bar options
                 navButtons.forEach(btn => {
                     btn.classList.remove('disabled-tab', 'opacity-50');
                     const label = btn.querySelector('.tab-label');
@@ -690,7 +708,6 @@
                     }
                 });
 
-                // Enable challenge inputs
                 document.querySelectorAll('.challenge-input').forEach(input => {
                     input.disabled = false;
                 });
@@ -698,14 +715,12 @@
             } else {
                 if (triviaLockBanner) triviaLockBanner.classList.remove('hidden');
                 
-                // Disable challenge inputs
                 document.querySelectorAll('.challenge-input').forEach(input => {
                     input.disabled = true;
                 });
             }
         }
 
-        // --- DARE PIT LOGIC ---
         window.toggleDareForm = function() {
             const btn = document.getElementById('open-dare-btn');
             const form = document.getElementById('dare-form-container');
@@ -761,11 +776,9 @@
             document.getElementById('incoming-dare-modal').classList.remove('flex');
         };
 
-        // --- CORE UI & LISTENERS ---
         function updateUIForLoggedInUser() {
             if (!currentUser) return;
             
-            // Hide Auth screen, reveal App screen
             document.getElementById('auth-screen').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
 
@@ -799,7 +812,6 @@
 
             if (!currentUser || !currentUser.id) return;
 
-            // 1. Current User Snap
             onSnapshot(doc(db, "users", currentUser.id), (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
@@ -810,7 +822,6 @@
                 }
             });
 
-            // 2. Leaderboard & Dare Targets
             onSnapshot(collection(db, "users"), (snapshot) => {
                 const leaderboardList = document.getElementById('leaderboard-list');
                 leaderboardList.innerHTML = '';
@@ -847,7 +858,6 @@
                 if(currentSelectValue) dareTargetSelect.value = currentSelectValue;
             });
 
-            // 3. Photos Collage
             onSnapshot(collection(db, "feed"), (snapshot) => {
                 const photoCollage = document.getElementById('photo-collage');
                 photoCollage.innerHTML = '';
@@ -870,7 +880,6 @@
                 });
             });
 
-            // 4. Real-time Dares
             if (unsubscribeDares) unsubscribeDares();
             
             unsubscribeDares = onSnapshot(collection(db, "dares"), (snapshot) => {
@@ -982,7 +991,6 @@
             });
         }
 
-        // Navigation Tab Logic
         const navBtns = document.querySelectorAll('.nav-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
@@ -990,7 +998,6 @@
             btn.addEventListener('click', () => {
                 const isHomeTab = btn.getAttribute('data-tab') === 'quest';
 
-                // Block locked tabs
                 if (!isHomeTab && (!currentUser || !currentUser.triviaCompleted)) {
                     alert("🔒 App Locked!\n\nYou must complete Julia Trivia on the Home page first to unlock other features!");
                     return;

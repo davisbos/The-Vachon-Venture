@@ -81,7 +81,7 @@
                         Select / Take Selfie
                     </button>
 
-                    <!-- Sticker Options (Visible after photo is selected) -->
+                    <!-- Sticker Options -->
                     <div id="sticker-section" class="hidden space-y-2">
                         <p class="text-xs font-bold text-zinc-500 uppercase tracking-wider">Add Bride Theme / Sticker:</p>
                         <div class="grid grid-cols-2 gap-2">
@@ -121,9 +121,7 @@
                 <!-- Activity Feed -->
                 <div id="activity-feed-section" class="hidden space-y-6">
                     <h2 class="text-2xl font-bold">Julia Feed</h2>
-                    <div id="feed-container" class="space-y-4">
-                        <!-- Feed items appear here -->
-                    </div>
+                    <div id="feed-container" class="space-y-4"></div>
                 </div>
             </div>
 
@@ -196,7 +194,6 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
-        import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA6UURxa3-uvjEgGnzldW--wTaumOJxyqk",
@@ -210,7 +207,6 @@
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-        const storage = getStorage(app);
 
         let currentUser = null;
         let selectedAvatarImage = null;
@@ -236,7 +232,6 @@
             { id: 'harb-dare', phase: 2, title: 'Request Guilty Pleasure Song', points: 100, location: 'The Harb / H2O', photoRequired: true }
         ];
 
-        // Onboarding Step Switching
         window.goToOnboardingStep2 = function() {
             const name = document.getElementById('username-input').value.trim();
             if (!name) return alert("Enter your name first!");
@@ -249,7 +244,6 @@
             document.getElementById('onboarding-step-1').classList.remove('hidden');
         };
 
-        // Handle Selfie Selection and Drawing Canvas Preview
         window.handleAvatarSelect = function(e) {
             const file = e.target.files[0];
             if (!file) return;
@@ -272,8 +266,6 @@
 
         window.applySticker = function(stickerKey) {
             activeSticker = stickerKey;
-            
-            // Update UI buttons styling
             document.querySelectorAll('.sticker-btn').forEach(btn => {
                 btn.classList.remove('border-pink-500', 'bg-pink-50', 'text-pink-700');
                 btn.classList.add('border-zinc-200');
@@ -288,54 +280,51 @@
 
             const canvas = document.getElementById('avatar-canvas');
             const ctx = canvas.getContext('2d');
-            const size = 500;
+            const size = 300; // Efficient size for mobile avatars
             canvas.width = size;
             canvas.height = size;
 
-            // Draw center-cropped square avatar photo
             const minDim = Math.min(selectedAvatarImage.width, selectedAvatarImage.height);
             const sx = (selectedAvatarImage.width - minDim) / 2;
             const sy = (selectedAvatarImage.height - minDim) / 2;
 
             ctx.drawImage(selectedAvatarImage, sx, sy, minDim, minDim, 0, 0, size, size);
 
-            // Apply selected sticker / frame
             ctx.save();
             if (activeSticker === 'bride_tribe') {
                 ctx.fillStyle = "#ec4899";
-                ctx.fillRect(0, size - 80, size, 80);
+                ctx.fillRect(0, size - 50, size, 50);
                 ctx.fillStyle = "#ffffff";
-                ctx.font = "bold 32px -apple-system, sans-serif";
+                ctx.font = "bold 18px -apple-system, sans-serif";
                 ctx.textAlign = "center";
-                ctx.fillText("💍 BRIDE TRIBE", size / 2, size - 28);
+                ctx.fillText("💍 BRIDE TRIBE", size / 2, size - 18);
             } else if (activeSticker === 'future_mrs') {
-                ctx.fillStyle = "rgba(0,0,0,0.4)";
-                ctx.fillRect(0, 0, size, 70);
+                ctx.fillStyle = "rgba(0,0,0,0.5)";
+                ctx.fillRect(0, 0, size, 40);
                 ctx.fillStyle = "#ffffff";
-                ctx.font = "bold 30px -apple-system, sans-serif";
+                ctx.font = "bold 16px -apple-system, sans-serif";
                 ctx.textAlign = "center";
-                ctx.fillText("👑 FUTURE MRS VACHON", size / 2, 48);
+                ctx.fillText("👑 FUTURE MRS VACHON", size / 2, 26);
             } else if (activeSticker === 'bach_squad') {
                 ctx.fillStyle = "#f43f5e";
-                ctx.fillRect(20, size - 90, size - 40, 60);
+                ctx.fillRect(10, size - 55, size - 20, 45);
                 ctx.fillStyle = "#ffffff";
-                ctx.font = "bold 28px -apple-system, sans-serif";
+                ctx.font = "bold 16px -apple-system, sans-serif";
                 ctx.textAlign = "center";
-                ctx.fillText("🥂 BACH SQUAD '26", size / 2, size - 50);
+                ctx.fillText("🥂 BACH SQUAD '26", size / 2, size - 26);
             } else if (activeSticker === 'vachon_venture') {
                 ctx.translate(size, size);
                 ctx.rotate(-Math.PI / 4);
                 ctx.fillStyle = "#db2777";
-                ctx.fillRect(-300, -60, 600, 80);
+                ctx.fillRect(-200, -40, 400, 50);
                 ctx.fillStyle = "#ffffff";
-                ctx.font = "bold 32px -apple-system, sans-serif";
+                ctx.font = "bold 18px -apple-system, sans-serif";
                 ctx.textAlign = "center";
-                ctx.fillText("✨ VACHON VENTURE", 0, -10);
+                ctx.fillText("✨ VACHON VENTURE", 0, -8);
             }
             ctx.restore();
         }
 
-        // Complete Registration & Save User Profile
         window.signUpUser = async function() {
             const nameInput = document.getElementById('username-input');
             const name = nameInput.value.trim();
@@ -348,25 +337,19 @@
             btn.disabled = true;
 
             try {
-                // Get canvas blob
                 const canvas = document.getElementById('avatar-canvas');
-                const avatarBlob = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', 0.85));
+                // Convert image directly to compressed JPEG Base64 text string
+                const avatarDataUrl = canvas.toDataURL('image/jpeg', 0.5);
 
-                // Upload Avatar to Firebase Storage
-                const avatarRef = ref(storage, `avatars/${Date.now()}_${name}.jpg`);
-                await uploadBytes(avatarRef, avatarBlob);
-                const avatarUrl = await getDownloadURL(avatarRef);
-
-                // Add User Doc to Firestore
                 const docRef = await addDoc(collection(db, "users"), {
                     name: name,
-                    avatarUrl: avatarUrl,
+                    avatarUrl: avatarDataUrl,
                     score: 0,
                     completedChallenges: [],
                     timestamp: new Date()
                 });
 
-                currentUser = { id: docRef.id, name: name, avatarUrl: avatarUrl, score: 0, completedChallenges: [] };
+                currentUser = { id: docRef.id, name: name, avatarUrl: avatarDataUrl, score: 0, completedChallenges: [] };
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser)); 
 
                 updateUIForLoggedInUser();
@@ -374,13 +357,12 @@
                 
             } catch (error) {
                 console.error("Error signing up: ", error);
-                alert("Failed to create profile. Make sure Firestore & Storage rules are open for testing.");
+                alert("Failed to create profile: " + error.message);
                 btn.innerText = "Complete Profile & Join 🚀";
                 btn.disabled = false;
             }
         };
 
-        // Profile Modal (Log Out / Switch Account)
         window.toggleProfileModal = function() {
             const modal = document.getElementById('profile-modal');
             if (modal.classList.contains('hidden')) {
@@ -403,7 +385,6 @@
             }
         };
 
-        // TRIVIA LOGIC
         window.startQuiz = function() {
             if (!currentUser) return alert("Please set up your profile first!");
             currentQuestionIdx = 0;
@@ -605,40 +586,43 @@
             const file = fileInput.files[0];
             if (!file) return;
 
-            alert("Vachon Venture stamping & uploading photo...");
+            alert("Vachon Venture stamping & processing photo...");
 
             try {
                 const stampedImageBlob = await stampImageWithVenture(file);
+                
+                // Convert blob directly to Base64 image data URL string
+                const reader = new FileReader();
+                reader.readAsDataURL(stampedImageBlob);
+                reader.onloadend = async () => {
+                    const base64Image = reader.result;
 
-                const storageRef = ref(storage, `venture_photos/${Date.now()}_${currentUser.name}.jpg`);
-                await uploadBytes(storageRef, stampedImageBlob);
-                const downloadURL = await getDownloadURL(storageRef);
+                    const userDoc = await getDoc(doc(db, "users", currentUser.id));
+                    const completed = userDoc.data().completedChallenges || [];
 
-                const userDoc = await getDoc(doc(db, "users", currentUser.id));
-                const completed = userDoc.data().completedChallenges || [];
+                    await updateDoc(doc(db, "users", currentUser.id), {
+                        score: increment(points),
+                        completedChallenges: [...completed, challengeId]
+                    });
 
-                await updateDoc(doc(db, "users", currentUser.id), {
-                    score: increment(points),
-                    completedChallenges: [...completed, challengeId]
-                });
+                    const challengeTitle = challengesData.find(c => c.id === challengeId)?.title || "Challenge";
+                    await addDoc(collection(db, "feed"), {
+                        userName: currentUser.name,
+                        userId: currentUser.id,
+                        userAvatarUrl: currentUser.avatarUrl || '',
+                        challengeId: challengeId,
+                        challengeTitle: challengeTitle,
+                        photoUrl: base64Image,
+                        timestamp: new Date()
+                    });
 
-                const challengeTitle = challengesData.find(c => c.id === challengeId)?.title || "Challenge";
-                await addDoc(collection(db, "feed"), {
-                    userName: currentUser.name,
-                    userId: currentUser.id,
-                    userAvatarUrl: currentUser.avatarUrl || '',
-                    challengeId: challengeId,
-                    challengeTitle: challengeTitle,
-                    photoUrl: downloadURL,
-                    timestamp: new Date()
-                });
-
-                fileInput.value = '';
-                alert(`Challenge Complete! +${points} pts!`);
+                    fileInput.value = '';
+                    alert(`Challenge Complete! +${points} pts!`);
+                };
 
             } catch (error) {
                 console.error("Upload error:", error);
-                alert("Something went wrong with the upload. Check Firebase security rules.");
+                alert("Something went wrong with processing the photo.");
             }
         };
 
@@ -651,28 +635,44 @@
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     
-                    const targetSize = Math.max(img.width, img.height);
-                    canvas.width = targetSize;
-                    canvas.height = targetSize;
+                    // Downscale to maximum 800px width/height for fast Base64 database writes
+                    const maxDim = 800;
+                    let width = img.width;
+                    let height = img.height;
 
-                    ctx.drawImage(img, 0, 0);
+                    if (width > height) {
+                        if (width > maxDim) {
+                            height *= maxDim / width;
+                            width = maxDim;
+                        }
+                    } else {
+                        if (height > maxDim) {
+                            width *= maxDim / height;
+                            height = maxDim;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    ctx.drawImage(img, 0, 0, width, height);
 
                     ctx.save();
                     ctx.translate(canvas.width, canvas.height);
                     ctx.rotate(-Math.PI / 4);
-                    ctx.fillStyle = "pink";
-                    ctx.fillRect(-600, -100, 1200, 150);
+                    ctx.fillStyle = "#ec4899";
+                    ctx.fillRect(-300, -50, 600, 70);
                     
                     ctx.fillStyle = "white";
-                    ctx.font = 'bold 60px -apple-system';
+                    ctx.font = 'bold 28px -apple-system';
                     ctx.textAlign = "center";
-                    ctx.fillText("Vachon Venture", 0, 0);
+                    ctx.fillText("Vachon Venture", 0, -5);
                     ctx.restore();
 
                     canvas.toBlob((blob) => {
                         URL.revokeObjectURL(img.src);
                         resolve(blob);
-                    }, 'image/jpeg', 0.8);
+                    }, 'image/jpeg', 0.6);
                 };
                 img.onerror = reject;
             });

@@ -190,25 +190,25 @@
                                     <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
                                         <span>👑</span> Julia Trivia
                                     </h3>
-                                    <span class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+50 pts</span>
+                                    <span id="trivia-badge" class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+50 pts</span>
                                 </div>
-                                <p class="text-slate-700 text-xs mb-3 font-medium">Mandatory Step! Test how well you know the bride to unlock the rest of the app.</p>
+                                <p id="trivia-desc" class="text-slate-700 text-xs mb-3 font-medium">Mandatory Step! Test how well you know the bride to unlock the rest of the app.</p>
                                 <button id="trivia-btn" onclick="startQuiz()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 shadow-md transition-all active:scale-98">
                                     Start Quiz 🚀
                                 </button>
                             </div>
 
-                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
+                            <div id="card-pregame-photo" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800">Outfit Check In</h4>
-                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Outfit Check In">Outfit Check In</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
                                     </div>
-                                    <p class="text-xs text-earthen">Snap a photo of your pre-game fit and drink!</p>
+                                    <p class="challenge-desc text-xs text-earthen">Snap a photo of your pre-game fit and drink!</p>
                                 </div>
-                                <div class="shrink-0">
+                                <div class="shrink-0 challenge-action-container">
                                     <input type="file" id="input-pregame-photo" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('pregame-photo', 100)">
-                                    <label for="input-pregame-photo" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                    <label for="input-pregame-photo" id="label-pregame-photo" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
@@ -223,59 +223,59 @@
                         </summary>
                         <div class="p-4 space-y-3 bg-white">
 
-                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
+                            <div id="card-mudtown-toast" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800">Toast at Mudtown Station</h4>
-                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Toast at Mudtown Station">Toast at Mudtown Station</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
                                     </div>
-                                    <p class="text-xs text-earthen">Take a photo proposing a toast to Julia.</p>
+                                    <p class="challenge-desc text-xs text-earthen">Take a photo proposing a toast to Julia.</p>
                                 </div>
-                                <div class="shrink-0">
+                                <div class="shrink-0 challenge-action-container">
                                     <input type="file" id="input-mudtown-toast" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('mudtown-toast', 100)">
-                                    <label for="input-mudtown-toast" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                    <label for="input-mudtown-toast" id="label-mudtown-toast" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
-                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
+                            <div id="card-rumpus-cocktail" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800">Cocktail at The Rumpus Room</h4>
-                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Cocktail at The Rumpus Room">Cocktail at The Rumpus Room</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
                                     </div>
-                                    <p class="text-xs text-earthen">Snap a signature cocktail photo.</p>
+                                    <p class="challenge-desc text-xs text-earthen">Snap a signature cocktail photo.</p>
                                 </div>
-                                <div class="shrink-0">
+                                <div class="shrink-0 challenge-action-container">
                                     <input type="file" id="input-rumpus-cocktail" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('rumpus-cocktail', 100)">
-                                    <label for="input-rumpus-cocktail" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                    <label for="input-rumpus-cocktail" id="label-rumpus-cocktail" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
-                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
+                            <div id="card-groom-selfie" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800">Groom Name Double Selfie</h4>
-                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Groom Name Double Selfie">Groom Name Double Selfie</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
                                     </div>
-                                    <p class="text-xs text-earthen">Find someone with the groom's name and snap a photo.</p>
+                                    <p class="challenge-desc text-xs text-earthen">Find someone with the groom's name and snap a photo.</p>
                                 </div>
-                                <div class="shrink-0">
+                                <div class="shrink-0 challenge-action-container">
                                     <input type="file" id="input-groom-selfie" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('groom-selfie', 150)">
-                                    <label for="input-groom-selfie" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                    <label for="input-groom-selfie" id="label-groom-selfie" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
-                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
+                            <div id="card-wedding-finds" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800">Old/New/Borrowed/Blue Find</h4>
-                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+200 pts</span>
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Old/New/Borrowed/Blue Find">Old/New/Borrowed/Blue Find</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+200 pts</span>
                                     </div>
-                                    <p class="text-xs text-earthen">Find and photograph one of the traditional items.</p>
+                                    <p class="challenge-desc text-xs text-earthen">Find and photograph one of the traditional items.</p>
                                 </div>
-                                <div class="shrink-0">
+                                <div class="shrink-0 challenge-action-container">
                                     <input type="file" id="input-wedding-finds" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('wedding-finds', 200)">
-                                    <label for="input-wedding-finds" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                    <label for="input-wedding-finds" id="label-wedding-finds" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
@@ -290,31 +290,31 @@
                         </summary>
                         <div class="p-4 space-y-3 bg-white">
 
-                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
+                            <div id="card-julia-memory" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800">Bride Memory Pose Recreation</h4>
-                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Bride Memory Pose Recreation">Bride Memory Pose Recreation</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
                                     </div>
-                                    <p class="text-xs text-earthen">Recreate Julia's signature photo pose.</p>
+                                    <p class="challenge-desc text-xs text-earthen">Recreate Julia's signature photo pose.</p>
                                 </div>
-                                <div class="shrink-0">
+                                <div class="shrink-0 challenge-action-container">
                                     <input type="file" id="input-julia-memory" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('julia-memory', 150)">
-                                    <label for="input-julia-memory" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                    <label for="input-julia-memory" id="label-julia-memory" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
-                            <div class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3">
+                            <div id="card-harb-dare" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800">Request Guilty Pleasure Song</h4>
-                                        <span class="text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Request Guilty Pleasure Song">Request Guilty Pleasure Song</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
                                     </div>
-                                    <p class="text-xs text-earthen">Request Julia's favorite song at The Harb / H2O.</p>
+                                    <p class="challenge-desc text-xs text-earthen">Request Julia's favorite song at The Harb / H2O.</p>
                                 </div>
-                                <div class="shrink-0">
+                                <div class="shrink-0 challenge-action-container">
                                     <input type="file" id="input-harb-dare" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('harb-dare', 100)">
-                                    <label for="input-harb-dare" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                    <label for="input-harb-dare" id="label-harb-dare" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
@@ -439,6 +439,20 @@
         <button onclick="closeDarePopup()" class="bg-ivory text-plum hover:bg-white font-extrabold py-4 px-8 rounded-2xl text-lg transition-transform active:scale-95 shadow-2xl w-full max-w-sm">I ACCEPT / DISMISS</button>
     </div>
 
+    <!-- CHALLENGE SUCCESS POPUP MODAL -->
+    <div id="challenge-success-modal" class="fixed inset-0 bg-plum/80 backdrop-blur-xs z-[100] hidden flex-col items-center justify-center p-6 text-center text-ivory space-y-5">
+        <div class="animate-bounce text-5xl">🔥</div>
+        <h2 class="font-display text-3xl font-extrabold tracking-tight text-lavender">Looking hot!</h2>
+        <div class="bg-white/10 backdrop-blur-md p-5 rounded-3xl w-full max-w-sm border border-amethyst/30 shadow-xl space-y-2">
+            <p class="text-xs text-amethyst font-bold uppercase tracking-wider">Challenge Completed</p>
+            <p class="font-display text-xl font-bold text-white" id="success-challenge-name">Outfit Check In</p>
+            <div class="inline-block bg-moss/30 text-fern border border-moss/40 font-extrabold text-sm px-4 py-1.5 rounded-full mt-1" id="success-challenge-points">
+                +100 pts
+            </div>
+        </div>
+        <button onclick="closeChallengeSuccessModal()" class="bg-ivory text-plum hover:bg-white font-extrabold py-3.5 px-8 rounded-2xl text-base transition-transform active:scale-95 shadow-xl w-full max-w-sm">Close</button>
+    </div>
+
     <!-- SCRIPT SECTION -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
@@ -471,6 +485,16 @@
 
         let currentQuestionIdx = 0;
         let quizScore = 0;
+
+        const allChallengeIds = [
+            'pregame-photo',
+            'mudtown-toast',
+            'rumpus-cocktail',
+            'groom-selfie',
+            'wedding-finds',
+            'julia-memory',
+            'harb-dare'
+        ];
 
         window.previewSelfie = function(event) {
             const file = event.target.files[0];
@@ -707,14 +731,27 @@
             const navButtons = document.querySelectorAll('.disabled-tab');
             const triviaLockBanner = document.getElementById('trivia-lock-banner');
             const triviaBtn = document.getElementById('trivia-btn');
+            const triviaCard = document.getElementById('trivia-card');
+            const triviaBadge = document.getElementById('trivia-badge');
+            const triviaDesc = document.getElementById('trivia-desc');
 
             if (isUnlocked) {
                 if (triviaLockBanner) triviaLockBanner.classList.add('hidden');
                 
                 if (triviaBtn) {
-                    triviaBtn.innerText = "Trivia Completed! ✓";
+                    triviaBtn.innerText = "Completed ✓";
                     triviaBtn.disabled = true;
-                    triviaBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-80 cursor-not-allowed";
+                    triviaBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-90 cursor-not-allowed shadow-none";
+                }
+                if (triviaCard) {
+                    triviaCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
+                }
+                if (triviaBadge) {
+                    triviaBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-1 rounded-full border border-moss/30";
+                    triviaBadge.innerText = "Completed ✓";
+                }
+                if (triviaDesc) {
+                    triviaDesc.innerText = "You have successfully tested your knowledge and unlocked the adventure!";
                 }
 
                 navButtons.forEach(btn => {
@@ -725,17 +762,66 @@
                     }
                 });
 
-                document.querySelectorAll('.challenge-input').forEach(input => {
-                    input.disabled = false;
-                });
-
             } else {
                 if (triviaLockBanner) triviaLockBanner.classList.remove('hidden');
-                
-                document.querySelectorAll('.challenge-input').forEach(input => {
-                    input.disabled = true;
-                });
             }
+
+            // Update individual challenges completion status
+            const completedChallenges = currentUser && currentUser.completedChallenges ? currentUser.completedChallenges : [];
+            
+            allChallengeIds.forEach(id => {
+                const card = document.getElementById(`card-${id}`);
+                const input = document.getElementById(`input-${id}`);
+                const label = document.getElementById(`label-${id}`);
+                
+                if (!card) return;
+
+                const isDone = completedChallenges.includes(id);
+                const badge = card.querySelector('.challenge-badge');
+                const desc = card.querySelector('.challenge-desc');
+
+                if (isDone) {
+                    card.className = "challenge-card bg-moss/10 p-3.5 rounded-2xl border-2 border-moss/40 flex items-center justify-between gap-3 transition-all";
+                    if (badge) {
+                        badge.className = "challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30";
+                        badge.innerText = "Completed ✓";
+                    }
+                    if (desc) {
+                        desc.className = "challenge-desc text-xs text-fern font-medium";
+                        desc.innerText = "Challenge completed! Great job.";
+                    }
+                    if (label) {
+                        label.className = "bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm opacity-60 cursor-not-allowed shadow-none";
+                        label.innerHTML = "✓";
+                    }
+                    if (input) {
+                        input.disabled = true;
+                    }
+                } else {
+                    const isAppLocked = !isUnlocked;
+                    if (isAppLocked) {
+                        card.className = "challenge-card bg-ivory/40 p-3.5 rounded-2xl border border-amethyst/20 opacity-60 flex items-center justify-between gap-3 transition-all";
+                        if (label) {
+                            label.className = "bg-earthen/50 text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-not-allowed shadow-sm transition-colors";
+                        }
+                        if (input) {
+                            input.disabled = true;
+                        }
+                    } else {
+                        card.className = "challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/30 flex items-center justify-between gap-3 transition-all";
+                        if (badge) {
+                            badge.className = "challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30";
+                        }
+                        if (label) {
+                            label.className = "bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors";
+                            label.innerHTML = "+";
+                        }
+                        if (input) {
+                            input.disabled = false;
+                        }
+                    }
+                }
+            });
         }
 
         window.toggleDareForm = function() {
@@ -864,6 +950,20 @@
             document.getElementById('incoming-dare-modal').classList.remove('flex');
         };
 
+        window.showChallengeSuccessModal = function(challengeTitle, points) {
+            document.getElementById('success-challenge-name').innerText = challengeTitle;
+            document.getElementById('success-challenge-points').innerText = `+${points} pts`;
+            const modal = document.getElementById('challenge-success-modal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        };
+
+        window.closeChallengeSuccessModal = function() {
+            const modal = document.getElementById('challenge-success-modal');
+            modal.classList.add('hidden');
+            modal.classList.remove('flex');
+        };
+
         function updateUIForLoggedInUser() {
             if (!currentUser) return;
             
@@ -906,7 +1006,9 @@
                     const data = docSnap.data();
                     currentUser.score = data.score;
                     currentUser.triviaCompleted = data.triviaCompleted;
+                    currentUser.completedChallenges = data.completedChallenges || [];
                     currentUser.lastDareTimestamp = data.lastDareTimestamp;
+                    
                     document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
                     updateLockStateUI();
                     checkDareCooldown();
@@ -1041,11 +1143,19 @@
                 return alert("🔒 You must complete the Julia Trivia on the Home page first!");
             }
 
+            const completed = currentUser.completedChallenges || [];
+            if (completed.includes(challengeId)) {
+                return alert("⚠️ You have already completed this challenge!");
+            }
+
             const fileInput = document.getElementById(`input-${challengeId}`);
             const file = fileInput.files[0];
             if (!file) return;
 
-            alert("Vachon Venture stamping & processing photo...");
+            // Find specific challenge title from the DOM
+            const challengeCardEl = fileInput.closest('.challenge-card');
+            const titleEl = challengeCardEl ? challengeCardEl.querySelector('[data-challenge-title]') : null;
+            const challengeTitle = titleEl ? titleEl.innerText : "Challenge";
 
             try {
                 const stampedImageBlob = await stampImageWithVenture(file);
@@ -1056,23 +1166,33 @@
                     const base64Image = reader.result;
 
                     const userDoc = await getDoc(doc(db, "users", currentUser.id));
-                    const completed = userDoc.data().completedChallenges || [];
+                    const currentCompleted = userDoc.data().completedChallenges || [];
+
+                    if (currentCompleted.includes(challengeId)) {
+                        fileInput.value = '';
+                        return alert("⚠️ You have already completed this challenge!");
+                    }
 
                     await updateDoc(doc(db, "users", currentUser.id), {
                         score: increment(points),
-                        completedChallenges: [...completed, challengeId]
+                        completedChallenges: [...currentCompleted, challengeId]
                     });
+
+                    currentUser.completedChallenges = [...currentCompleted, challengeId];
+                    localStorage.setItem('vachonUser', JSON.stringify(currentUser));
 
                     await addDoc(collection(db, "feed"), {
                         userName: currentUser.name,
                         userId: currentUser.id,
                         challengeId: challengeId,
+                        challengeTitle: challengeTitle,
                         photoUrl: base64Image,
                         timestamp: new Date()
                     });
 
                     fileInput.value = '';
-                    alert(`Challenge Complete! +${points} pts! Photo added to Vault.`);
+                    updateLockStateUI();
+                    showChallengeSuccessModal(challengeTitle, points);
                 };
 
             } catch (error) {

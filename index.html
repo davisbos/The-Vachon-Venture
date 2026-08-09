@@ -171,7 +171,7 @@
                     <span class="text-2xl shrink-0">🔒</span>
                     <div>
                         <h4 class="font-bold text-plum text-xs uppercase tracking-wider">App Locked!</h4>
-                        <p class="text-xs text-slate-700 mt-0.5">Complete <b>Who Knows the Bride Best?</b> below to unlock the rest of the app and challenges!</p>
+                        <p class="text-xs text-slate-700 mt-0.5">Complete <b>Julia Trivia</b> below to unlock the rest of the app and challenges!</p>
                     </div>
                 </div>
 
@@ -185,15 +185,14 @@
                         </summary>
                         <div class="p-4 space-y-3 bg-white">
                             
-                            <!-- NEW SECTION ADDED HERE -->
                             <div id="trivia-card" class="bg-gradient-to-br from-lavender/60 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
                                 <div class="flex justify-between items-start mb-2">
                                     <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
-                                        <span>👑</span> Who Knows the Bride Best?
+                                        <span>👑</span> Julia Trivia
                                     </h3>
-                                    <span id="trivia-badge" class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+100 pts max</span>
+                                    <span id="trivia-badge" class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+50 pts</span>
                                 </div>
-                                <p id="trivia-desc" class="text-slate-700 text-xs mb-3 font-medium">Mandatory Step! Answer questions in under 10 seconds each to unlock the app (10 pts per correct answer).</p>
+                                <p id="trivia-desc" class="text-slate-700 text-xs mb-3 font-medium">Mandatory Step! Test how well you know the bride to unlock the rest of the app.</p>
                                 <button id="trivia-btn" onclick="startQuiz()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 shadow-md transition-all active:scale-98">
                                     Start Quiz 🚀
                                 </button>
@@ -418,17 +417,10 @@
 
     <!-- TRIVIA MODAL -->
     <div id="quiz-modal" class="fixed inset-0 bg-plum/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30 relative">
+        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30">
             <div class="flex justify-between items-center border-b border-lavender pb-3">
-                <h3 class="font-display text-lg font-bold text-plum">Who Knows the Bride Best?</h3>
-                <div class="flex items-center gap-3">
-                    <span id="quiz-timer" class="text-xs font-extrabold bg-rose-100 text-rose-700 px-2.5 py-1 rounded-full">⏱️ 10s</span>
-                    <span id="quiz-progress" class="text-xs font-bold text-earthen">Q 1/10</span>
-                </div>
-            </div>
-            <!-- Countdown bar -->
-            <div class="w-full bg-lavender h-1.5 rounded-full overflow-hidden">
-                <div id="quiz-timer-bar" class="bg-plum h-full w-full transition-all duration-1000 linear"></div>
+                <h3 class="font-display text-lg font-bold text-plum">Julia Trivia</h3>
+                <span id="quiz-progress" class="text-xs font-bold text-earthen">Q 1/3</span>
             </div>
             <p id="quiz-question" class="text-base font-bold text-slate-800"></p>
             <div id="quiz-options" class="space-y-2"></div>
@@ -486,62 +478,13 @@
         let cooldownTimerInterval = null;
 
         const triviaQuestions = [
-            { 
-                q: "Julia created a ___ hospital in her desk in grade 3 to repair them.", 
-                options: ["Bandaid(s)", "Crayon(s)", "Hair elastic(s)", "Lunchbox(es)"], 
-                answer: 1 
-            },
-            { 
-                q: "The names of Julia's rats were:", 
-                options: ["Ella and Roxette", "Ella and Robin", "Ellie and Roxanne", "Effie and Roxanne"], 
-                answer: 2 
-            },
-            { 
-                q: "Julia and Melody made soap and water slip and slides and played until their knees stung. This took place in:", 
-                options: ["The backyard", "The kitchen", "Melody's bedroom", "Julia's bedroom"], 
-                answer: 1 
-            },
-            { 
-                q: "Julia's rat Ellie was black and floofy and Roxanne was hairless.", 
-                options: ["True", "False"], 
-                answer: 1 
-            },
-            { 
-                q: "Julia and her cousin John made a game where they'd put on a bunch of sweaters and dance around the fireplace, called:", 
-                options: ["Fire Fire Sweater Sweater", "The Fire Ritual", "Get Sweaty", "J and J's ritual"], 
-                answer: 2 
-            },
-            { 
-                q: "At BBBSG, Julia was voted:", 
-                options: ["Most likely to survive a deserted island", "Most likely to become famous for something weird", "Most likely to be late to their own wedding", "Most likely to win a dance competition"], 
-                answer: 2 
-            },
-            { 
-                q: "Julia had a ____ childhood bedroom theme.", 
-                options: ["Pink", "Purple", "Blue", "She did not have a theme"], 
-                answer: 1 
-            },
-            { 
-                q: "Julia's party trick is (iykyk):", 
-                options: ["Backwards alphabet", "Line dancing on the spot", "Dislocating her collar bone from when it broke", "Helicopter arms"], 
-                answer: 3 
-            },
-            { 
-                q: "Julia's favourite childhood activities were:", 
-                options: ["Roller blading, dancing, and playing with barbies", "Doing makeovers, skating, and ballet", "Playing with her rats and video games with her sister", "Eating, dancing, and gardening"], 
-                answer: 0 
-            },
-            { 
-                q: "What decor did Julia install in her childhood bedroom (because she was a gypsy):", 
-                options: ["A blue and gold tapestry", "Cloud wallpaper", "Dream catcher", "Colourful Beads"], 
-                answer: 3 
-            }
+            { q: "How did Julia and Josh meet?", options: ["Online gaming", "University", "Through Denise", "Tinder"], answer: 0 },
+            { q: "When is Julia and Josh's anniversary?", options: ["October 1", "September 13", "October 13", "November 4"], answer: 1 },
+            { q: "Where are Julia and Josh getting married?", options: ["Melody's house", "Airplane hangar", "Salmon derby", "Golf course"], answer: 3 }
         ];
 
         let currentQuestionIdx = 0;
         let quizScore = 0;
-        let questionTimer = null;
-        let timeLeft = 10;
 
         const allChallengeIds = [
             'pregame-photo',
@@ -583,12 +526,7 @@
 
                     canvas.width = width;
                     canvas.height = height;
-                    
-                    // Horizontally flip photo
-                    ctx.translate(width, 0);
-                    ctx.scale(-1, 1);
                     ctx.drawImage(img, 0, 0, width, height);
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
 
                     signupSelfieData = canvas.toDataURL('image/jpeg', 0.7);
 
@@ -735,19 +673,10 @@
         };
 
         window.closeQuiz = function() {
-            if (questionTimer) clearInterval(questionTimer);
             document.getElementById('quiz-modal').classList.add('hidden');
         };
 
         function renderQuizQuestion() {
-            if (questionTimer) clearInterval(questionTimer);
-            timeLeft = 10;
-            
-            const timerEl = document.getElementById('quiz-timer');
-            const timerBar = document.getElementById('quiz-timer-bar');
-            timerEl.innerText = `⏱️ ${timeLeft}s`;
-            timerBar.style.width = '100%';
-
             const qData = triviaQuestions[currentQuestionIdx];
             document.getElementById('quiz-progress').innerText = `Q ${currentQuestionIdx + 1}/${triviaQuestions.length}`;
             document.getElementById('quiz-question').innerText = qData.q;
@@ -762,40 +691,28 @@
                 btn.onclick = () => handleAnswer(idx, btn, optionsContainer);
                 optionsContainer.appendChild(btn);
             });
-
-            questionTimer = setInterval(() => {
-                timeLeft--;
-                timerEl.innerText = `⏱️ ${timeLeft}s`;
-                timerBar.style.width = `${(timeLeft / 10) * 100}%`;
-
-                if (timeLeft <= 0) {
-                    clearInterval(questionTimer);
-                    handleAnswer(-1, null, optionsContainer); // Time out counts as incorrect
-                }
-            }, 1000);
         }
 
         async function handleAnswer(selectedIdx, buttonElement, optionsContainer) {
-            if (questionTimer) clearInterval(questionTimer);
             const correctIdx = triviaQuestions[currentQuestionIdx].answer;
             const optionButtons = optionsContainer.querySelectorAll('button');
 
+            // Disable all options to prevent double-clicking
             optionButtons.forEach(btn => btn.disabled = true);
 
             if (selectedIdx === correctIdx) {
-                quizScore += 10;
-                if (buttonElement) {
-                    buttonElement.className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
-                }
+                quizScore += 1;
+                // Style selected button as correct (Green)
+                buttonElement.className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
             } else {
-                if (buttonElement) {
-                    buttonElement.className = "w-full p-3 text-left border-2 border-rose-400 bg-rose-50 text-rose-700 rounded-xl font-bold text-sm transition-colors";
-                }
-                if (optionButtons[correctIdx]) {
-                    optionButtons[correctIdx].className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
-                }
+                // Style selected button as wrong (Red)
+                buttonElement.className = "w-full p-3 text-left border-2 border-rose-400 bg-rose-50 text-rose-700 rounded-xl font-bold text-sm transition-colors";
+                
+                // Highlight the correct answer
+                optionButtons[correctIdx].className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
             }
 
+            // Wait 1.2 seconds to show the indicator before moving forward
             setTimeout(async () => {
                 currentQuestionIdx++;
 
@@ -803,7 +720,7 @@
                     renderQuizQuestion();
                 } else {
                     window.closeQuiz();
-                    const totalPoints = quizScore;
+                    const totalPoints = quizScore * 20 + 10;
                     
                     if (currentUser && currentUser.id) {
                         try {
@@ -816,7 +733,7 @@
                             currentUser.score += totalPoints;
                             localStorage.setItem('vachonUser', JSON.stringify(currentUser));
 
-                            alert(`🎉 Quiz complete! You scored ${quizScore}/100 pts!\n\nTHE APP IS NOW UNLOCKED! 🔥`);
+                            alert(`🎉 Quiz complete! You scored ${quizScore}/${triviaQuestions.length} (+${totalPoints} pts)!\n\nTHE APP IS NOW UNLOCKED! 🔥`);
                             updateLockStateUI();
 
                         } catch (e) {
@@ -867,6 +784,7 @@
                 if (triviaLockBanner) triviaLockBanner.classList.remove('hidden');
             }
 
+            // Update individual challenges completion status
             const completedChallenges = currentUser && currentUser.completedChallenges ? currentUser.completedChallenges : [];
             
             allChallengeIds.forEach(id => {
@@ -944,6 +862,7 @@
 
             if (!message) return alert("You have to write a dare!");
 
+            // Check Cooldown (30 minutes)
             if (currentUser.lastDareTimestamp) {
                 const lastTime = currentUser.lastDareTimestamp.toDate ? currentUser.lastDareTimestamp.toDate() : new Date(currentUser.lastDareTimestamp);
                 const diffMs = new Date() - lastTime;
@@ -964,7 +883,7 @@
                     senderName: currentUser.name,
                     targetId: targetId,
                     message: message,
-                    status: 'active',
+                    status: 'active', // active, accepted, denied
                     timestamp: now
                 });
                 
@@ -1187,6 +1106,7 @@
                     });
 
                 sortedDares.forEach((dare) => {
+                    // Render on the Active Dares board
                     const card = document.createElement('div');
                     card.className = "bg-white p-4 rounded-2xl border border-amethyst/30 shadow-sm space-y-2";
                     
@@ -1205,7 +1125,7 @@
                             ${statusBadge}
                         </div>
                         <p class="font-display font-bold text-slate-800 text-sm">${dare.message}</p>
-                        {(!dare.status || dare.status === 'active') ? `
+                        ${(!dare.status || dare.status === 'active') ? `
                             <div class="flex gap-2 pt-1">
                                 <button onclick="updateDareStatus('${dare.id}', 'accepted')" class="flex-1 bg-moss/20 text-fern hover:bg-moss hover:text-white py-2 rounded-xl text-xs font-bold transition-all border border-moss/30">Accept</button>
                                 <button onclick="updateDareStatus('${dare.id}', 'denied')" class="flex-1 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white py-2 rounded-xl text-xs font-bold transition-all border border-rose-200">Deny</button>
@@ -1214,6 +1134,7 @@
                     `;
                     dareFeedList.appendChild(card);
 
+                    // Check for screen takeover popup triggers
                     if (initialDaresLoaded && changeTypeIsAdded(snapshot, dare.id)) {
                         if ((dare.targetId === 'all' || dare.targetId === currentUser.id) && dare.senderId !== currentUser.id) {
                             showDarePopup(dare);
@@ -1237,7 +1158,7 @@
 
         window.handleChallengeUpload = async function(challengeId, points) {
             if (!currentUser || !currentUser.triviaCompleted) {
-                return alert("🔒 You must complete Who Knows the Bride Best? on the Home page first!");
+                return alert("🔒 You must complete the Julia Trivia on the Home page first!");
             }
 
             const completed = currentUser.completedChallenges || [];
@@ -1249,6 +1170,7 @@
             const file = fileInput.files[0];
             if (!file) return;
 
+            // Find specific challenge title from the DOM
             const challengeCardEl = fileInput.closest('.challenge-card');
             const titleEl = challengeCardEl ? challengeCardEl.querySelector('[data-challenge-title]') : null;
             const challengeTitle = titleEl ? titleEl.innerText : "Challenge";
@@ -1325,11 +1247,7 @@
                     canvas.width = width;
                     canvas.height = height;
 
-                    // Horizontally flip photo
-                    ctx.translate(width, 0);
-                    ctx.scale(-1, 1);
                     ctx.drawImage(img, 0, 0, width, height);
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
 
                     ctx.save();
                     ctx.translate(canvas.width, canvas.height);
@@ -1360,7 +1278,7 @@
                 const isHomeTab = btn.getAttribute('data-tab') === 'quest';
 
                 if (!isHomeTab && (!currentUser || !currentUser.triviaCompleted)) {
-                    alert("🔒 App Locked!\n\nYou must complete Who Knows the Bride Best? on the Home page first to unlock other features!");
+                    alert("🔒 App Locked!\n\nYou must complete Julia Trivia on the Home page first to unlock other features!");
                     return;
                 }
 

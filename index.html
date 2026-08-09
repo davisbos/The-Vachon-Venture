@@ -11,9 +11,10 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .dare-glow { box-shadow: 0 0 30px rgba(220, 38, 38, 0.6); }
+        details summary::-webkit-details-marker { display: none; }
     </style>
 </head>
-<body class="bg-zinc-50 pb-20">
+<body class="bg-zinc-50 pb-24">
 
     <!-- Preloader -->
     <div id="loading" class="fixed inset-0 bg-white z-50 flex items-center justify-center p-10 text-center">
@@ -38,18 +39,31 @@
         </header>
 
         <!-- NAVIGATION TABS -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-100 z-40 grid grid-cols-4 safe-area-inset-bottom text-xs md:text-sm font-medium">
-            <button class="nav-btn py-3 text-center active text-pink-600" data-tab="quest">Quest</button>
-            <button class="nav-btn py-3 text-center text-zinc-500" data-tab="dare-pit">Dare Pit</button>
-            <button class="nav-btn py-3 text-center text-zinc-500" data-tab="leaderboard">Leaderboard</button>
-            <button class="nav-btn py-3 text-center text-zinc-500" data-tab="photos">Photos</button>
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-200 z-40 grid grid-cols-4 safe-area-inset-bottom text-xs font-bold p-1">
+            <!-- HOME TAB (Featured & Prominent) -->
+            <button class="nav-btn py-3 px-1 text-center active text-white bg-pink-600 rounded-2xl shadow-md transform transition-all scale-105 flex flex-col items-center justify-center gap-0.5" data-tab="quest">
+                <span class="text-base">🏠</span>
+                <span>HOME</span>
+            </button>
+            <button class="nav-btn py-3 px-1 text-center text-zinc-400 disabled-tab opacity-50 flex flex-col items-center justify-center gap-0.5" data-tab="dare-pit">
+                <span class="text-base">☠️</span>
+                <span class="tab-label">Dare Pit 🔒</span>
+            </button>
+            <button class="nav-btn py-3 px-1 text-center text-zinc-400 disabled-tab opacity-50 flex flex-col items-center justify-center gap-0.5" data-tab="leaderboard">
+                <span class="text-base">🏆</span>
+                <span class="tab-label">Leaderboard 🔒</span>
+            </button>
+            <button class="nav-btn py-3 px-1 text-center text-zinc-400 disabled-tab opacity-50 flex flex-col items-center justify-center gap-0.5" data-tab="photos">
+                <span class="text-base">📸</span>
+                <span class="tab-label">Photos 🔒</span>
+            </button>
         </nav>
 
         <!-- APP SCREENS -->
         <main class="p-4">
 
             <!-- ONBOARDING & LOGIN CARD -->
-            <div id="onboarding-card" class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm space-y-6">
+            <div id="onboarding-card" class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm space-y-6 max-w-md mx-auto">
                 
                 <!-- Toggle Mode: Create Profile vs Log In -->
                 <div class="flex bg-zinc-100 p-1 rounded-2xl gap-1">
@@ -60,7 +74,7 @@
                 <!-- SIGN UP FORM -->
                 <div id="signup-form" class="space-y-4">
                     <h2 class="text-2xl font-extrabold text-zinc-900">What's your name, hoe?</h2>
-                    <p class="text-zinc-500 text-sm">Enter your name and create a 4-digit PIN to join the Vachon Venture.</p>
+                    <p class="text-zinc-500 text-sm">Enter your name, 4-digit PIN, and take a quick selfie to join the Vachon Venture.</p>
                     
                     <div>
                         <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Your Name</label>
@@ -68,11 +82,21 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Create Passcode (4 Digits)</label>
+                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">4-Digit PIN</label>
                         <input type="password" id="passcode-input" maxlength="4" inputmode="numeric" placeholder="e.g. 1234" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg tracking-widest">
                     </div>
 
-                    <button id="complete-profile-btn" onclick="signUpUser()" class="w-full bg-pink-600 text-white p-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-colors">
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Take a Selfie</label>
+                        <input type="file" id="signup-selfie-input" accept="image/*" capture="user" class="hidden" onchange="previewSelfie(event)">
+                        <label for="signup-selfie-input" id="selfie-preview-box" class="w-full h-36 border-2 border-dashed border-pink-300 rounded-2xl flex flex-col items-center justify-center bg-pink-50/50 cursor-pointer hover:bg-pink-50 transition-colors overflow-hidden">
+                            <span id="selfie-prompt-icon" class="text-3xl mb-1">📸</span>
+                            <span id="selfie-prompt-text" class="text-pink-600 font-bold text-sm">Tap to Snap Selfie</span>
+                            <img id="selfie-img-preview" class="w-full h-full object-cover hidden" alt="Selfie Preview">
+                        </label>
+                    </div>
+
+                    <button id="complete-profile-btn" onclick="signUpUser()" class="w-full bg-pink-600 text-white p-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-colors shadow-lg shadow-pink-200">
                         Complete Profile & Join 🚀
                     </button>
                 </div>
@@ -80,7 +104,7 @@
                 <!-- LOG IN FORM -->
                 <div id="login-form" class="hidden space-y-4">
                     <h2 class="text-2xl font-extrabold text-zinc-900">Welcome Back!</h2>
-                    <p class="text-zinc-500 text-sm">Log into your existing profile using your name and 4-digit passcode.</p>
+                    <p class="text-zinc-500 text-sm">Log into your profile using your name and 4-digit PIN.</p>
 
                     <div>
                         <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Your Name</label>
@@ -88,8 +112,8 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">4-Digit Passcode</label>
-                        <input type="password" id="login-passcode-input" maxlength="4" inputmode="numeric" placeholder="Passcode" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg tracking-widest">
+                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">4-Digit PIN</label>
+                        <input type="password" id="login-passcode-input" maxlength="4" inputmode="numeric" placeholder="PIN" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg tracking-widest">
                     </div>
 
                     <button onclick="loginUser()" class="w-full bg-pink-600 text-white p-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-colors">
@@ -98,48 +122,191 @@
                 </div>
             </div>
 
-            <!-- 1. QUEST (Main Page: Trivia & Challenges) -->
-            <div id="quest" class="tab-content active space-y-6">
-                <!-- Pre-game / Trivia -->
-                <div id="pregame-steps" class="hidden bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm">
-                    <div class="flex justify-between items-start mb-4">
-                        <h2 class="text-xl font-bold">Julia Trivia: "Who Knows the Bride Best?"</h2>
-                        <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded-full">+50 pts</span>
+            <!-- 1. HOME PAGE (QUEST) -->
+            <div id="quest" class="tab-content active space-y-6 max-w-lg mx-auto">
+                
+                <!-- LOCK BANNER IF TRIVIA INCOMPLETE -->
+                <div id="trivia-lock-banner" class="bg-amber-50 border-2 border-amber-300 p-4 rounded-2xl flex items-center gap-3">
+                    <span class="text-2xl">🔒</span>
+                    <div>
+                        <h4 class="font-bold text-amber-900 text-sm">App Locked!</h4>
+                        <p class="text-xs text-amber-800">You must complete <b>Julia Trivia</b> below to unlock the rest of the app and challenges!</p>
                     </div>
-                    <p class="text-zinc-600 mb-4 text-sm">Complete the quiz before leaving home to unlock the town map!</p>
-                    <button id="trivia-btn" onclick="startQuiz()" class="w-full border-2 border-pink-600 text-pink-600 p-3 rounded-xl font-bold hover:bg-pink-50 transition-colors">Start Quiz</button>
                 </div>
 
-                <!-- Challenges List -->
-                <div id="challenges-section" class="hidden space-y-4">
-                    <h2 class="text-2xl font-bold">Mission: Owen Sound</h2>
-                    <p class="text-zinc-500 text-sm mb-4">Complete these challenges throughout the night. Upload photos to earn points!</p>
-                    <div id="challenge-list" class="space-y-4 pb-10"></div>
+                <!-- COLLAPSIBLE SECTIONS -->
+                <div class="space-y-4">
+
+                    <!-- CATEGORY 1: THE PRE -->
+                    <details open class="bg-white border border-zinc-200 rounded-3xl overflow-hidden shadow-sm group">
+                        <summary class="flex justify-between items-center p-5 font-extrabold text-xl text-zinc-900 cursor-pointer bg-zinc-50/50 group-open:border-b group-open:border-zinc-100">
+                            <span class="flex items-center gap-2">🍾 The Pre</span>
+                            <span class="text-sm font-normal text-pink-600 bg-pink-100 px-3 py-1 rounded-full">Phase 1</span>
+                        </summary>
+                        <div class="p-4 space-y-4 bg-white">
+                            
+                            <!-- MANDATORY STEP 1: JULIA TRIVIA -->
+                            <div id="trivia-card" class="bg-pink-50 border-2 border-pink-400 p-5 rounded-2xl shadow-sm">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="text-lg font-black text-pink-950 flex items-center gap-2">
+                                        <span>👑</span> Julia Trivia
+                                    </h3>
+                                    <span class="text-xs font-bold text-white bg-pink-600 px-2.5 py-1 rounded-full">+50 pts</span>
+                                </div>
+                                <p class="text-pink-900 text-xs mb-4 font-medium">Mandatory Step! Test how well you know the bride to unlock the rest of the app.</p>
+                                <button id="trivia-btn" onclick="startQuiz()" class="w-full bg-pink-600 text-white p-3.5 rounded-xl font-bold hover:bg-pink-700 shadow-md transition-all active:scale-98">
+                                    Start Quiz 🚀
+                                </button>
+                            </div>
+
+                            <!-- OUTFIT CHECK-IN -->
+                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-zinc-900">Outfit Check In</h4>
+                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+100 pts</span>
+                                    </div>
+                                    <p class="text-xs text-zinc-500">Snap a photo of your pre-game fit and drink!</p>
+                                </div>
+                                <div class="shrink-0">
+                                    <input type="file" id="input-pregame-photo" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('pregame-photo', 100)">
+                                    <label for="input-pregame-photo" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </details>
+
+                    <!-- CATEGORY 2: AT THE BAR -->
+                    <details class="bg-white border border-zinc-200 rounded-3xl overflow-hidden shadow-sm group">
+                        <summary class="flex justify-between items-center p-5 font-extrabold text-xl text-zinc-900 cursor-pointer bg-zinc-50/50 group-open:border-b group-open:border-zinc-100">
+                            <span class="flex items-center gap-2">🍸 At the Bar</span>
+                            <span class="text-sm font-normal text-zinc-500 bg-zinc-100 px-3 py-1 rounded-full">Phase 2</span>
+                        </summary>
+                        <div class="p-4 space-y-4 bg-white">
+
+                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-zinc-900">Toast at Mudtown Station</h4>
+                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+100 pts</span>
+                                    </div>
+                                    <p class="text-xs text-zinc-500">Take a photo proposing a toast to Julia.</p>
+                                </div>
+                                <div class="shrink-0">
+                                    <input type="file" id="input-mudtown-toast" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('mudtown-toast', 100)">
+                                    <label for="input-mudtown-toast" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                </div>
+                            </div>
+
+                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-zinc-900">Cocktail at The Rumpus Room</h4>
+                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+100 pts</span>
+                                    </div>
+                                    <p class="text-xs text-zinc-500">Snap a signature cocktail photo.</p>
+                                </div>
+                                <div class="shrink-0">
+                                    <input type="file" id="input-rumpus-cocktail" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('rumpus-cocktail', 100)">
+                                    <label for="input-rumpus-cocktail" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                </div>
+                            </div>
+
+                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-zinc-900">Groom Name Double Selfie</h4>
+                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+150 pts</span>
+                                    </div>
+                                    <p class="text-xs text-zinc-500">Find someone with the groom's name and snap a photo.</p>
+                                </div>
+                                <div class="shrink-0">
+                                    <input type="file" id="input-groom-selfie" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('groom-selfie', 150)">
+                                    <label for="input-groom-selfie" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                </div>
+                            </div>
+
+                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-zinc-900">Old/New/Borrowed/Blue Find</h4>
+                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+200 pts</span>
+                                    </div>
+                                    <p class="text-xs text-zinc-500">Find and photograph one of the traditional items.</p>
+                                </div>
+                                <div class="shrink-0">
+                                    <input type="file" id="input-wedding-finds" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('wedding-finds', 200)">
+                                    <label for="input-wedding-finds" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </details>
+
+                    <!-- CATEGORY 3: AFTER THE BAR -->
+                    <details class="bg-white border border-zinc-200 rounded-3xl overflow-hidden shadow-sm group">
+                        <summary class="flex justify-between items-center p-5 font-extrabold text-xl text-zinc-900 cursor-pointer bg-zinc-50/50 group-open:border-b group-open:border-zinc-100">
+                            <span class="flex items-center gap-2">🌙 After the Bar</span>
+                            <span class="text-sm font-normal text-zinc-500 bg-zinc-100 px-3 py-1 rounded-full">Phase 3</span>
+                        </summary>
+                        <div class="p-4 space-y-4 bg-white">
+
+                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-zinc-900">Bride Memory Pose Recreation</h4>
+                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+150 pts</span>
+                                    </div>
+                                    <p class="text-xs text-zinc-500">Recreate Julia's signature photo pose.</p>
+                                </div>
+                                <div class="shrink-0">
+                                    <input type="file" id="input-julia-memory" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('julia-memory', 150)">
+                                    <label for="input-julia-memory" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                </div>
+                            </div>
+
+                            <div class="challenge-card bg-zinc-50 p-4 rounded-2xl border border-zinc-200 flex items-center justify-between gap-3">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <h4 class="font-bold text-zinc-900">Request Guilty Pleasure Song</h4>
+                                        <span class="text-[10px] font-bold text-pink-600 bg-pink-100 px-2 py-0.5 rounded-full">+100 pts</span>
+                                    </div>
+                                    <p class="text-xs text-zinc-500">Request Julia's favorite song at The Harb / H2O.</p>
+                                </div>
+                                <div class="shrink-0">
+                                    <input type="file" id="input-harb-dare" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('harb-dare', 100)">
+                                    <label for="input-harb-dare" class="bg-pink-600 text-white w-10 h-10 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-pink-700 shadow-sm">+</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </details>
+
                 </div>
             </div>
 
             <!-- 2. DARE PIT -->
-            <div id="dare-pit" class="tab-content hidden space-y-6 h-full flex flex-col items-center pt-8">
+            <div id="dare-pit" class="tab-content hidden space-y-6 h-full flex-col items-center pt-8 max-w-md mx-auto">
                 <div class="text-center mb-8">
                     <h2 class="text-3xl font-extrabold text-red-900 mb-2">The Dare Pit</h2>
                     <p class="text-zinc-600 text-sm px-4">Submit a ruthless challenge. Target a specific player, or send it to everyone simultaneously.</p>
                 </div>
 
                 <!-- Ominous Submit Button -->
-                <button id="open-dare-btn" onclick="toggleDareForm()" class="dare-glow bg-gradient-to-br from-red-700 to-black text-white w-full max-w-sm py-12 px-6 rounded-[2rem] font-black text-2xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex flex-col items-center justify-center gap-3">
+                <button id="open-dare-btn" onclick="toggleDareForm()" class="dare-glow bg-gradient-to-br from-red-700 to-black text-white w-full py-12 px-6 rounded-[2rem] font-black text-2xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex flex-col items-center justify-center gap-3">
                     <span class="text-5xl">☠️</span>
                     <span>Submit an<br>Emergency Dare</span>
                 </button>
 
-                <!-- Dare Submission Form (Hidden initially) -->
-                <div id="dare-form-container" class="hidden bg-white w-full max-w-sm p-6 rounded-3xl shadow-xl border border-red-100 space-y-4">
+                <!-- Dare Submission Form -->
+                <div id="dare-form-container" class="hidden bg-white w-full p-6 rounded-3xl shadow-xl border border-red-100 space-y-4">
                     <h3 class="font-bold text-xl text-red-700 border-b border-red-100 pb-2">Draft Your Dare</h3>
                     
                     <div>
                         <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Target Victim(s)</label>
                         <select id="dare-target" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-red-500 text-lg bg-zinc-50 font-bold">
                             <option value="all">Everyone 🌍</option>
-                            <!-- Populated dynamically via JS -->
                         </select>
                     </div>
 
@@ -156,21 +323,20 @@
             </div>
 
             <!-- 3. LEADERBOARD -->
-            <div id="leaderboard" class="tab-content hidden">
+            <div id="leaderboard" class="tab-content hidden max-w-md mx-auto">
                 <h2 class="text-2xl font-bold mb-4">Leaderboard</h2>
                 <div id="leaderboard-list" class="space-y-3 bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm"></div>
             </div>
 
-            <!-- 4. PHOTOS (Collage/Slideshow) -->
-            <div id="photos" class="tab-content hidden space-y-6">
+            <!-- 4. PHOTOS -->
+            <div id="photos" class="tab-content hidden space-y-6 max-w-md mx-auto">
                 <div class="flex justify-between items-end mb-4">
                     <div>
                         <h2 class="text-2xl font-bold">Photo Vault</h2>
                         <p class="text-zinc-500 text-sm">Real-time challenge submissions.</p>
                     </div>
                 </div>
-                <!-- CSS Grid for Collage -->
-                <div id="photo-collage" class="grid grid-cols-2 md:grid-cols-3 gap-3 pb-10">
+                <div id="photo-collage" class="grid grid-cols-2 gap-3 pb-10">
                     <!-- Images populate here -->
                 </div>
             </div>
@@ -187,7 +353,7 @@
             </div>
             
             <div class="flex flex-col items-center space-y-2">
-                <div id="modal-user-avatar" class="w-20 h-20 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold text-2xl border-4 border-pink-200 shadow-sm">
+                <div id="modal-user-avatar" class="w-20 h-20 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold text-2xl border-4 border-pink-200 shadow-sm overflow-hidden">
                     VV
                 </div>
                 <h4 id="modal-user-name" class="text-xl font-extrabold text-zinc-800"></h4>
@@ -246,6 +412,7 @@
         let currentUser = null;
         let initialDaresLoaded = false;
         let unsubscribeDares = null;
+        let signupSelfieData = null;
 
         const triviaQuestions = [
             { q: "Where did Julia meet her fiancé?", options: ["Coffee Shop", "University", "Mutual Friends Party", "Online"], answer: 1 },
@@ -256,16 +423,21 @@
         let currentQuestionIdx = 0;
         let quizScore = 0;
 
-        const challengesData = [
-            { id: 'trivial-001', phase: 1, title: 'Julia Trivia', points: 50, location: 'At Home' },
-            { id: 'pregame-photo', phase: 1, title: 'Outfit & Drink Check-In', points: 100, location: 'At Home' },
-            { id: 'mudtown-toast', phase: 2, title: 'Toast at Mudtown Station', points: 100, location: 'River District' },
-            { id: 'rumpus-cocktail', phase: 2, title: 'Cocktail at The Rumpus Room', points: 100, location: 'River District' },
-            { id: 'groom-selfie', phase: 2, title: 'Groom Name Double Selfie', points: 150, location: 'Any Pub' },
-            { id: 'wedding-finds', phase: 2, title: 'Old/New/Borrowed/Blue Find', points: 200, location: 'Any Pub' },
-            { id: 'julia-memory', phase: 2, title: 'Bride Memory Pose Recreation', points: 150, location: 'Any Pub' },
-            { id: 'harb-dare', phase: 2, title: 'Request Guilty Pleasure Song', points: 100, location: 'The Harb / H2O' }
-        ];
+        window.previewSelfie = function(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                signupSelfieData = e.target.result;
+                const imgPreview = document.getElementById('selfie-img-preview');
+                imgPreview.src = signupSelfieData;
+                imgPreview.classList.remove('hidden');
+                document.getElementById('selfie-prompt-icon').classList.add('hidden');
+                document.getElementById('selfie-prompt-text').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        };
 
         window.switchAuthMode = function(mode) {
             const signupBtn = document.getElementById('toggle-signup-btn');
@@ -293,7 +465,8 @@
             const passcode = passcodeInput.value.trim();
 
             if (!name) return alert("Please enter your name!");
-            if (!passcode || passcode.length < 4) return alert("Please enter a 4-digit passcode!");
+            if (!passcode || passcode.length < 4) return alert("Please enter a 4-digit PIN!");
+            if (!signupSelfieData) return alert("Please take a selfie first!");
 
             const btn = document.getElementById('complete-profile-btn');
             btn.innerText = "Creating Profile...";
@@ -304,11 +477,13 @@
                     name: name,
                     passcode: passcode,
                     score: 0,
+                    selfieUrl: signupSelfieData,
+                    triviaCompleted: false,
                     completedChallenges: [],
                     timestamp: new Date()
                 });
 
-                currentUser = { id: docRef.id, name: name, passcode: passcode, score: 0, completedChallenges: [] };
+                currentUser = { id: docRef.id, name: name, passcode: passcode, score: 0, selfieUrl: signupSelfieData, triviaCompleted: false, completedChallenges: [] };
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser)); 
 
                 updateUIForLoggedInUser();
@@ -326,7 +501,7 @@
             const name = document.getElementById('login-name-input').value.trim();
             const passcode = document.getElementById('login-passcode-input').value.trim();
 
-            if (!name || !passcode) return alert("Please enter both your name and passcode!");
+            if (!name || !passcode) return alert("Please enter both your name and PIN!");
 
             try {
                 const q = query(collection(db, "users"), where("name", "==", name));
@@ -345,7 +520,7 @@
                 });
 
                 if (!foundUser) {
-                    return alert("Incorrect passcode! Please try again.");
+                    return alert("Incorrect PIN! Please try again.");
                 }
 
                 currentUser = foundUser;
@@ -366,7 +541,12 @@
                 if (currentUser) {
                     document.getElementById('modal-user-name').innerText = currentUser.name;
                     document.getElementById('modal-user-score').innerText = `${currentUser.score} points`;
-                    document.getElementById('modal-user-avatar').innerText = currentUser.name ? currentUser.name.substring(0,2).toUpperCase() : 'VV';
+                    const avatarDiv = document.getElementById('modal-user-avatar');
+                    if (currentUser.selfieUrl) {
+                        avatarDiv.innerHTML = `<img src="${currentUser.selfieUrl}" class="w-full h-full object-cover">`;
+                    } else {
+                        avatarDiv.innerText = currentUser.name ? currentUser.name.substring(0,2).toUpperCase() : 'VV';
+                    }
                 }
                 modal.classList.remove('hidden');
             } else {
@@ -423,22 +603,64 @@
             } else {
                 window.closeQuiz();
                 const totalPoints = quizScore * 20 + 10;
-                alert(`Quiz complete! You scored ${quizScore}/${triviaQuestions.length} and earned +${totalPoints} pts!`);
-
+                
                 if (currentUser && currentUser.id) {
                     try {
                         await updateDoc(doc(db, "users", currentUser.id), {
-                            score: increment(totalPoints)
+                            score: increment(totalPoints),
+                            triviaCompleted: true
                         });
                         
-                        const triviaBtn = document.getElementById('trivia-btn');
-                        triviaBtn.innerText = "Quiz Completed! ✓";
-                        triviaBtn.disabled = true;
-                        triviaBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                        currentUser.triviaCompleted = true;
+                        currentUser.score += totalPoints;
+                        localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+
+                        alert(`🎉 Quiz complete! You scored ${quizScore}/${triviaQuestions.length} (+${totalPoints} pts)!\n\nTHE APP IS NOW UNLOCKED! 🔥`);
+                        updateLockStateUI();
+
                     } catch (e) {
                         console.error("Error updating quiz score:", e);
                     }
                 }
+            }
+        }
+
+        function updateLockStateUI() {
+            const isUnlocked = currentUser && currentUser.triviaCompleted;
+            const navButtons = document.querySelectorAll('.disabled-tab');
+            const triviaLockBanner = document.getElementById('trivia-lock-banner');
+            const triviaBtn = document.getElementById('trivia-btn');
+
+            if (isUnlocked) {
+                if (triviaLockBanner) triviaLockBanner.classList.add('hidden');
+                
+                if (triviaBtn) {
+                    triviaBtn.innerText = "Trivia Completed! ✓";
+                    triviaBtn.disabled = true;
+                    triviaBtn.className = "w-full bg-emerald-600 text-white p-3.5 rounded-xl font-bold opacity-80 cursor-not-allowed";
+                }
+
+                // Unlock nav bar options
+                navButtons.forEach(btn => {
+                    btn.classList.remove('disabled-tab', 'opacity-50');
+                    const label = btn.querySelector('.tab-label');
+                    if (label) {
+                        label.innerText = label.innerText.replace(' 🔒', '');
+                    }
+                });
+
+                // Enable challenge inputs
+                document.querySelectorAll('.challenge-input').forEach(input => {
+                    input.disabled = false;
+                });
+
+            } else {
+                if (triviaLockBanner) triviaLockBanner.classList.remove('hidden');
+                
+                // Disable challenge inputs
+                document.querySelectorAll('.challenge-input').forEach(input => {
+                    input.disabled = true;
+                });
             }
         }
 
@@ -502,14 +724,16 @@
         function updateUIForLoggedInUser() {
             if (!currentUser) return;
             document.getElementById('onboarding-card').classList.add('hidden');
-            document.getElementById('pregame-steps').classList.remove('hidden');
-            document.getElementById('challenges-section').classList.remove('hidden');
 
             const avatarDiv = document.getElementById('header-user-avatar');
-            avatarDiv.innerText = currentUser.name ? currentUser.name.substring(0,2).toUpperCase() : 'VV';
-            document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
+            if (currentUser.selfieUrl) {
+                avatarDiv.innerHTML = `<img src="${currentUser.selfieUrl}" class="w-full h-full object-cover">`;
+            } else {
+                avatarDiv.innerText = currentUser.name ? currentUser.name.substring(0,2).toUpperCase() : 'VV';
+            }
 
-            renderChallenges();
+            document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
+            updateLockStateUI();
         }
 
         function checkExistingUser() {
@@ -526,46 +750,20 @@
             }
         }
 
-        function renderChallenges() {
-            const challengeList = document.getElementById('challenge-list');
-            challengeList.innerHTML = '';
-
-            challengesData.forEach(ch => {
-                const card = document.createElement('div');
-                card.className = "bg-white p-5 rounded-3xl border border-zinc-100 shadow-sm flex items-center gap-4";
-                
-                const points = `<span class="font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded-full text-xs shrink-0">${ch.points} pts</span>`;
-                const location = `<span class="text-zinc-500 text-xs">${ch.location}</span>`;
-
-                card.innerHTML = `
-                    <div class="flex-grow min-w-0">
-                        <div class="flex justify-between items-start gap-2 mb-1">
-                            <h3 class="font-bold text-base leading-tight truncate">${ch.title}</h3>
-                            ${points}
-                        </div>
-                        ${location}
-                    </div>
-                    <div class="shrink-0">
-                        <input type="file" id="input-${ch.id}" class="hidden" accept="image/*" capture="camera" onchange="handleChallengeUpload('${ch.id}', ${ch.points})">
-                        <label for="input-${ch.id}" class="bg-pink-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl cursor-pointer hover:bg-pink-700 shadow-md">+</label>
-                    </div>
-                `;
-                challengeList.appendChild(card);
-            });
-        }
-
         function initializeRealtimeListeners() {
             document.getElementById('loading').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
 
             if (!currentUser || !currentUser.id) return;
 
-            // 1. Current User Score
+            // 1. Current User Snap
             onSnapshot(doc(db, "users", currentUser.id), (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
                     currentUser.score = data.score;
+                    currentUser.triviaCompleted = data.triviaCompleted;
                     document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
+                    updateLockStateUI();
                 }
             });
 
@@ -583,20 +781,18 @@
                     .sort((a,b) => (b.score || 0) - (a.score || 0));
 
                 sortedUsers.forEach((u, i) => {
-                    // Build Leaderboard
                     const item = document.createElement('div');
                     item.className = "flex items-center gap-3 p-3 border-b border-zinc-100 last:border-0";
                     item.innerHTML = `
                         <span class="font-bold text-zinc-400 w-6">#${i + 1}</span>
-                        <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold border border-pink-200">
-                            ${u.name ? u.name.substring(0,2).toUpperCase() : 'U'}
+                        <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold border border-pink-200 overflow-hidden shrink-0">
+                            ${u.selfieUrl ? `<img src="${u.selfieUrl}" class="w-full h-full object-cover">` : (u.name ? u.name.substring(0,2).toUpperCase() : 'U')}
                         </div>
                         <span class="flex-grow font-bold text-zinc-800">${u.name || 'Anonymous'}</span>
                         <span class="font-bold text-pink-600">${u.score || 0} pts</span>
                     `;
                     leaderboardList.appendChild(item);
 
-                    // Build Dare Options (excluding self)
                     if (u.id !== currentUser.id) {
                         const opt = document.createElement('option');
                         opt.value = u.id;
@@ -608,7 +804,7 @@
                 if(currentSelectValue) dareTargetSelect.value = currentSelectValue;
             });
 
-            // 3. Photos (Feed) Collage
+            // 3. Photos Collage
             onSnapshot(collection(db, "feed"), (snapshot) => {
                 const photoCollage = document.getElementById('photo-collage');
                 photoCollage.innerHTML = '';
@@ -619,12 +815,12 @@
 
                 sortedFeed.forEach(f => {
                     const item = document.createElement('div');
-                    item.className = "relative aspect-square bg-zinc-200 rounded-xl overflow-hidden group shadow-sm";
+                    item.className = "relative aspect-square bg-zinc-200 rounded-2xl overflow-hidden group shadow-sm";
                     item.innerHTML = `
                         <img src="${f.photoUrl}" alt="Challenge Photo" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent opacity-90 flex flex-col justify-end p-3">
                             <span class="text-white text-xs font-bold truncate">${f.userName}</span>
-                            <span class="text-white/80 text-[10px] truncate">${f.challengeTitle}</span>
+                            <span class="text-white/80 text-[10px] truncate">${f.challengeTitle || 'Challenge'}</span>
                         </div>
                     `;
                     photoCollage.appendChild(item);
@@ -638,17 +834,20 @@
                 snapshot.docChanges().forEach((change) => {
                     if (change.type === "added" && initialDaresLoaded) {
                         const dare = change.doc.data();
-                        // If it's sent to 'all' or directly to the current user (and not sent BY the current user)
                         if ((dare.targetId === 'all' || dare.targetId === currentUser.id) && dare.senderId !== currentUser.id) {
                             showDarePopup(dare);
                         }
                     }
                 });
-                initialDaresLoaded = true; // Set to true after first fetch so we don't popup old dares
+                initialDaresLoaded = true;
             });
         }
 
         window.handleChallengeUpload = async function(challengeId, points) {
+            if (!currentUser || !currentUser.triviaCompleted) {
+                return alert("🔒 You must complete the Julia Trivia on the Home page first!");
+            }
+
             const fileInput = document.getElementById(`input-${challengeId}`);
             const file = fileInput.files[0];
             if (!file) return;
@@ -671,12 +870,10 @@
                         completedChallenges: [...completed, challengeId]
                     });
 
-                    const challengeTitle = challengesData.find(c => c.id === challengeId)?.title || "Challenge";
                     await addDoc(collection(db, "feed"), {
                         userName: currentUser.name,
                         userId: currentUser.id,
                         challengeId: challengeId,
-                        challengeTitle: challengeTitle,
                         photoUrl: base64Image,
                         timestamp: new Date()
                     });
@@ -748,12 +945,26 @@
 
         navBtns.forEach(btn => {
             btn.addEventListener('click', () => {
+                const isHomeTab = btn.getAttribute('data-tab') === 'quest';
+
+                // Block locked tabs
+                if (!isHomeTab && (!currentUser || !currentUser.triviaCompleted)) {
+                    alert("🔒 App Locked!\n\nYou must complete Julia Trivia on the Home page first to unlock other features!");
+                    return;
+                }
+
                 navBtns.forEach(b => {
-                    b.classList.remove('text-pink-600');
-                    b.classList.add('text-zinc-500');
+                    b.classList.remove('text-white', 'bg-pink-600', 'shadow-md', 'scale-105');
+                    b.classList.add('text-zinc-400');
                 });
-                btn.classList.add('text-pink-600');
-                btn.classList.remove('text-zinc-500');
+
+                if (isHomeTab) {
+                    btn.classList.add('text-white', 'bg-pink-600', 'shadow-md', 'scale-105');
+                    btn.classList.remove('text-zinc-400');
+                } else {
+                    btn.classList.add('text-pink-600');
+                    btn.classList.remove('text-zinc-400');
+                }
 
                 tabContents.forEach(tab => tab.classList.add('hidden'));
                 tabContents.forEach(tab => tab.classList.remove('active'));
@@ -762,7 +973,6 @@
                 const activeTab = document.getElementById(activeTabId);
                 activeTab.classList.remove('hidden');
                 
-                // Keep flex structure for dare pit if active
                 if(activeTabId === 'dare-pit') {
                     activeTab.classList.add('flex');
                 } else {

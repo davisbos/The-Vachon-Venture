@@ -139,14 +139,15 @@
         import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js";
 
-        const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_MESSAGING_ID",
-            appId: "YOUR_APP_ID"
-        };
+       const firebaseConfig = {
+    apiKey: "AIzaSyA6UURxa3-uvjEgGnzldW--wTaumOJxyqk",
+    authDomain: "the-vachon-venture.firebaseapp.com",
+    projectId: "the-vachon-venture",
+    storageBucket: "the-vachon-venture.firebasestorage.app",
+    messagingSenderId: "1052766222433",
+    appId: "1:1052766222433:web:e7ea2a1302a542c3b51220",
+    measurementId: "G-NXZPXJX0EF"
+  };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);

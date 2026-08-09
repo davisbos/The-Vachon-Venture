@@ -47,6 +47,626 @@
         <!-- APP SCREENS -->
         <main class="p-4">
 
+            <!-- ONBOARDING & LOGIN CARD -->
+            <div id="onboarding-card" class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm space-y-6">
+                
+                <!-- Toggle Mode: Create Profile vs Log In -->
+                <div class="flex bg-zinc-100 p-1 rounded-2xl gap-1">
+                    <button id="toggle-signup-btn" onclick="switchAuthMode('signup')" class="flex-1 py-2 font-bold text-sm rounded-xl bg-white shadow-sm text-pink-600 transition-all">Create Profile</button>
+                    <button id="toggle-login-btn" onclick="switchAuthMode('login')" class="flex-1 py-2 font-bold text-sm rounded-xl text-zinc-500 transition-all">Log In 🔓</button>
+                </div>
+
+                <!-- SIGN UP FORM -->
+                <div id="signup-form" class="space-y-4">
+                    <h2 class="text-2xl font-extrabold text-zinc-900">What's your name, hoe?</h2>
+                    <p class="text-zinc-500 text-sm">Enter your name and create a 4-digit PIN to join the Vachon Venture.</p>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Your Name</label>
+                        <input type="text" id="username-input" placeholder="e.g. Sarah" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Create Passcode (4 Digits)</label>
+                        <input type="password" id="passcode-input" maxlength="4" inputmode="numeric" placeholder="e.g. 1234" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg tracking-widest">
+                    </div>
+
+                    <button id="complete-profile-btn" onclick="signUpUser()" class="w-full bg-pink-600 text-white p-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-colors">
+                        Complete Profile & Join 🚀
+                    </button>
+                </div>
+
+                <!-- LOG IN FORM -->
+                <div id="login-form" class="hidden space-y-4">
+                    <h2 class="text-2xl font-extrabold text-zinc-900">Welcome Back!</h2>
+                    <p class="text-zinc-500 text-sm">Log into your existing profile using your name and 4-digit passcode.</p>
+
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Your Name</label>
+                        <input type="text" id="login-name-input" placeholder="Enter your name" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">4-Digit Passcode</label>
+                        <input type="password" id="login-passcode-input" maxlength="4" inputmode="numeric" placeholder="Passcode" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-pink-500 text-lg tracking-widest">
+                    </div>
+
+                    <button onclick="loginUser()" class="w-full bg-pink-600 text-white p-4 rounded-2xl font-bold text-lg hover:bg-pink-700 transition-colors">
+                        Log In 🚀
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- 1. QUEST & FEED -->
+            <div id="quest-feed" class="tab-content active space-y-6">
+                <div id="pregame-steps" class="hidden space-y-6">
+                    <div class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm">
+                        <div class="flex justify-between items-start mb-4">
+                            <h2 class="text-xl font-bold">Julia Trivia: "Who Knows the Bride Best?"</h2>
+                            <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded-full">+50 pts</span>
+                        </div>
+                        <p class="text-zinc-600 mb-4">Complete the quiz before leaving home to unlock the town map!</p>
+                        <button id="trivia-btn" onclick="startQuiz()" class="w-full border-2 border-pink-600 text-pink-600 p-3 rounded-xl font-bold hover:bg-pink-50">Start Quiz</button>
+                    </div>
+
+                    <div id="video-unlock-card" class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm opacity-60">
+                        <h2 class="text-xl font-bold mb-1">Secret Hype Message</h2>
+                        <p class="text-zinc-600 mb-4">Unlocks right before heading out to Owen Sound...</p>
+                        <button class="w-full bg-zinc-200 text-zinc-600 p-3 rounded-xl font-bold cursor-not-allowed" disabled>Locked</button>
+                    </div>
+                </div>
+
+                <div id="activity-feed-section" class="hidden space-y-6">
+                    <h2 class="text-2xl font-bold">Julia Feed</h2>
+                    <div id="feed-container" class="space-y-4"></div>
+                </div>
+            </div>
+
+            <!-- 2. CHALLENGES -->
+            <div id="challenges" class="tab-content space-y-6 hidden">
+                <h2 class="text-2xl font-bold mb-4">Mission: Owen Sound</h2>
+                <div id="challenge-list" class="space-y-4 pb-20"></div>
+            </div>
+
+            <!-- 3. LEADERBOARD -->
+            <div id="leaderboard" class="tab-content hidden">
+                <h2 class="text-2xl font-bold mb-4">Leaderboard</h2>
+                <div id="leaderboard-list" class="space-y-3 bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm"></div>
+            </div>
+
+            <!-- 4. HYPE ROOM -->
+            <div id="hype-room" class="tab-content hidden space-y-6">
+                <h2 class="text-2xl font-bold">Hype Room</h2>
+                <div class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm">
+                    <h3 class="font-bold mb-3">A Message from the Fiancé</h3>
+                    <div class="aspect-video bg-zinc-900 rounded-xl flex items-center justify-center text-white/50 text-xs">
+                        [PASTE VIDEO EMBED CODE HERE]
+                    </div>
+                </div>
+                <div class="bg-red-50 p-6 rounded-3xl border border-red-200 text-center text-red-900">
+                    <p class="font-bold mb-1">🚨 Julia Panic Button 🚨</p>
+                    <p class="text-sm mb-4">Julia presses this button for a mandatory group mini-dare!</p>
+                    <button onclick="triggerEmergencyDare()" class="bg-red-600 text-white py-3 px-6 rounded-xl font-bold text-lg active:scale-95 transition-transform">EMERGENCY DARE</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- PROFILE MANAGEMENT MODAL -->
+    <div id="profile-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl max-w-sm w-full space-y-6 shadow-xl text-center">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-lg font-bold text-zinc-900">Your Account</h3>
+                <button onclick="toggleProfileModal()" class="text-zinc-400 font-bold hover:text-zinc-600">✕</button>
+            </div>
+            
+            <div class="flex flex-col items-center space-y-2">
+                <div id="modal-user-avatar" class="w-20 h-20 rounded-full bg-pink-500 text-white flex items-center justify-center font-bold text-2xl border-4 border-pink-200 shadow-sm">
+                    VV
+                </div>
+                <h4 id="modal-user-name" class="text-xl font-extrabold text-zinc-800"></h4>
+                <span id="modal-user-score" class="text-sm font-bold bg-pink-100 text-pink-700 px-3 py-1 rounded-full">0 points</span>
+            </div>
+
+            <div class="space-y-2 pt-2">
+                <button onclick="logOut()" class="w-full bg-red-50 text-red-600 p-3 rounded-xl font-bold hover:bg-red-100 transition-colors">Log Out / Switch User</button>
+                <button onclick="toggleProfileModal()" class="w-full bg-zinc-100 text-zinc-600 p-3 rounded-xl font-bold hover:bg-zinc-200 transition-colors">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TRIVIA MODAL -->
+    <div id="quiz-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-xl">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-lg font-bold text-pink-600">Julia Trivia</h3>
+                <span id="quiz-progress" class="text-xs font-bold text-zinc-400">Q 1/3</span>
+            </div>
+            <p id="quiz-question" class="text-lg font-bold text-zinc-800"></p>
+            <div id="quiz-options" class="space-y-2"></div>
+            <button onclick="closeQuiz()" class="text-xs text-zinc-400 underline w-full text-center pt-2">Cancel Quiz</button>
+        </div>
+    </div>
+
+    <!-- SCRIPT SECTION -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc, updateDoc, increment, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyA6UURxa3-uvjEgGnzldW--wTaumOJxyqk",
+            authDomain: "the-vachon-venture.firebaseapp.com",
+            projectId: "the-vachon-venture",
+            storageBucket: "the-vachon-venture.firebasestorage.app",
+            messagingSenderId: "1052766222433",
+            appId: "1:1052766222433:web:e7ea2a1302a542c3b51220",
+            measurementId: "G-NXZPXJX0EF"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let currentUser = null;
+
+        const triviaQuestions = [
+            { q: "Where did Julia meet her fiancé?", options: ["Coffee Shop", "University", "Mutual Friends Party", "Online"], answer: 1 },
+            { q: "What is Julia's ultimate go-to drink?", options: ["Aperol Spritz", "Margarita", "Iced Latte", "Red Wine"], answer: 0 },
+            { q: "What is Julia's biggest pet peeve?", options: ["Being late", "Loud chewing", "Cold coffee", "Slow walking"], answer: 1 }
+        ];
+
+        let currentQuestionIdx = 0;
+        let quizScore = 0;
+
+        const challengesData = [
+            { id: 'trivial-001', phase: 1, title: 'Julia Trivia', points: 50, location: 'At Home' },
+            { id: 'pregame-photo', phase: 1, title: 'Outfit & Drink Check-In', points: 100, location: 'At Home', photoRequired: true },
+            { id: 'mudtown-toast', phase: 2, title: 'Toast at Mudtown Station', points: 100, location: 'River District', photoRequired: true },
+            { id: 'rumpus-cocktail', phase: 2, title: 'Cocktail at The Rumpus Room', points: 100, location: 'River District', photoRequired: true },
+            { id: 'groom-selfie', phase: 2, title: 'Groom Name Double Selfie', points: 150, location: 'Any Pub', photoRequired: true },
+            { id: 'wedding-finds', phase: 2, title: 'Old/New/Borrowed/Blue Find', points: 200, location: 'Any Pub', photoRequired: true },
+            { id: 'julia-memory', phase: 2, title: 'Bride Memory Pose Recreation', points: 150, location: 'Any Pub', photoRequired: true },
+            { id: 'harb-dare', phase: 2, title: 'Request Guilty Pleasure Song', points: 100, location: 'The Harb / H2O', photoRequired: true }
+        ];
+
+        window.switchAuthMode = function(mode) {
+            const signupBtn = document.getElementById('toggle-signup-btn');
+            const loginBtn = document.getElementById('toggle-login-btn');
+            const signupForm = document.getElementById('signup-form');
+            const loginForm = document.getElementById('login-form');
+
+            if (mode === 'signup') {
+                signupForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                signupBtn.className = "flex-1 py-2 font-bold text-sm rounded-xl bg-white shadow-sm text-pink-600 transition-all";
+                loginBtn.className = "flex-1 py-2 font-bold text-sm rounded-xl text-zinc-500 transition-all";
+            } else {
+                signupForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                loginBtn.className = "flex-1 py-2 font-bold text-sm rounded-xl bg-white shadow-sm text-pink-600 transition-all";
+                signupBtn.className = "flex-1 py-2 font-bold text-sm rounded-xl text-zinc-500 transition-all";
+            }
+        };
+
+        window.signUpUser = async function() {
+            const nameInput = document.getElementById('username-input');
+            const passcodeInput = document.getElementById('passcode-input');
+            const name = nameInput.value.trim();
+            const passcode = passcodeInput.value.trim();
+
+            if (!name) return alert("Please enter your name!");
+            if (!passcode || passcode.length < 4) return alert("Please enter a 4-digit passcode!");
+
+            const btn = document.getElementById('complete-profile-btn');
+            btn.innerText = "Creating Profile...";
+            btn.disabled = true;
+
+            try {
+                const docRef = await addDoc(collection(db, "users"), {
+                    name: name,
+                    passcode: passcode,
+                    score: 0,
+                    completedChallenges: [],
+                    timestamp: new Date()
+                });
+
+                currentUser = { id: docRef.id, name: name, passcode: passcode, score: 0, completedChallenges: [] };
+                localStorage.setItem('vachonUser', JSON.stringify(currentUser)); 
+
+                updateUIForLoggedInUser();
+                initializeRealtimeListeners();
+                
+            } catch (error) {
+                console.error("Error signing up: ", error);
+                alert("Failed to create profile: " + error.message);
+                btn.innerText = "Complete Profile & Join 🚀";
+                btn.disabled = false;
+            }
+        };
+
+        window.loginUser = async function() {
+            const name = document.getElementById('login-name-input').value.trim();
+            const passcode = document.getElementById('login-passcode-input').value.trim();
+
+            if (!name || !passcode) return alert("Please enter both your name and passcode!");
+
+            try {
+                const q = query(collection(db, "users"), where("name", "==", name));
+                const querySnapshot = await getDocs(q);
+
+                if (querySnapshot.empty) {
+                    return alert("No account found with that name! Double check spelling or create a new profile.");
+                }
+
+                let foundUser = null;
+                querySnapshot.forEach((docSnap) => {
+                    const data = docSnap.data();
+                    if (data.passcode === passcode) {
+                        foundUser = { id: docSnap.id, ...data };
+                    }
+                });
+
+                if (!foundUser) {
+                    return alert("Incorrect passcode! Please try again.");
+                }
+
+                currentUser = foundUser;
+                localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+
+                updateUIForLoggedInUser();
+                initializeRealtimeListeners();
+                alert(`Welcome back, ${currentUser.name}! 🎉`);
+
+            } catch (error) {
+                console.error("Login error: ", error);
+                alert("Failed to log in: " + error.message);
+            }
+        };
+
+        window.toggleProfileModal = function() {
+            const modal = document.getElementById('profile-modal');
+            if (modal.classList.contains('hidden')) {
+                if (currentUser) {
+                    document.getElementById('modal-user-name').innerText = currentUser.name;
+                    document.getElementById('modal-user-score').innerText = `${currentUser.score} points`;
+                    document.getElementById('modal-user-avatar').innerText = currentUser.name ? currentUser.name.substring(0,2).toUpperCase() : 'VV';
+                }
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+            }
+        };
+
+        window.logOut = function() {
+            if (confirm("Are you sure you want to log out or switch user?")) {
+                localStorage.removeItem('vachonUser');
+                currentUser = null;
+                window.location.reload();
+            }
+        };
+
+        window.startQuiz = function() {
+            if (!currentUser) return alert("Please set up your profile first!");
+            currentQuestionIdx = 0;
+            quizScore = 0;
+            document.getElementById('quiz-modal').classList.remove('hidden');
+            renderQuizQuestion();
+        };
+
+        window.closeQuiz = function() {
+            document.getElementById('quiz-modal').classList.add('hidden');
+        };
+
+        function renderQuizQuestion() {
+            const qData = triviaQuestions[currentQuestionIdx];
+            document.getElementById('quiz-progress').innerText = `Q ${currentQuestionIdx + 1}/${triviaQuestions.length}`;
+            document.getElementById('quiz-question').innerText = qData.q;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full p-3 text-left border border-zinc-200 rounded-xl font-medium hover:border-pink-600 hover:bg-pink-50 transition-colors";
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(idx);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        async function handleAnswer(selectedIdx) {
+            if (selectedIdx === triviaQuestions[currentQuestionIdx].answer) {
+                quizScore += 1;
+            }
+
+            currentQuestionIdx++;
+
+            if (currentQuestionIdx < triviaQuestions.length) {
+                renderQuizQuestion();
+            } else {
+                window.closeQuiz();
+                const totalPoints = quizScore * 20 + 10;
+                alert(`Quiz complete! You scored ${quizScore}/${triviaQuestions.length} and earned +${totalPoints} pts!`);
+
+                if (currentUser && currentUser.id) {
+                    try {
+                        await updateDoc(doc(db, "users", currentUser.id), {
+                            score: increment(totalPoints)
+                        });
+                        
+                        const triviaBtn = document.getElementById('trivia-btn');
+                        triviaBtn.innerText = "Quiz Completed! ✓";
+                        triviaBtn.disabled = true;
+                        triviaBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    } catch (e) {
+                        console.error("Error updating quiz score:", e);
+                    }
+                }
+            }
+        }
+
+        window.triggerEmergencyDare = function() {
+            const dares = [
+                "Group Shot! Everyone must take a sip / shot together right now!",
+                "Julia leads a 10-second dance party on the spot!",
+                "Pose for a dramatic 90s band album cover photo right now!",
+                "Everyone compliment Julia using only 3-word sentences!"
+            ];
+            const randomDare = dares[Math.floor(Math.random() * dares.length)];
+            alert(`🚨 EMERGENCY DARE TRIGGERED 🚨\n\n${randomDare}`);
+        };
+
+        function updateUIForLoggedInUser() {
+            if (!currentUser) return;
+            document.getElementById('onboarding-card').classList.add('hidden');
+            document.getElementById('pregame-steps').classList.remove('hidden');
+            document.getElementById('activity-feed-section').classList.remove('hidden');
+
+            const avatarDiv = document.getElementById('header-user-avatar');
+            avatarDiv.innerText = currentUser.name ? currentUser.name.substring(0,2).toUpperCase() : 'VV';
+
+            document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
+
+            renderChallenges();
+        }
+
+        function checkExistingUser() {
+            const savedUser = localStorage.getItem('vachonUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                setTimeout(() => {
+                    updateUIForLoggedInUser();
+                    initializeRealtimeListeners();
+                }, 800);
+            } else {
+                document.getElementById('loading').classList.add('hidden');
+                document.getElementById('app').classList.remove('hidden');
+            }
+        }
+
+        function renderChallenges() {
+            const challengeList = document.getElementById('challenge-list');
+            challengeList.innerHTML = '';
+
+            challengesData.forEach(ch => {
+                const card = document.createElement('div');
+                card.className = "bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm flex items-center gap-4";
+                
+                const points = `<span class="font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded-full text-xs">${ch.points} pts</span>`;
+                const location = `<span class="text-zinc-500 text-xs">${ch.location}</span>`;
+
+                card.innerHTML = `
+                    <div class="flex-grow">
+                        <div class="flex justify-between items-center mb-1">
+                            <h3 class="font-bold text-lg">${ch.title}</h3>
+                            ${points}
+                        </div>
+                        <p class="text-zinc-600 text-sm mb-1">Upload a photo to complete.</p>
+                        ${location}
+                    </div>
+                    <div>
+                        <input type="file" id="input-${ch.id}" class="hidden" accept="image/*" capture="camera" onchange="handleChallengeUpload('${ch.id}', ${ch.points})">
+                        <label for="input-${ch.id}" class="bg-pink-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl cursor-pointer hover:bg-pink-700">+</label>
+                    </div>
+                `;
+                challengeList.appendChild(card);
+            });
+        }
+
+        function initializeRealtimeListeners() {
+            document.getElementById('loading').classList.add('hidden');
+            document.getElementById('app').classList.remove('hidden');
+
+            if (!currentUser || !currentUser.id) return;
+
+            onSnapshot(doc(db, "users", currentUser.id), (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
+                    currentUser.score = data.score;
+                    document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
+                }
+            });
+
+            onSnapshot(collection(db, "users"), (snapshot) => {
+                const leaderboardList = document.getElementById('leaderboard-list');
+                leaderboardList.innerHTML = '';
+                
+                const sortedUsers = snapshot.docs
+                    .map(doc => ({id: doc.id, ...doc.data()}))
+                    .sort((a,b) => (b.score || 0) - (a.score || 0));
+
+                sortedUsers.forEach((u, i) => {
+                    const item = document.createElement('div');
+                    item.className = "flex items-center gap-3 p-3 border-b border-zinc-100 last:border-0";
+                    item.innerHTML = `
+                        <span class="font-bold text-zinc-400 w-6">#${i + 1}</span>
+                        <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold border border-pink-200">
+                            ${u.name ? u.name.substring(0,2).toUpperCase() : 'U'}
+                        </div>
+                        <span class="flex-grow font-bold text-zinc-800">${u.name || 'Anonymous'}</span>
+                        <span class="font-bold text-pink-600">${u.score || 0} pts</span>
+                    `;
+                    leaderboardList.appendChild(item);
+                });
+            });
+
+            onSnapshot(collection(db, "feed"), (snapshot) => {
+                const feedContainer = document.getElementById('feed-container');
+                feedContainer.innerHTML = '';
+
+                const sortedFeed = snapshot.docs
+                    .map(doc => doc.data())
+                    .sort((a,b) => b.timestamp - a.timestamp);
+
+                sortedFeed.forEach(f => {
+                    const item = document.createElement('div');
+                    item.className = "bg-white p-5 rounded-2xl border border-zinc-100 shadow-sm";
+                    item.innerHTML = `
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-9 h-9 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold border border-pink-200 text-sm">
+                                ${f.userName ? f.userName.substring(0,2).toUpperCase() : 'VV'}
+                            </div>
+                            <p class="font-bold text-zinc-900">${f.userName} <span class="font-normal text-zinc-600">completed</span> ${f.challengeTitle}</p>
+                        </div>
+                        <div class="aspect-square bg-zinc-100 rounded-xl overflow-hidden">
+                            <img src="${f.photoUrl}" alt="Check-In" class="w-full h-full object-cover">
+                        </div>
+                    `;
+                    feedContainer.appendChild(item);
+                });
+            });
+        }
+
+        window.handleChallengeUpload = async function(challengeId, points) {
+            const fileInput = document.getElementById(`input-${challengeId}`);
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            alert("Vachon Venture stamping & processing photo...");
+
+            try {
+                const stampedImageBlob = await stampImageWithVenture(file);
+                
+                const reader = new FileReader();
+                reader.readAsDataURL(stampedImageBlob);
+                reader.onloadend = async () => {
+                    const base64Image = reader.result;
+
+                    const userDoc = await getDoc(doc(db, "users", currentUser.id));
+                    const completed = userDoc.data().completedChallenges || [];
+
+                    await updateDoc(doc(db, "users", currentUser.id), {
+                        score: increment(points),
+                        completedChallenges: [...completed, challengeId]
+                    });
+
+                    const challengeTitle = challengesData.find(c => c.id === challengeId)?.title || "Challenge";
+                    await addDoc(collection(db, "feed"), {
+                        userName: currentUser.name,
+                        userId: currentUser.id,
+                        challengeId: challengeId,
+                        challengeTitle: challengeTitle,
+                        photoUrl: base64Image,
+                        timestamp: new Date()
+                    });
+
+                    fileInput.value = '';
+                    alert(`Challenge Complete! +${points} pts!`);
+                };
+
+            } catch (error) {
+                console.error("Upload error:", error);
+                alert("Something went wrong with processing the photo.");
+            }
+        };
+
+        function stampImageWithVenture(file) {
+            return new Promise((resolve, reject) => {
+                const img = new Image();
+                img.src = URL.createObjectURL(file);
+                
+                img.onload = () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    
+                    const maxDim = 800;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > maxDim) {
+                            height *= maxDim / width;
+                            width = maxDim;
+                        }
+                    } else {
+                        if (height > maxDim) {
+                            width *= maxDim / height;
+                            height = maxDim;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    ctx.save();
+                    ctx.translate(canvas.width, canvas.height);
+                    ctx.rotate(-Math.PI / 4);
+                    ctx.fillStyle = "#ec4899";
+                    ctx.fillRect(-300, -50, 600, 70);
+                    
+                    ctx.fillStyle = "white";
+                    ctx.font = 'bold 28px -apple-system';
+                    ctx.textAlign = "center";
+                    ctx.fillText("Vachon Venture", 0, -5);
+                    ctx.restore();
+
+                    canvas.toBlob((blob) => {
+                        URL.revokeObjectURL(img.src);
+                        resolve(blob);
+                    }, 'image/jpeg', 0.6);
+                };
+                img.onerror = reject;
+            });
+        }
+
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                navBtns.forEach(b => {
+                    b.classList.remove('text-pink-600');
+                    b.classList.add('text-zinc-500');
+                });
+                btn.classList.add('text-pink-600');
+                btn.classList.remove('text-zinc-500');
+
+                tabContents.forEach(tab => tab.classList.add('hidden'));
+                const activeTabId = btn.getAttribute('data-tab');
+                document.getElementById(activeTabId).classList.remove('hidden');
+            });
+        });
+
+        window.addEventListener('DOMContentLoaded', checkExistingUser);
+
+    </script>
+</body>
+</html>        </header>
+
+        <!-- NAVIGATION TABS -->
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-100 z-40 grid grid-cols-4 safe-area-inset-bottom">
+            <button class="nav-btn py-3 text-center active text-pink-600" data-tab="quest-feed">Quest</button>
+            <button class="nav-btn py-3 text-center text-zinc-500" data-tab="challenges">Mission</button>
+            <button class="nav-btn py-3 text-center text-zinc-500" data-tab="leaderboard">Leaderboard</button>
+            <button class="nav-btn py-3 text-center text-zinc-500" data-tab="hype-room">Hype Room</button>
+        </nav>
+
+        <!-- APP SCREENS -->
+        <main class="p-4">
+
             <!-- ONBOARDING FLOW CARD -->
             <div id="onboarding-card" class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm space-y-6">
                 

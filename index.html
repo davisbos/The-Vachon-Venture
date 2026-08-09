@@ -226,6 +226,48 @@
                                 </button>
                             </div>
 
+                            <!-- 1. COLD FEET GAME CARD -->
+                            <div id="cold-feet-card" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
+                                        <span>🧊</span> Cold Feet
+                                    </h3>
+                                    <span id="cold-feet-badge" class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+100 pts</span>
+                                </div>
+                                <p id="cold-feet-desc" class="text-slate-700 text-xs mb-3 font-medium">Melt the ice together under pressure! Tap to check instructions and claim your team score.</p>
+                                <button id="cold-feet-btn" onclick="startColdFeetGame()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 shadow-md transition-all active:scale-98">
+                                    View Challenge & Claim ❄️
+                                </button>
+                            </div>
+
+                            <!-- 2. KISS THE GROOM GAME CARD -->
+                            <div id="kiss-groom-card" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
+                                        <span>💋</span> Kiss the Groom
+                                    </h3>
+                                    <span id="kiss-groom-badge" class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+50 pts</span>
+                                </div>
+                                <p id="kiss-groom-desc" class="text-slate-700 text-xs mb-3 font-medium">Blindfolded dizziness meets absolute devotion to Josh's cutout. Are you brave enough?</p>
+                                <button id="kiss-groom-btn" onclick="startKissGroomGame()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 shadow-md transition-all active:scale-98">
+                                    View Challenge & Claim 🎯
+                                </button>
+                            </div>
+
+                            <!-- 3. COIN DROP GAME CARD -->
+                            <div id="coin-drop-card" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
+                                <div class="flex justify-between items-start mb-2">
+                                    <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
+                                        <span>🪙</span> Coin Drop
+                                    </h3>
+                                    <span id="coin-drop-badge" class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">End Game</span>
+                                </div>
+                                <p id="coin-drop-desc" class="text-slate-700 text-xs mb-3 font-medium">The ultimate high-stakes forbidden-word sabotage game running all night long!</p>
+                                <button id="coin-drop-btn" onclick="startCoinDropGame()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 shadow-md transition-all active:scale-98">
+                                    View Rules & Setup 🤫
+                                </button>
+                            </div>
+
                             <div id="card-pregame-photo" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
@@ -486,6 +528,84 @@
         </div>
     </div>
 
+    <!-- COLD FEET MODAL -->
+    <div id="cold-feet-modal" class="fixed inset-0 bg-plum/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-lavender pb-3 shrink-0">
+                <h3 class="font-display text-lg font-bold text-plum">🧊 Cold Feet Challenge</h3>
+                <button onclick="closeColdFeetGame()" class="text-earthen font-bold hover:text-plum text-lg">✕</button>
+            </div>
+            <div class="space-y-3 overflow-y-auto pr-1 flex-grow text-sm text-slate-700 font-medium">
+                <div class="bg-lavender/40 p-4 rounded-2xl border border-amethyst/20 space-y-2">
+                    <h4 class="font-bold text-plum font-display text-base">The Mission: Warm the Ice!</h4>
+                    <p>Split your group into two fierce teams. Grab an ice cube and work together to melt it completely in your hands!</p>
+                    <p class="text-xs text-earthen italic">💡 Rule of thumb: Each team member gets a strict 3-second window to hold the ice, transfer body heat, and pass it on before handing it over. No stalling!</p>
+                </div>
+                <p class="text-xs font-bold text-plum uppercase tracking-wider pt-2">Select your team's fate:</p>
+                <div class="space-y-2">
+                    <button onclick="claimColdFeet(true)" class="w-full p-3.5 text-left border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-2xl font-bold text-sm transition-all flex items-center justify-between">
+                        <span>🏆 I was on the winning team - no cold feet here!</span>
+                        <span class="bg-moss text-white text-xs px-2.5 py-1 rounded-full">+100 pts</span>
+                    </button>
+                    <button onclick="claimColdFeet(false)" class="w-full p-3.5 text-left border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-2xl font-bold text-sm transition-all flex items-center justify-between">
+                        <span>🥶 I was on the losing team - I got cold feet!</span>
+                        <span class="bg-rose-200 text-rose-800 text-xs px-2.5 py-1 rounded-full">0 pts</span>
+                    </button>
+                </div>
+            </div>
+            <button onclick="closeColdFeetGame()" class="text-xs text-earthen underline w-full text-center pt-2 shrink-0">Cancel</button>
+        </div>
+    </div>
+
+    <!-- KISS THE GROOM MODAL -->
+    <div id="kiss-groom-modal" class="fixed inset-0 bg-plum/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-lavender pb-3 shrink-0">
+                <h3 class="font-display text-lg font-bold text-plum">💋 Kiss the Groom</h3>
+                <button onclick="closeKissGroomGame()" class="text-earthen font-bold hover:text-plum text-lg">✕</button>
+            </div>
+            <div class="space-y-3 overflow-y-auto pr-1 flex-grow text-sm text-slate-700 font-medium">
+                <div class="bg-lavender/40 p-4 rounded-2xl border border-amethyst/20 space-y-2">
+                    <h4 class="font-bold text-plum font-display text-base">Blindfolded Devotion!</h4>
+                    <p>Locate Josh's face cutout, strap on a blindfold, and find someone trustworthy (or chaotic) to spin you around until you are totally dizzy.</p>
+                    <p class="text-xs text-earthen italic">🎯 Stumble forward and deliver your absolute best smooch straight to the cardboard groom printout!</p>
+                </div>
+                <p class="text-xs font-bold text-plum uppercase tracking-wider pt-2">How did you do?</p>
+                <div class="space-y-2">
+                    <button onclick="claimKissGroom(true)" class="w-full p-3.5 text-left border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-2xl font-bold text-sm transition-all flex items-center justify-between">
+                        <span>💋 I kissed the groom! Sorry Julia.</span>
+                        <span class="bg-moss text-white text-xs px-2.5 py-1 rounded-full">+50 pts</span>
+                    </button>
+                    <button onclick="claimKissGroom(false)" class="w-full p-3.5 text-left border-2 border-amethyst/40 bg-ivory hover:bg-lavender/30 text-slate-700 rounded-2xl font-bold text-sm transition-all flex items-center justify-between">
+                        <span>🛡️ I stayed in my lane.</span>
+                        <span class="bg-earthen/20 text-slate-600 text-xs px-2.5 py-1 rounded-full">0 pts</span>
+                    </button>
+                </div>
+            </div>
+            <button onclick="closeKissGroomGame()" class="text-xs text-earthen underline w-full text-center pt-2 shrink-0">Cancel</button>
+        </div>
+    </div>
+
+    <!-- COIN DROP MODAL -->
+    <div id="coin-drop-modal" class="fixed inset-0 bg-plum/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-lavender pb-3 shrink-0">
+                <h3 class="font-display text-lg font-bold text-plum">🪙 Coin Drop Rules</h3>
+                <button onclick="closeCoinDropGame()" class="text-earthen font-bold hover:text-plum text-lg">✕</button>
+            </div>
+            <div class="space-y-3 overflow-y-auto pr-1 flex-grow text-sm text-slate-700 font-medium">
+                <div class="bg-lavender/40 p-4 rounded-2xl border border-amethyst/20 space-y-2.5">
+                    <h4 class="font-bold text-plum font-display text-base">The Ultimate Sabotage Game 🤫</h4>
+                    <p>Every single player starts the night armed with a stash of coins equal to the exact number of people at the party (check in with Dave or Dylan to confirm your starting bank)!</p>
+                    <p><b>The Catch:</b> Every person chooses one completely ordinary word that becomes strictly off-limits for everyone else for the rest of the night.</p>
+                    <p>Slip up and accidentally mention a forbidden word? You lose a coin on the spot! Keep your ears open and traps shut.</p>
+                    <p class="text-xs text-earthen italic border-t border-amethyst/20 pt-2">🏆 <b>Final Check-In:</b> Count your remaining coins at the end of the night under the "After the Bar" tab to see who survived with the biggest stash!</p>
+                </div>
+            </div>
+            <button onclick="closeCoinDropGame()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 transition-all shadow-md">Got it, let's play! 🪙</button>
+        </div>
+    </div>
+
     <!-- INCOMING DARE POPUP MODAL -->
     <div id="incoming-dare-modal" class="fixed inset-0 bg-plum/95 z-[100] hidden flex-col items-center justify-center p-6 text-center text-ivory space-y-6">
         <div class="animate-bounce text-6xl">☠️</div>
@@ -580,7 +700,9 @@
             'groom-selfie',
             'wedding-finds',
             'julia-memory',
-            'harb-dare'
+            'harb-dare',
+            'cold-feet',
+            'kiss-groom'
         ];
 
         window.previewSelfie = function(event) {
@@ -1000,6 +1122,115 @@
             }, 1200);
         }
 
+        // COLD FEET GAME FUNCTIONS
+        window.startColdFeetGame = function() {
+            if (!currentUser) return alert("Please set up your profile first!");
+            if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
+            document.getElementById('cold-feet-modal').classList.remove('hidden');
+        };
+
+        window.closeColdFeetGame = function() {
+            document.getElementById('cold-feet-modal').classList.add('hidden');
+        };
+
+        window.claimColdFeet = async function(isWinner) {
+            const challengeId = 'cold-feet';
+            const points = isWinner ? 100 : 0;
+            const completed = currentUser.completedChallenges || [];
+
+            if (completed.includes(challengeId)) {
+                closeColdFeetGame();
+                return alert("⚠️ You have already claimed points for Cold Feet!");
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, "users", currentUser.id));
+                const currentCompleted = userDoc.data().completedChallenges || [];
+
+                if (currentCompleted.includes(challengeId)) {
+                    closeColdFeetGame();
+                    return alert("⚠️ You have already claimed points for Cold Feet!");
+                }
+
+                await updateDoc(doc(db, "users", currentUser.id), {
+                    score: increment(points),
+                    completedChallenges: [...currentCompleted, challengeId]
+                });
+
+                currentUser.completedChallenges = [...currentCompleted, challengeId];
+                currentUser.score += points;
+                localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+
+                closeColdFeetGame();
+                updateLockStateUI();
+                showChallengeSuccessModal(isWinner ? "Cold Feet (Winning Team)" : "Cold Feet (Losing Team)", points);
+
+            } catch (e) {
+                console.error("Error updating cold feet score:", e);
+                alert("Failed to record score.");
+            }
+        };
+
+        // KISS THE GROOM GAME FUNCTIONS
+        window.startKissGroomGame = function() {
+            if (!currentUser) return alert("Please set up your profile first!");
+            if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
+            document.getElementById('kiss-groom-modal').classList.remove('hidden');
+        };
+
+        window.closeKissGroomGame = function() {
+            document.getElementById('kiss-groom-modal').classList.add('hidden');
+        };
+
+        window.claimKissGroom = async function(didKiss) {
+            const challengeId = 'kiss-groom';
+            const points = didKiss ? 50 : 0;
+            const completed = currentUser.completedChallenges || [];
+
+            if (completed.includes(challengeId)) {
+                closeKissGroomGame();
+                return alert("⚠️ You have already recorded your Kiss the Groom status!");
+            }
+
+            try {
+                const userDoc = await getDoc(doc(db, "users", currentUser.id));
+                const currentCompleted = userDoc.data().completedChallenges || [];
+
+                if (currentCompleted.includes(challengeId)) {
+                    closeKissGroomGame();
+                    return alert("⚠️ You have already recorded your Kiss the Groom status!");
+                }
+
+                await updateDoc(doc(db, "users", currentUser.id), {
+                    score: increment(points),
+                    completedChallenges: [...currentCompleted, challengeId]
+                });
+
+                currentUser.completedChallenges = [...currentCompleted, challengeId];
+                currentUser.score += points;
+                localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+
+                closeKissGroomGame();
+                updateLockStateUI();
+                showChallengeSuccessModal(didKiss ? "Kiss the Groom" : "Kiss the Groom (Stayed in Lane)", points);
+
+            } catch (e) {
+                console.error("Error updating kiss groom score:", e);
+                alert("Failed to record score.");
+            }
+        };
+
+        // COIN DROP GAME FUNCTIONS
+        window.startCoinDropGame = function() {
+            if (!currentUser) return alert("Please set up your profile first!");
+            if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
+            document.getElementById('coin-drop-modal').classList.remove('hidden');
+        };
+
+        window.closeCoinDropGame = function() {
+            document.getElementById('coin-drop-modal').classList.add('hidden');
+        };
+
         function updateLockStateUI() {
             const isUnlocked = currentUser && currentUser.triviaCompleted;
             const navButtons = document.querySelectorAll('.disabled-tab');
@@ -1020,6 +1251,20 @@
             const brideBestBadge = document.getElementById('bride-best-badge');
             const brideBestDesc = document.getElementById('bride-best-desc');
             const isBrideBestDone = currentUser && currentUser.brideBestCompleted;
+
+            // Cold Feet UI
+            const coldFeetBtn = document.getElementById('cold-feet-btn');
+            const coldFeetCard = document.getElementById('cold-feet-card');
+            const coldFeetBadge = document.getElementById('cold-feet-badge');
+            const coldFeetDesc = document.getElementById('cold-feet-desc');
+            const isColdFeetDone = currentUser && (currentUser.completedChallenges || []).includes('cold-feet');
+
+            // Kiss Groom UI
+            const kissGroomBtn = document.getElementById('kiss-groom-btn');
+            const kissGroomCard = document.getElementById('kiss-groom-card');
+            const kissGroomBadge = document.getElementById('kiss-groom-badge');
+            const kissGroomDesc = document.getElementById('kiss-groom-desc');
+            const isKissGroomDone = currentUser && (currentUser.completedChallenges || []).includes('kiss-groom');
 
             if (isUnlocked) {
                 if (triviaLockBanner) triviaLockBanner.classList.add('hidden');
@@ -1100,6 +1345,56 @@
             } else {
                 if (brideBestCard) brideBestCard.classList.remove('opacity-60');
                 if (brideBestBtn) brideBestBtn.disabled = false;
+            }
+
+            // Cold Feet UI state update
+            if (isColdFeetDone) {
+                if (coldFeetBtn) {
+                    coldFeetBtn.innerText = "Completed ✓";
+                    coldFeetBtn.disabled = true;
+                    coldFeetBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-90 cursor-not-allowed shadow-none";
+                }
+                if (coldFeetCard) {
+                    coldFeetCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
+                }
+                if (coldFeetBadge) {
+                    coldFeetBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-1 rounded-full border border-moss/30";
+                    coldFeetBadge.innerText = "Completed ✓";
+                }
+                if (coldFeetDesc) {
+                    coldFeetDesc.innerText = "You completed the Cold Feet ice melting challenge!";
+                }
+            } else if (!isUnlocked) {
+                if (coldFeetCard) coldFeetCard.classList.add('opacity-60');
+                if (coldFeetBtn) coldFeetBtn.disabled = true;
+            } else {
+                if (coldFeetCard) coldFeetCard.classList.remove('opacity-60');
+                if (coldFeetBtn) coldFeetBtn.disabled = false;
+            }
+
+            // Kiss Groom UI state update
+            if (isKissGroomDone) {
+                if (kissGroomBtn) {
+                    kissGroomBtn.innerText = "Completed ✓";
+                    kissGroomBtn.disabled = true;
+                    kissGroomBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-90 cursor-not-allowed shadow-none";
+                }
+                if (kissGroomCard) {
+                    kissGroomCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
+                }
+                if (kissGroomBadge) {
+                    kissGroomBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-1 rounded-full border border-moss/30";
+                    kissGroomBadge.innerText = "Completed ✓";
+                }
+                if (kissGroomDesc) {
+                    kissGroomDesc.innerText = "You survived the blindfolded groom kiss challenge!";
+                }
+            } else if (!isUnlocked) {
+                if (kissGroomCard) kissGroomCard.classList.add('opacity-60');
+                if (kissGroomBtn) kissGroomBtn.disabled = true;
+            } else {
+                if (kissGroomCard) kissGroomCard.classList.remove('opacity-60');
+                if (kissGroomBtn) kissGroomBtn.disabled = false;
             }
 
             // Update individual challenges completion status

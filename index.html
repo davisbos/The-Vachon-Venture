@@ -326,9 +326,14 @@
 
             <!-- 2. DARE PIT -->
             <div id="dare-pit" class="tab-content hidden space-y-6 h-full flex-col items-center pt-4">
-                <div class="text-center mb-4">
+                <div class="text-center mb-2">
                     <h2 class="font-display text-3xl font-extrabold text-plum mb-1">The Dare Pit</h2>
-                    <p class="text-earthen text-xs px-4">Submit a challenge. Target a specific player or send it to everyone simultaneously.</p>
+                    <p class="text-earthen text-xs px-4">Submit a challenge. Limited to 1 dare every 30 minutes per player.</p>
+                </div>
+
+                <!-- Countdown / Status Banner -->
+                <div id="dare-cooldown-banner" class="hidden w-full bg-lavender/70 border border-amethyst/40 p-3 rounded-2xl text-center text-xs text-plum font-bold">
+                    ⏳ Next dare unlock in: <span id="dare-countdown-timer" class="font-extrabold">30:00</span>
                 </div>
 
                 <button id="open-dare-btn" onclick="toggleDareForm()" class="dare-glow bg-gradient-to-br from-plum via-[#543869] to-black text-ivory w-full py-10 px-6 rounded-[2.5rem] font-display font-extrabold text-2xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex flex-col items-center justify-center gap-2 border border-amethyst/40">
@@ -354,6 +359,17 @@
                     <div class="flex gap-2 pt-1">
                         <button onclick="toggleDareForm()" class="flex-1 bg-lavender/60 text-plum p-3.5 rounded-2xl font-bold text-sm hover:bg-lavender transition-colors">Cancel</button>
                         <button onclick="submitDare()" class="flex-[2] bg-plum text-ivory p-3.5 rounded-2xl font-bold text-sm hover:bg-plum/90 transition-colors shadow-md">Send Dare 🔥</button>
+                    </div>
+                </div>
+
+                <!-- Live Dare Feed Section -->
+                <div class="w-full space-y-3 pt-2">
+                    <div class="flex items-center justify-between px-1">
+                        <h3 class="font-display text-base font-extrabold text-plum">Active Dares Board</h3>
+                        <span class="text-[10px] font-bold text-earthen uppercase tracking-wider">Accept or Deny</span>
+                    </div>
+                    <div id="dare-feed-list" class="space-y-3 pb-10">
+                        <!-- Populated dynamically -->
                     </div>
                 </div>
             </div>
@@ -426,7 +442,7 @@
     <!-- SCRIPT SECTION -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc, updateDoc, increment, query, where, getDocs } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc, updateDoc, increment, query, where, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyA6UURxa3-uvjEgGnzldW--wTaumOJxyqk",
@@ -445,6 +461,7 @@
         let initialDaresLoaded = false;
         let unsubscribeDares = null;
         let signupSelfieData = null;
+        let cooldownTimerInterval = null;
 
         const triviaQuestions = [
             { q: "Where did Julia meet her fiancé?", options: ["Coffee Shop", "University", "Mutual Friends Party", "Online"], answer: 1 },
@@ -455,7 +472,6 @@
         let currentQuestionIdx = 0;
         let quizScore = 0;
 
-        // FIXED: Compresses the selfie to stay well under the 1MB Firestore document limit
         window.previewSelfie = function(event) {
             const file = event.target.files[0];
             if (!file) return;
@@ -468,7 +484,7 @@
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     
-                    const maxDim = 400; // Perfect dimension for profile avatars (< 50KB)
+                    const maxDim = 400;
                     let width = img.width;
                     let height = img.height;
 
@@ -541,10 +557,11 @@
                     selfieUrl: signupSelfieData,
                     triviaCompleted: false,
                     completedChallenges: [],
-                    timestamp: new Date()
+                    lastDareTimestamp: null,
+                    timestamp: serverTimestamp()
                 });
 
-                currentUser = { id: docRef.id, name: name, passcode: passcode, score: 0, selfieUrl: signupSelfieData, triviaCompleted: false, completedChallenges: [] };
+                currentUser = { id: docRef.id, name: name, passcode: passcode, score: 0, selfieUrl: signupSelfieData, triviaCompleted: false, completedChallenges: [], lastDareTimestamp: null };
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser)); 
 
                 updateUIForLoggedInUser();
@@ -741,26 +758,97 @@
 
             if (!message) return alert("You have to write a dare!");
 
+            // Check Cooldown (30 minutes)
+            if (currentUser.lastDareTimestamp) {
+                const lastTime = currentUser.lastDareTimestamp.toDate ? currentUser.lastDareTimestamp.toDate() : new Date(currentUser.lastDareTimestamp);
+                const diffMs = new Date() - lastTime;
+                const diffMins = diffMs / (1000 * 60);
+                if (diffMins < 30) {
+                    const remainingMins = Math.ceil(30 - diffMins);
+                    return alert(`⏳ You are on a dare cooldown! Please wait another ${remainingMins} minutes before submitting a new dare.`);
+                }
+            }
+
             submitBtn.innerText = "Sending...";
             submitBtn.disabled = true;
 
             try {
+                const now = new Date();
                 await addDoc(collection(db, "dares"), {
                     senderId: currentUser.id,
                     senderName: currentUser.name,
                     targetId: targetId,
                     message: message,
-                    timestamp: new Date()
+                    status: 'active', // active, accepted, denied
+                    timestamp: now
                 });
                 
+                await updateDoc(doc(db, "users", currentUser.id), {
+                    lastDareTimestamp: now
+                });
+
+                currentUser.lastDareTimestamp = now;
+                localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+
                 alert("Dare submitted into the pit! ☠️");
                 toggleDareForm();
+                checkDareCooldown();
             } catch (error) {
                 console.error("Dare error:", error);
                 alert("Failed to send dare. Try again.");
             } finally {
                 submitBtn.innerText = "Send Dare 🔥";
                 submitBtn.disabled = false;
+            }
+        };
+
+        function checkDareCooldown() {
+            const banner = document.getElementById('dare-cooldown-banner');
+            const openBtn = document.getElementById('open-dare-btn');
+            const timerSpan = document.getElementById('dare-countdown-timer');
+
+            if (cooldownTimerInterval) clearInterval(cooldownTimerInterval);
+
+            if (!currentUser || !currentUser.lastDareTimestamp) {
+                banner.classList.add('hidden');
+                openBtn.classList.remove('opacity-50', 'pointer-events-none');
+                return;
+            }
+
+            const lastTime = currentUser.lastDareTimestamp.toDate ? currentUser.lastDareTimestamp.toDate() : new Date(currentUser.lastDareTimestamp);
+            
+            const updateTimer = () => {
+                const now = new Date();
+                const diffMs = now - lastTime;
+                const thirtyMinsMs = 30 * 60 * 1000;
+
+                if (diffMs < thirtyMinsMs) {
+                    const remainingMs = thirtyMinsMs - diffMs;
+                    const mins = Math.floor(remainingMs / (1000 * 60));
+                    const secs = Math.floor((remainingMs % (1000 * 60)) / 1000);
+
+                    timerSpan.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+                    banner.classList.remove('hidden');
+                    openBtn.classList.add('opacity-50', 'pointer-events-none');
+                } else {
+                    banner.classList.add('hidden');
+                    openBtn.classList.remove('opacity-50', 'pointer-events-none');
+                    if (cooldownTimerInterval) clearInterval(cooldownTimerInterval);
+                }
+            };
+
+            updateTimer();
+            cooldownTimerInterval = setInterval(updateTimer, 1000);
+        }
+
+        window.updateDareStatus = async function(dareId, status) {
+            try {
+                await updateDoc(doc(db, "dares", dareId), {
+                    status: status
+                });
+            } catch (e) {
+                console.error("Error updating dare status:", e);
+                alert("Failed to update status.");
             }
         };
 
@@ -791,6 +879,7 @@
 
             document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
             updateLockStateUI();
+            checkDareCooldown();
         }
 
         function checkExistingUser() {
@@ -817,8 +906,10 @@
                     const data = docSnap.data();
                     currentUser.score = data.score;
                     currentUser.triviaCompleted = data.triviaCompleted;
+                    currentUser.lastDareTimestamp = data.lastDareTimestamp;
                     document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
                     updateLockStateUI();
+                    checkDareCooldown();
                 }
             });
 
@@ -883,16 +974,66 @@
             if (unsubscribeDares) unsubscribeDares();
             
             unsubscribeDares = onSnapshot(collection(db, "dares"), (snapshot) => {
-                snapshot.docChanges().forEach((change) => {
-                    if (change.type === "added" && initialDaresLoaded) {
-                        const dare = change.doc.data();
+                const dareFeedList = document.getElementById('dare-feed-list');
+                dareFeedList.innerHTML = '';
+
+                const sortedDares = snapshot.docs
+                    .map(docSnap => ({ id: docSnap.id, ...docSnap.data() }))
+                    .sort((a, b) => {
+                        const timeA = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(0);
+                        const timeB = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(0);
+                        return timeB - timeA;
+                    });
+
+                sortedDares.forEach((dare) => {
+                    // Render on the Active Dares board
+                    const card = document.createElement('div');
+                    card.className = "bg-white p-4 rounded-2xl border border-amethyst/30 shadow-sm space-y-2";
+                    
+                    let statusBadge = '';
+                    if (dare.status === 'accepted') {
+                        statusBadge = `<span class="text-[10px] font-extrabold bg-moss/20 text-fern px-2.5 py-0.5 rounded-full border border-moss/30">Accepted ✓</span>`;
+                    } else if (dare.status === 'denied') {
+                        statusBadge = `<span class="text-[10px] font-extrabold bg-rose-50 text-rose-600 px-2.5 py-0.5 rounded-full border border-rose-200">Denied ✕</span>`;
+                    } else {
+                        statusBadge = `<span class="text-[10px] font-extrabold bg-lavender text-plum px-2.5 py-0.5 rounded-full border border-amethyst/30">Active 🔥</span>`;
+                    }
+
+                    card.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <span class="text-xs font-bold text-earthen">From: <strong class="text-plum">${dare.senderName || 'Anonymous'}</strong></span>
+                            ${statusBadge}
+                        </div>
+                        <p class="font-display font-bold text-slate-800 text-sm">${dare.message}</p>
+                        ${(!dare.status || dare.status === 'active') ? `
+                            <div class="flex gap-2 pt-1">
+                                <button onclick="updateDareStatus('${dare.id}', 'accepted')" class="flex-1 bg-moss/20 text-fern hover:bg-moss hover:text-white py-2 rounded-xl text-xs font-bold transition-all border border-moss/30">Accept</button>
+                                <button onclick="updateDareStatus('${dare.id}', 'denied')" class="flex-1 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white py-2 rounded-xl text-xs font-bold transition-all border border-rose-200">Deny</button>
+                            </div>
+                        ` : ''}
+                    `;
+                    dareFeedList.appendChild(card);
+
+                    // Check for screen takeover popup triggers
+                    if (initialDaresLoaded && changeTypeIsAdded(snapshot, dare.id)) {
                         if ((dare.targetId === 'all' || dare.targetId === currentUser.id) && dare.senderId !== currentUser.id) {
                             showDarePopup(dare);
                         }
                     }
                 });
+
                 initialDaresLoaded = true;
             });
+        }
+
+        function changeTypeIsAdded(snapshot, id) {
+            let isNew = false;
+            snapshot.docChanges().forEach(change => {
+                if (change.type === "added" && change.doc.id === id) {
+                    isNew = true;
+                }
+            });
+            return isNew;
         }
 
         window.handleChallengeUpload = async function(challengeId, points) {

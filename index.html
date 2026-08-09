@@ -171,7 +171,7 @@
                     <span class="text-2xl shrink-0">🔒</span>
                     <div>
                         <h4 class="font-bold text-plum text-xs uppercase tracking-wider">App Locked!</h4>
-                        <p class="text-xs text-slate-700 mt-0.5">Complete <b>Julia Trivia</b> below to unlock the rest of the app and challenges!</p>
+                        <p class="text-xs text-slate-700 mt-0.5">Complete <b>Entry Trivia</b> below to unlock the rest of the app and challenges!</p>
                     </div>
                 </div>
 
@@ -204,9 +204,9 @@
                                     <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
                                         <span>📸</span> Guess the Era (Photo Game)
                                     </h3>
-                                    <span id="photo-game-badge" class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+40 pts</span>
+                                    <span id="photo-game-badge" class="text-[10px] font-extrabold text-white bg-plum px-2.5 py-1 rounded-full shadow-xs">+80 pts</span>
                                 </div>
-                                <p id="photo-game-desc" class="text-slate-700 text-xs mb-3 font-medium">Match baby and childhood pictures of Julia to the correct age/era!</p>
+                                <p id="photo-game-desc" class="text-slate-700 text-xs mb-3 font-medium">Match Julia's throwback photos to her correct age!</p>
                                 <button id="photo-game-btn" onclick="startPhotoGame()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 shadow-md transition-all active:scale-98">
                                     Play Photo Game 🎮
                                 </button>
@@ -458,17 +458,18 @@
 
     <!-- PHOTO GAME MODAL -->
     <div id="photo-game-modal" class="fixed inset-0 bg-plum/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30">
-            <div class="flex justify-between items-center border-b border-lavender pb-3">
+        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30 max-h-[90vh] flex flex-col">
+            <div class="flex justify-between items-center border-b border-lavender pb-3 shrink-0">
                 <h3 class="font-display text-lg font-bold text-plum">Guess the Era</h3>
-                <span id="photo-game-progress" class="text-xs font-bold text-earthen">Photo 1/2</span>
+                <span id="photo-game-progress" class="text-xs font-bold text-earthen">Photo 1/8</span>
             </div>
-            <p id="photo-game-prompt" class="text-base font-bold text-slate-800 text-center"></p>
-            <div class="w-full h-48 bg-lavender/50 rounded-2xl flex items-center justify-center border border-amethyst/30 overflow-hidden">
-                <span id="photo-game-placeholder" class="text-4xl">👶</span>
+            <p id="photo-game-prompt" class="text-sm font-bold text-slate-800 text-center shrink-0">How old was Julia in this photo?</p>
+            <div class="w-full h-48 bg-lavender/50 rounded-2xl flex items-center justify-center border border-amethyst/30 overflow-hidden relative shrink-0">
+                <img id="photo-game-img" src="" alt="Era Photo" class="w-full h-full object-cover hidden">
+                <span id="photo-game-placeholder" class="text-4xl">📸</span>
             </div>
-            <div id="photo-game-options" class="space-y-2"></div>
-            <button onclick="closePhotoGame()" class="text-xs text-earthen underline w-full text-center pt-2">Cancel Game</button>
+            <div id="photo-game-options" class="space-y-2 overflow-y-auto pr-1 flex-grow"></div>
+            <button onclick="closePhotoGame()" class="text-xs text-earthen underline w-full text-center pt-2 shrink-0">Cancel Game</button>
         </div>
     </div>
 
@@ -477,7 +478,7 @@
         <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-2xl border border-amethyst/30 max-h-[90vh] flex flex-col">
             <div class="flex justify-between items-center border-b border-lavender pb-3 shrink-0">
                 <h3 class="font-display text-lg font-bold text-plum">Who Knows the Bride Best?</h3>
-                <span id="bride-best-progress" class="text-xs font-bold text-earthen">Q 1/10</span>
+                <span id="bride-best-progress" class="text-xs font-bold text-earthen">Q 1/9</span>
             </div>
             <p id="bride-best-question" class="text-base font-bold text-slate-800 shrink-0"></p>
             <div id="bride-best-options" class="space-y-2 overflow-y-auto pr-1 flex-grow"></div>
@@ -543,10 +544,16 @@
         let currentQuestionIdx = 0;
         let quizScore = 0;
 
-        // PHOTO GAME DATA
+        // PHOTO GAME DATA (Updated with your exact photo filenames and precise options)
         const photoGameQuestions = [
-            { q: "How old was Julia in this classic toddler picture?", options: ["1 year old", "3 years old", "5 years old", "7 years old"], answer: 1 },
-            { q: "What grade was Julia in during this awkward school photo?", options: ["Kindergarten", "3rd Grade", "7th Grade", "Sophomore in High School"], answer: 2 }
+            { q: "How old was Julia in this photo?", imageUrl: "./images/18 years old.png", options: ["16 years old", "18 years old", "20 years old", "22 years old"], answer: 1 },
+            { q: "How old was Julia in this photo?", imageUrl: "./images/19 years old.png", options: ["17 years old", "19 years old", "21 years old", "23 years old"], answer: 1 },
+            { q: "How old was Julia in this photo?", imageUrl: "./images/20 years old 2.png", options: ["18 years old", "20 years old", "23 years old", "25 years old"], answer: 1 },
+            { q: "How old was Julia in this photo?", imageUrl: "./images/20 years old.png", options: ["19 years old", "20 years old", "24 years old", "26 years old"], answer: 1 },
+            { q: "How old was Julia in this photo?", imageUrl: "./images/23 years old.png", options: ["21 years old", "23 years old", "25 years old", "27 years old"], answer: 1 },
+            { q: "How old was Julia in this photo?", imageUrl: "./images/25 years old 2.png", options: ["22 years old", "25 years old", "27 years old", "28 years old"], answer: 1 },
+            { q: "How old was Julia in this photo?", imageUrl: "./images/25 years old.png", options: ["21 years old", "24 years old", "25 years old", "29 years old"], answer: 2 },
+            { q: "How old was Julia in this photo?", imageUrl: "./images/27 years old.png", options: ["23 years old", "25 years old", "27 years old", "30 years old"], answer: 2 }
         ];
         let currentPhotoGameIdx = 0;
         let photoGameScore = 0;
@@ -838,7 +845,19 @@
             const qData = photoGameQuestions[currentPhotoGameIdx];
             document.getElementById('photo-game-progress').innerText = `Photo ${currentPhotoGameIdx + 1}/${photoGameQuestions.length}`;
             document.getElementById('photo-game-prompt').innerText = qData.q;
-            document.getElementById('photo-game-placeholder').innerText = currentPhotoGameIdx === 0 ? "👶" : "🎒";
+            
+            const imgEl = document.getElementById('photo-game-img');
+            const placeholderEl = document.getElementById('photo-game-placeholder');
+
+            if (qData.imageUrl) {
+                imgEl.src = qData.imageUrl;
+                imgEl.classList.remove('hidden');
+                placeholderEl.classList.add('hidden');
+            } else {
+                imgEl.classList.add('hidden');
+                placeholderEl.classList.remove('hidden');
+                placeholderEl.innerText = "📸";
+            }
             
             const optionsContainer = document.getElementById('photo-game-options');
             optionsContainer.innerHTML = '';
@@ -873,7 +892,7 @@
                     renderPhotoGameQuestion();
                 } else {
                     window.closePhotoGame();
-                    const totalPoints = photoGameScore * 15 + 10;
+                    const totalPoints = photoGameScore * 10 + 10;
                     
                     if (currentUser && currentUser.id) {
                         try {
@@ -1048,7 +1067,7 @@
                     photoGameBadge.innerText = "Completed ✓";
                 }
                 if (photoGameDesc) {
-                    photoGameDesc.innerText = "You successfully guessed Julia's childhood eras!";
+                    photoGameDesc.innerText = "You successfully guessed Julia's ages!";
                 }
             } else if (!isUnlocked) {
                 if (photoGameCard) photoGameCard.classList.add('opacity-60');

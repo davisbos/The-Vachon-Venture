@@ -33,7 +33,7 @@
             <div id="user-profile-header" class="flex items-center gap-2">
                 <span id="header-user-score" class="font-bold text-lg text-zinc-900">0 pts</span>
                 <div id="header-user-avatar" class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold overflow-hidden border-2 border-pink-200">
-                    JV
+                    VV
                 </div>
             </div>
         </header>
@@ -49,7 +49,7 @@
         <!-- APP SCREENS (Tabs) -->
         <main class="p-4">
 
-            <!-- 1. QUEST & FEED (The "Phase 1: Pre-Game") -->
+            <!-- 1. QUEST & FEED -->
             <div id="quest-feed" class="tab-content active space-y-6">
                 <!-- User Sign Up Card -->
                 <div id="login-card" class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm">
@@ -59,7 +59,7 @@
                     <button onclick="signUpUser()" class="w-full bg-pink-600 text-white p-3 rounded-xl font-bold">Start Adventure</button>
                 </div>
 
-                <!-- Phase 1: Pre-Game Steps (Visible after login) -->
+                <!-- Phase 1: Pre-Game Steps -->
                 <div id="pregame-steps" class="hidden space-y-6">
                     <!-- Trivia -->
                     <div class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm">
@@ -85,7 +85,7 @@
                     </div>
                 </div>
 
-                <!-- Main Activity Feed (Dynamic) -->
+                <!-- Main Activity Feed -->
                 <div id="activity-feed-feed" class="hidden space-y-6">
                     <h2 class="text-2xl font-bold">Julia Feed</h2>
                     <div id="feed-container" class="space-y-4">
@@ -94,11 +94,9 @@
                 </div>
             </div>
 
-            <!-- 2. CHALLENGES ("Phase 2: Owen Sound") -->
+            <!-- 2. CHALLENGES -->
             <div id="challenges" class="tab-content space-y-6 hidden">
                 <h2 class="text-2xl font-bold mb-4">Mission: Owen Sound</h2>
-                
-                <!-- Challenges will be generated dynamically by JS -->
                 <div id="challenge-list" class="space-y-4 pb-20">
                     <!-- Dynamic challenges go here -->
                 </div>
@@ -137,33 +135,25 @@
 
     <!-- SCRIPT SECTION -->
     <script type="module">
-        // 1. IMPORT FIREBASE LIBRARIES
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
         import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js";
 
-        // 2. PASTE YOUR FIREBASE CONFIG HERE
-const firebaseConfig = {
-    apiKey: "AIzaSyA6UURxa3-uvjEgNzldW--wTaumOJxyqk",
-    authDomain: "the-vachon-venture.firebaseapp.com",
-    projectId: "the-vachon-venture",
-    storageBucket: "the-vachon-venture.firebasestorage.app",
-    messagingSenderId: "1052766222433",
-    appId: "1:1052766222433:web:e7ea2a1302a542c3b51220",
-    measurementId: "G-NXZPXJX0EF"
-};
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_ID",
+            appId: "YOUR_APP_ID"
+        };
 
-        // 3. INITIALIZE FIREBASE & APP STATE
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
 
-        let currentUser = null; // Stores local user data {id, name, score}
+        let currentUser = null;
 
-        // Initialize local Pica for image processing (stamping)
-        const pica = window.pica(); 
-
-        // 4. DEFINE CHALLENGES
         const challengesData = [
             { id: 'trivial-001', phase: 1, title: 'Julia Trivia', points: 50, location: 'At Home' },
             { id: 'pregame-photo', phase: 1, title: 'Outfit & Drink Check-In', points: 100, location: 'At Home', photoRequired: true },
@@ -175,15 +165,14 @@ const firebaseConfig = {
             { id: 'harb-dare', phase: 2, title: 'Request Guilty Pleasure Song', points: 100, location: 'The Harb / H2O', photoRequired: true }
         ];
 
-        // 5. CORE FUNCTIONALITY: AUTH & INITIALIZATION
-        async function signUpUser() {
+        // Bind signUpUser to window so HTML inline onclick can access it
+        window.signUpUser = async function() {
             const nameInput = document.getElementById('username-input');
             const name = nameInput.value.trim();
 
             if (!name) return alert("Please enter your name!");
 
             try {
-                // Add user to Firestore (database)
                 const docRef = await addDoc(collection(db, "users"), {
                     name: name,
                     score: 0,
@@ -192,7 +181,6 @@ const firebaseConfig = {
                 });
 
                 currentUser = { id: docRef.id, name: name, score: 0 };
-                // Save to localStorage so they stay logged in if they refresh
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser)); 
 
                 updateUIForLoggedInUser();
@@ -202,7 +190,7 @@ const firebaseConfig = {
                 console.error("Error signing up: ", error);
                 alert("Failed to join. Check console.");
             }
-        }
+        };
 
         function updateUIForLoggedInUser() {
             if (!currentUser) return;
@@ -216,27 +204,23 @@ const firebaseConfig = {
             renderChallenges();
         }
 
-        // Check if user is already logged in (localstorage)
         function checkExistingUser() {
             const savedUser = localStorage.getItem('vachonUser');
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
-                // Update UI slightly slower so preloader shows
                 setTimeout(() => {
                     updateUIForLoggedInUser();
                     initializeRealtimeListeners();
                 }, 1000);
             } else {
-                // Show login screen
                 document.getElementById('loading').classList.add('hidden');
                 document.getElementById('app').classList.remove('hidden');
             }
         }
 
-        // 6. DYNAMIC UI RENDERING
         function renderChallenges() {
             const challengeList = document.getElementById('challenge-list');
-            challengeList.innerHTML = ''; // Clear
+            challengeList.innerHTML = '';
 
             challengesData.forEach(ch => {
                 const card = document.createElement('div');
@@ -263,13 +247,10 @@ const firebaseConfig = {
             });
         }
 
-        // 7. REALTIME LISTENERS (LEADERBOARD & FEED)
         function initializeRealtimeListeners() {
-            // Unhide the app after loading
             document.getElementById('loading').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
 
-            // Listen for User Score Updates (Live updating local header)
             onSnapshot(doc(db, "users", currentUser.id), (doc) => {
                 if (doc.exists()) {
                     const data = doc.data();
@@ -278,7 +259,6 @@ const firebaseConfig = {
                 }
             });
 
-            // Listen for Leaderboard Changes
             onSnapshot(collection(db, "users"), (snapshot) => {
                 const leaderboardList = document.getElementById('leaderboard-list');
                 leaderboardList.innerHTML = '';
@@ -302,14 +282,13 @@ const firebaseConfig = {
                 });
             });
 
-            // Listen for Activity Feed Changes
             onSnapshot(collection(db, "feed"), (snapshot) => {
                 const feedContainer = document.getElementById('feed-container');
-                feedContainer.innerHTML = ''; // Clear for full rebuild
+                feedContainer.innerHTML = '';
 
                 const sortedFeed = snapshot.docs
                     .map(doc => doc.data())
-                    .sort((a,b) => b.timestamp - a.timestamp); // Recent first
+                    .sort((a,b) => b.timestamp - a.timestamp);
 
                 sortedFeed.forEach(f => {
                     const item = document.createElement('div');
@@ -317,7 +296,7 @@ const firebaseConfig = {
                     item.innerHTML = `
                         <div class="flex items-center gap-3 mb-3">
                             <div class="w-9 h-9 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold overflow-hidden border border-pink-200 text-sm">
-                                ${f.userName.substring(0,2).toUpperCase()}
+                                ${f.userName ? f.userName.substring(0,2).toUpperCase() : 'VV'}
                             </div>
                             <p class="font-bold text-zinc-900">${f.userName} <span class="font-normal text-zinc-600">completed</span> ${f.challengeTitle}</p>
                         </div>
@@ -330,35 +309,28 @@ const firebaseConfig = {
             });
         }
 
-        // 8. CHALLENGE UPLOAD & IMAGE STAMPING LOGIC
-        // Needs a globally available function for the challenge button interaction
         window.handleChallengeUpload = async function(challengeId, points) {
             const fileInput = document.getElementById(`input-${challengeId}`);
             const file = fileInput.files[0];
             if (!file) return;
 
-            // Simple status feedback
             alert("Vachon Venture stamping & uploading photo... this might take a moment!");
 
             try {
-                // PHASE 3 WOW: Image Stamping (The sash, etc.)
                 const stampedImageBlob = await stampImageWithVenture(file);
 
-                // Upload to Firebase Storage
                 const storageRef = ref(storage, `venture_photos/${Date.now()}_${currentUser.name}.jpg`);
                 await uploadBytes(storageRef, stampedImageBlob);
                 const downloadURL = await getDownloadURL(storageRef);
 
-                // Update Firestore: Increase score
                 await updateDoc(doc(db, "users", currentUser.id), {
                     score: increment(points),
                     completedChallenges: [...(await getDoc(doc(db, "users", currentUser.id))).data().completedChallenges, challengeId]
                 });
 
-                // Add to Feed
                 const challengeTitle = challengesData.find(c => c.id === challengeId).title;
                 await addDoc(collection(db, "feed"), {
-                    userName: currentUser.userName,
+                    userName: currentUser.name, // Fixed: changed from currentUser.userName
                     userId: currentUser.id,
                     challengeId: challengeId,
                     challengeTitle: challengeTitle,
@@ -366,7 +338,7 @@ const firebaseConfig = {
                     timestamp: new Date()
                 });
 
-                fileInput.value = ''; // Reset
+                fileInput.value = '';
                 alert(`Challenge Complete! +${points} pts!`);
 
             } catch (error) {
@@ -375,7 +347,6 @@ const firebaseConfig = {
             }
         };
 
-        // Wow Feature: Image Stamping
         function stampImageWithVenture(file) {
             return new Promise((resolve, reject) => {
                 const img = new Image();
@@ -385,33 +356,26 @@ const firebaseConfig = {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     
-                    // Square canvas (easier to handle)
                     const targetSize = Math.max(img.width, img.height);
                     canvas.width = targetSize;
                     canvas.height = targetSize;
 
-                    // Draw image first
                     ctx.drawImage(img, 0, 0);
 
-                    // --- WOW: Draw Stamping / Overlay (Sash effect / Text) ---
-                    // Example: Drawing simple pink corner sash text
-                    ctx.fillStyle = 'rgba(255, 105, 180, 0.7)'; // Semi-transparent pink
-                    ctx.font = 'bold 60px -apple-system'; // Large text
-                    
                     ctx.save();
-                    ctx.translate(canvas.width, canvas.height); // Bottom Right
-                    ctx.rotate(-Math.PI / 4); // 45 degree angle
+                    ctx.translate(canvas.width, canvas.height);
+                    ctx.rotate(-Math.PI / 4);
                     ctx.fillStyle = "pink";
-                    ctx.fillRect(-600, -100, 1200, 150); // Sash background
+                    ctx.fillRect(-600, -100, 1200, 150);
                     
                     ctx.fillStyle = "white";
+                    ctx.font = 'bold 60px -apple-system';
                     ctx.textAlign = "center";
                     ctx.fillText("Vachon Venture", 0, 0);
                     ctx.restore();
 
-                    // Resolve with stamped blob
                     canvas.toBlob((blob) => {
-                        URL.revokeObjectURL(img.src); // Free memory
+                        URL.revokeObjectURL(img.src);
                         resolve(blob);
                     }, 'image/jpeg', 0.8);
                 };
@@ -419,27 +383,27 @@ const firebaseConfig = {
             });
         }
 
-        // 9. TAB NAVIGATION
+        // Tab Navigation Setup
         const navBtns = document.querySelectorAll('.nav-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
         navBtns.forEach(btn => {
             btn.addEventListener('click', () => {
-                // Update navigation styling
-                navBtns.forEach(b => b.classList.remove('text-pink-600'));
-                navBtns.forEach(b => b.classList.add('text-zinc-500'));
+                navBtns.forEach(b => {
+                    b.classList.remove('text-pink-600');
+                    b.classList.add('text-zinc-500');
+                });
                 btn.classList.add('text-pink-600');
                 btn.classList.remove('text-zinc-500');
 
-                // Switch visible tab
                 tabContents.forEach(tab => tab.classList.add('hidden'));
                 const activeTabId = btn.getAttribute('data-tab');
                 document.getElementById(activeTabId).classList.remove('hidden');
             });
         });
 
-        // 10. RUN STARTUP CHECK
-        window.onload = checkExistingUser();
+        // Fixed onload attachment
+        window.addEventListener('DOMContentLoaded', checkExistingUser);
 
     </script>
 </body>

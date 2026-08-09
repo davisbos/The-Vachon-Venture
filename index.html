@@ -61,14 +61,14 @@
 
                 <!-- Phase 1: Pre-Game Steps -->
                 <div id="pregame-steps" class="hidden space-y-6">
-                    <!-- Trivia -->
+                    <!-- Trivia Card -->
                     <div class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm">
                         <div class="flex justify-between items-start mb-4">
                             <h2 class="text-xl font-bold">Julia Trivia: "Who Knows the Bride Best?"</h2>
                             <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded-full">+50 pts</span>
                         </div>
                         <p class="text-zinc-600 mb-4">Complete the quiz before leaving home to unlock the town map!</p>
-                        <button class="w-full border-2 border-pink-600 text-pink-600 p-3 rounded-xl font-bold">Start Quiz</button>
+                        <button id="trivia-btn" onclick="startQuiz()" class="w-full border-2 border-pink-600 text-pink-600 p-3 rounded-xl font-bold hover:bg-pink-50">Start Quiz</button>
                     </div>
 
                     <!-- Video Unlock -->
@@ -126,11 +126,26 @@
                 <div class="bg-red-50 p-6 rounded-3xl border border-red-200 text-center text-red-900">
                     <p class="font-bold mb-1">🚨 Julia Panic Button 🚨</p>
                     <p class="text-sm mb-4">Julia presses this button for a mandatory group mini-dare!</p>
-                    <button class="bg-red-600 text-white py-3 px-6 rounded-xl font-bold text-lg">EMERGENCY DARE</button>
+                    <button onclick="triggerEmergencyDare()" class="bg-red-600 text-white py-3 px-6 rounded-xl font-bold text-lg active:scale-95 transition-transform">EMERGENCY DARE</button>
                 </div>
             </div>
 
         </main>
+    </div>
+
+    <!-- TRIVIA MODAL -->
+    <div id="quiz-modal" class="fixed inset-0 bg-black/60 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white p-6 rounded-3xl max-w-md w-full space-y-4 shadow-xl">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-lg font-bold text-pink-600">Julia Trivia</h3>
+                <span id="quiz-progress" class="text-xs font-bold text-zinc-400">Q 1/3</span>
+            </div>
+            <p id="quiz-question" class="text-lg font-bold text-zinc-800">Question text goes here?</p>
+            <div id="quiz-options" class="space-y-2">
+                <!-- Buttons generated dynamically -->
+            </div>
+            <button onclick="closeQuiz()" class="text-xs text-zinc-400 underline w-full text-center pt-2">Cancel Quiz</button>
+        </div>
     </div>
 
     <!-- SCRIPT SECTION -->
@@ -139,21 +154,42 @@
         import { getFirestore, collection, addDoc, onSnapshot, doc, getDoc, updateDoc, increment } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-firestore.js";
         import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-storage.js";
 
-       const firebaseConfig = {
-    apiKey: "AIzaSyA6UURxa3-uvjEgGnzldW--wTaumOJxyqk",
-    authDomain: "the-vachon-venture.firebaseapp.com",
-    projectId: "the-vachon-venture",
-    storageBucket: "the-vachon-venture.firebasestorage.app",
-    messagingSenderId: "1052766222433",
-    appId: "1:1052766222433:web:e7ea2a1302a542c3b51220",
-    measurementId: "G-NXZPXJX0EF"
-  };
+        const firebaseConfig = {
+            apiKey: "AIzaSyA6UURxa3-uvjEgGnzldW--wTaumOJxyqk",
+            authDomain: "the-vachon-venture.firebaseapp.com",
+            projectId: "the-vachon-venture",
+            storageBucket: "the-vachon-venture.firebasestorage.app",
+            messagingSenderId: "1052766222433",
+            appId: "1:1052766222433:web:e7ea2a1302a542c3b51220",
+            measurementId: "G-NXZPXJX0EF"
+        };
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
         const storage = getStorage(app);
 
         let currentUser = null;
+
+        const triviaQuestions = [
+            {
+                q: "Where did Julia meet her fiancé?",
+                options: ["Coffee Shop", "University", "Mutual Friends Party", "Online"],
+                answer: 1
+            },
+            {
+                q: "What is Julia's ultimate go-to drink?",
+                options: ["Aperol Spritz", "Margarita", "Iced Latte", "Red Wine"],
+                answer: 0
+            },
+            {
+                q: "What is Julia's biggest pet peeve?",
+                options: ["Being late", "Loud chewing", "Cold coffee", "Slow walking"],
+                answer: 1
+            }
+        ];
+
+        let currentQuestionIdx = 0;
+        let quizScore = 0;
 
         const challengesData = [
             { id: 'trivial-001', phase: 1, title: 'Julia Trivia', points: 50, location: 'At Home' },
@@ -166,7 +202,6 @@
             { id: 'harb-dare', phase: 2, title: 'Request Guilty Pleasure Song', points: 100, location: 'The Harb / H2O', photoRequired: true }
         ];
 
-        // Bind signUpUser to window so HTML inline onclick can access it
         window.signUpUser = async function() {
             const nameInput = document.getElementById('username-input');
             const name = nameInput.value.trim();
@@ -181,7 +216,7 @@
                     timestamp: new Date()
                 });
 
-                currentUser = { id: docRef.id, name: name, score: 0 };
+                currentUser = { id: docRef.id, name: name, score: 0, completedChallenges: [] };
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser)); 
 
                 updateUIForLoggedInUser();
@@ -189,8 +224,79 @@
                 
             } catch (error) {
                 console.error("Error signing up: ", error);
-                alert("Failed to join. Check console.");
+                alert("Failed to join. Check your browser console for details.");
             }
+        };
+
+        window.startQuiz = function() {
+            if (!currentUser) return alert("Please sign up first!");
+            currentQuestionIdx = 0;
+            quizScore = 0;
+            document.getElementById('quiz-modal').classList.remove('hidden');
+            renderQuizQuestion();
+        };
+
+        window.closeQuiz = function() {
+            document.getElementById('quiz-modal').classList.add('hidden');
+        };
+
+        function renderQuizQuestion() {
+            const qData = triviaQuestions[currentQuestionIdx];
+            document.getElementById('quiz-progress').innerText = `Q ${currentQuestionIdx + 1}/${triviaQuestions.length}`;
+            document.getElementById('quiz-question').innerText = qData.q;
+            
+            const optionsContainer = document.getElementById('quiz-options');
+            optionsContainer.innerHTML = '';
+
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "w-full p-3 text-left border border-zinc-200 rounded-xl font-medium hover:border-pink-600 hover:bg-pink-50 transition-colors";
+                btn.innerText = opt;
+                btn.onclick = () => handleAnswer(idx);
+                optionsContainer.appendChild(btn);
+            });
+        }
+
+        async function handleAnswer(selectedIdx) {
+            if (selectedIdx === triviaQuestions[currentQuestionIdx].answer) {
+                quizScore += 1;
+            }
+
+            currentQuestionIdx++;
+
+            if (currentQuestionIdx < triviaQuestions.length) {
+                renderQuizQuestion();
+            } else {
+                window.closeQuiz();
+                const totalPoints = quizScore * 20 + 10;
+                alert(`Quiz complete! You scored ${quizScore}/${triviaQuestions.length} and earned +${totalPoints} pts!`);
+
+                if (currentUser && currentUser.id) {
+                    try {
+                        await updateDoc(doc(db, "users", currentUser.id), {
+                            score: increment(totalPoints)
+                        });
+                        
+                        const triviaBtn = document.getElementById('trivia-btn');
+                        triviaBtn.innerText = "Quiz Completed! ✓";
+                        triviaBtn.disabled = true;
+                        triviaBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                    } catch (e) {
+                        console.error("Error updating quiz score:", e);
+                    }
+                }
+            }
+        }
+
+        window.triggerEmergencyDare = function() {
+            const dares = [
+                "Group Shot! Everyone must take a sip / shot together right now!",
+                "Julia leads a 10-second dance party on the spot!",
+                "Pose for a dramatic 90s band album cover photo right now!",
+                "Everyone compliment Julia using only 3-word sentences!"
+            ];
+            const randomDare = dares[Math.floor(Math.random() * dares.length)];
+            alert(`🚨 EMERGENCY DARE TRIGGERED 🚨\n\n${randomDare}`);
         };
 
         function updateUIForLoggedInUser() {
@@ -241,7 +347,7 @@
                     </div>
                     <div>
                         <input type="file" id="input-${ch.id}" class="hidden" accept="image/*" capture="camera" onchange="handleChallengeUpload('${ch.id}', ${ch.points})">
-                        <label for="input-${ch.id}" class="bg-pink-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl cursor-pointer">+</label>
+                        <label for="input-${ch.id}" class="bg-pink-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl cursor-pointer hover:bg-pink-700">+</label>
                     </div>
                 `;
                 challengeList.appendChild(card);
@@ -252,9 +358,11 @@
             document.getElementById('loading').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
 
-            onSnapshot(doc(db, "users", currentUser.id), (doc) => {
-                if (doc.exists()) {
-                    const data = doc.data();
+            if (!currentUser || !currentUser.id) return;
+
+            onSnapshot(doc(db, "users", currentUser.id), (docSnap) => {
+                if (docSnap.exists()) {
+                    const data = docSnap.data();
                     currentUser.score = data.score;
                     document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
                 }
@@ -266,7 +374,7 @@
                 
                 const sortedUsers = snapshot.docs
                     .map(doc => ({id: doc.id, ...doc.data()}))
-                    .sort((a,b) => b.score - a.score);
+                    .sort((a,b) => (b.score || 0) - (a.score || 0));
 
                 sortedUsers.forEach((u, i) => {
                     const item = document.createElement('div');
@@ -274,10 +382,10 @@
                     item.innerHTML = `
                         <span class="font-bold text-zinc-400 w-6">#${i + 1}</span>
                         <div class="w-10 h-10 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold overflow-hidden border border-pink-200">
-                            ${u.name.substring(0,2).toUpperCase()}
+                            ${u.name ? u.name.substring(0,2).toUpperCase() : 'U'}
                         </div>
-                        <span class="flex-grow font-bold">${u.name}</span>
-                        <span class="font-bold text-pink-600">${u.score} pts</span>
+                        <span class="flex-grow font-bold">${u.name || 'Anonymous'}</span>
+                        <span class="font-bold text-pink-600">${u.score || 0} pts</span>
                     `;
                     leaderboardList.appendChild(item);
                 });
@@ -324,14 +432,17 @@
                 await uploadBytes(storageRef, stampedImageBlob);
                 const downloadURL = await getDownloadURL(storageRef);
 
+                const userDoc = await getDoc(doc(db, "users", currentUser.id));
+                const completed = userDoc.data().completedChallenges || [];
+
                 await updateDoc(doc(db, "users", currentUser.id), {
                     score: increment(points),
-                    completedChallenges: [...(await getDoc(doc(db, "users", currentUser.id))).data().completedChallenges, challengeId]
+                    completedChallenges: [...completed, challengeId]
                 });
 
-                const challengeTitle = challengesData.find(c => c.id === challengeId).title;
+                const challengeTitle = challengesData.find(c => c.id === challengeId)?.title || "Challenge";
                 await addDoc(collection(db, "feed"), {
-                    userName: currentUser.name, // Fixed: changed from currentUser.userName
+                    userName: currentUser.name,
                     userId: currentUser.id,
                     challengeId: challengeId,
                     challengeTitle: challengeTitle,
@@ -344,7 +455,7 @@
 
             } catch (error) {
                 console.error("Upload error:", error);
-                alert("Something went wrong with the upload.");
+                alert("Something went wrong with the upload. Check that Firestore and Storage security rules are open for testing.");
             }
         };
 
@@ -384,7 +495,6 @@
             });
         }
 
-        // Tab Navigation Setup
         const navBtns = document.querySelectorAll('.nav-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
@@ -403,7 +513,6 @@
             });
         });
 
-        // Fixed onload attachment
         window.addEventListener('DOMContentLoaded', checkExistingUser);
 
     </script>

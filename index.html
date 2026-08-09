@@ -10,6 +10,7 @@
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        .dare-glow { box-shadow: 0 0 30px rgba(220, 38, 38, 0.6); }
     </style>
 </head>
 <body class="bg-zinc-50 pb-20">
@@ -37,11 +38,11 @@
         </header>
 
         <!-- NAVIGATION TABS -->
-        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-100 z-40 grid grid-cols-4 safe-area-inset-bottom">
-            <button class="nav-btn py-3 text-center active text-pink-600" data-tab="quest-feed">Quest</button>
-            <button class="nav-btn py-3 text-center text-zinc-500" data-tab="challenges">Mission</button>
+        <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-zinc-100 z-40 grid grid-cols-4 safe-area-inset-bottom text-xs md:text-sm font-medium">
+            <button class="nav-btn py-3 text-center active text-pink-600" data-tab="quest">Quest</button>
+            <button class="nav-btn py-3 text-center text-zinc-500" data-tab="dare-pit">Dare Pit</button>
             <button class="nav-btn py-3 text-center text-zinc-500" data-tab="leaderboard">Leaderboard</button>
-            <button class="nav-btn py-3 text-center text-zinc-500" data-tab="hype-room">Hype Room</button>
+            <button class="nav-btn py-3 text-center text-zinc-500" data-tab="photos">Photos</button>
         </nav>
 
         <!-- APP SCREENS -->
@@ -95,38 +96,63 @@
                         Log In 🚀
                     </button>
                 </div>
-
             </div>
 
-            <!-- 1. QUEST & FEED -->
-            <div id="quest-feed" class="tab-content active space-y-6">
-                <div id="pregame-steps" class="hidden space-y-6">
-                    <div class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm">
-                        <div class="flex justify-between items-start mb-4">
-                            <h2 class="text-xl font-bold">Julia Trivia: "Who Knows the Bride Best?"</h2>
-                            <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded-full">+50 pts</span>
-                        </div>
-                        <p class="text-zinc-600 mb-4">Complete the quiz before leaving home to unlock the town map!</p>
-                        <button id="trivia-btn" onclick="startQuiz()" class="w-full border-2 border-pink-600 text-pink-600 p-3 rounded-xl font-bold hover:bg-pink-50">Start Quiz</button>
+            <!-- 1. QUEST (Main Page: Trivia & Challenges) -->
+            <div id="quest" class="tab-content active space-y-6">
+                <!-- Pre-game / Trivia -->
+                <div id="pregame-steps" class="hidden bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-xl font-bold">Julia Trivia: "Who Knows the Bride Best?"</h2>
+                        <span class="text-xs font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded-full">+50 pts</span>
                     </div>
-
-                    <div id="video-unlock-card" class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm opacity-60">
-                        <h2 class="text-xl font-bold mb-1">Secret Hype Message</h2>
-                        <p class="text-zinc-600 mb-4">Unlocks right before heading out to Owen Sound...</p>
-                        <button class="w-full bg-zinc-200 text-zinc-600 p-3 rounded-xl font-bold cursor-not-allowed" disabled>Locked</button>
-                    </div>
+                    <p class="text-zinc-600 mb-4 text-sm">Complete the quiz before leaving home to unlock the town map!</p>
+                    <button id="trivia-btn" onclick="startQuiz()" class="w-full border-2 border-pink-600 text-pink-600 p-3 rounded-xl font-bold hover:bg-pink-50 transition-colors">Start Quiz</button>
                 </div>
 
-                <div id="activity-feed-section" class="hidden space-y-6">
-                    <h2 class="text-2xl font-bold">Julia Feed</h2>
-                    <div id="feed-container" class="space-y-4"></div>
+                <!-- Challenges List -->
+                <div id="challenges-section" class="hidden space-y-4">
+                    <h2 class="text-2xl font-bold">Mission: Owen Sound</h2>
+                    <p class="text-zinc-500 text-sm mb-4">Complete these challenges throughout the night. Upload photos to earn points!</p>
+                    <div id="challenge-list" class="space-y-4 pb-10"></div>
                 </div>
             </div>
 
-            <!-- 2. CHALLENGES -->
-            <div id="challenges" class="tab-content space-y-6 hidden">
-                <h2 class="text-2xl font-bold mb-4">Mission: Owen Sound</h2>
-                <div id="challenge-list" class="space-y-4 pb-20"></div>
+            <!-- 2. DARE PIT -->
+            <div id="dare-pit" class="tab-content hidden space-y-6 h-full flex flex-col items-center pt-8">
+                <div class="text-center mb-8">
+                    <h2 class="text-3xl font-extrabold text-red-900 mb-2">The Dare Pit</h2>
+                    <p class="text-zinc-600 text-sm px-4">Submit a ruthless challenge. Target a specific player, or send it to everyone simultaneously.</p>
+                </div>
+
+                <!-- Ominous Submit Button -->
+                <button id="open-dare-btn" onclick="toggleDareForm()" class="dare-glow bg-gradient-to-br from-red-700 to-black text-white w-full max-w-sm py-12 px-6 rounded-[2rem] font-black text-2xl uppercase tracking-widest hover:scale-[1.02] active:scale-95 transition-all flex flex-col items-center justify-center gap-3">
+                    <span class="text-5xl">☠️</span>
+                    <span>Submit an<br>Emergency Dare</span>
+                </button>
+
+                <!-- Dare Submission Form (Hidden initially) -->
+                <div id="dare-form-container" class="hidden bg-white w-full max-w-sm p-6 rounded-3xl shadow-xl border border-red-100 space-y-4">
+                    <h3 class="font-bold text-xl text-red-700 border-b border-red-100 pb-2">Draft Your Dare</h3>
+                    
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">Target Victim(s)</label>
+                        <select id="dare-target" class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-red-500 text-lg bg-zinc-50 font-bold">
+                            <option value="all">Everyone 🌍</option>
+                            <!-- Populated dynamically via JS -->
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold text-zinc-500 uppercase mb-1">The Dare</label>
+                        <textarea id="dare-message" rows="3" placeholder="e.g. Do a shot without using your hands..." class="w-full p-4 border border-zinc-200 rounded-2xl focus:outline-none focus:border-red-500 text-lg resize-none"></textarea>
+                    </div>
+
+                    <div class="flex gap-2 pt-2">
+                        <button onclick="toggleDareForm()" class="flex-1 bg-zinc-100 text-zinc-600 p-4 rounded-2xl font-bold hover:bg-zinc-200 transition-colors">Cancel</button>
+                        <button onclick="submitDare()" class="flex-[2] bg-red-600 text-white p-4 rounded-2xl font-bold hover:bg-red-700 transition-colors shadow-lg shadow-red-200">Send Dare 🔥</button>
+                    </div>
+                </div>
             </div>
 
             <!-- 3. LEADERBOARD -->
@@ -135,19 +161,17 @@
                 <div id="leaderboard-list" class="space-y-3 bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm"></div>
             </div>
 
-            <!-- 4. HYPE ROOM -->
-            <div id="hype-room" class="tab-content hidden space-y-6">
-                <h2 class="text-2xl font-bold">Hype Room</h2>
-                <div class="bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm">
-                    <h3 class="font-bold mb-3">A Message from the Fiancé</h3>
-                    <div class="aspect-video bg-zinc-900 rounded-xl flex items-center justify-center text-white/50 text-xs">
-                        [PASTE VIDEO EMBED CODE HERE]
+            <!-- 4. PHOTOS (Collage/Slideshow) -->
+            <div id="photos" class="tab-content hidden space-y-6">
+                <div class="flex justify-between items-end mb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold">Photo Vault</h2>
+                        <p class="text-zinc-500 text-sm">Real-time challenge submissions.</p>
                     </div>
                 </div>
-                <div class="bg-red-50 p-6 rounded-3xl border border-red-200 text-center text-red-900">
-                    <p class="font-bold mb-1">🚨 Julia Panic Button 🚨</p>
-                    <p class="text-sm mb-4">Julia presses this button for a mandatory group mini-dare!</p>
-                    <button onclick="triggerEmergencyDare()" class="bg-red-600 text-white py-3 px-6 rounded-xl font-bold text-lg active:scale-95 transition-transform">EMERGENCY DARE</button>
+                <!-- CSS Grid for Collage -->
+                <div id="photo-collage" class="grid grid-cols-2 md:grid-cols-3 gap-3 pb-10">
+                    <!-- Images populate here -->
                 </div>
             </div>
 
@@ -190,6 +214,17 @@
         </div>
     </div>
 
+    <!-- INCOMING DARE POPUP MODAL -->
+    <div id="incoming-dare-modal" class="fixed inset-0 bg-red-700 z-[100] hidden flex-col items-center justify-center p-6 text-center text-white space-y-8 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]">
+        <div class="animate-bounce text-6xl">☠️</div>
+        <h2 class="text-4xl font-extrabold uppercase tracking-widest text-red-100 animate-pulse">Incoming Dare!</h2>
+        <div class="bg-black/30 p-6 rounded-3xl w-full max-w-sm border border-red-500/50">
+            <p class="text-sm text-red-200 font-bold uppercase tracking-wider mb-2" id="dare-sender-text">From: Someone</p>
+            <p class="text-3xl font-black leading-tight" id="dare-message-text">Do 10 pushups!</p>
+        </div>
+        <button onclick="closeDarePopup()" class="bg-white text-red-800 hover:bg-red-50 font-black py-4 px-8 rounded-2xl text-xl transition-transform active:scale-95 shadow-2xl w-full max-w-sm">I ACCEPT / DISMISS</button>
+    </div>
+
     <!-- SCRIPT SECTION -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.0.0/firebase-app.js";
@@ -209,6 +244,8 @@
         const db = getFirestore(app);
 
         let currentUser = null;
+        let initialDaresLoaded = false;
+        let unsubscribeDares = null;
 
         const triviaQuestions = [
             { q: "Where did Julia meet her fiancé?", options: ["Coffee Shop", "University", "Mutual Friends Party", "Online"], answer: 1 },
@@ -221,13 +258,13 @@
 
         const challengesData = [
             { id: 'trivial-001', phase: 1, title: 'Julia Trivia', points: 50, location: 'At Home' },
-            { id: 'pregame-photo', phase: 1, title: 'Outfit & Drink Check-In', points: 100, location: 'At Home', photoRequired: true },
-            { id: 'mudtown-toast', phase: 2, title: 'Toast at Mudtown Station', points: 100, location: 'River District', photoRequired: true },
-            { id: 'rumpus-cocktail', phase: 2, title: 'Cocktail at The Rumpus Room', points: 100, location: 'River District', photoRequired: true },
-            { id: 'groom-selfie', phase: 2, title: 'Groom Name Double Selfie', points: 150, location: 'Any Pub', photoRequired: true },
-            { id: 'wedding-finds', phase: 2, title: 'Old/New/Borrowed/Blue Find', points: 200, location: 'Any Pub', photoRequired: true },
-            { id: 'julia-memory', phase: 2, title: 'Bride Memory Pose Recreation', points: 150, location: 'Any Pub', photoRequired: true },
-            { id: 'harb-dare', phase: 2, title: 'Request Guilty Pleasure Song', points: 100, location: 'The Harb / H2O', photoRequired: true }
+            { id: 'pregame-photo', phase: 1, title: 'Outfit & Drink Check-In', points: 100, location: 'At Home' },
+            { id: 'mudtown-toast', phase: 2, title: 'Toast at Mudtown Station', points: 100, location: 'River District' },
+            { id: 'rumpus-cocktail', phase: 2, title: 'Cocktail at The Rumpus Room', points: 100, location: 'River District' },
+            { id: 'groom-selfie', phase: 2, title: 'Groom Name Double Selfie', points: 150, location: 'Any Pub' },
+            { id: 'wedding-finds', phase: 2, title: 'Old/New/Borrowed/Blue Find', points: 200, location: 'Any Pub' },
+            { id: 'julia-memory', phase: 2, title: 'Bride Memory Pose Recreation', points: 150, location: 'Any Pub' },
+            { id: 'harb-dare', phase: 2, title: 'Request Guilty Pleasure Song', points: 100, location: 'The Harb / H2O' }
         ];
 
         window.switchAuthMode = function(mode) {
@@ -316,7 +353,6 @@
 
                 updateUIForLoggedInUser();
                 initializeRealtimeListeners();
-                alert(`Welcome back, ${currentUser.name}! 🎉`);
 
             } catch (error) {
                 console.error("Login error: ", error);
@@ -346,6 +382,7 @@
             }
         };
 
+        // --- TRIVIA LOGIC ---
         window.startQuiz = function() {
             if (!currentUser) return alert("Please set up your profile first!");
             currentQuestionIdx = 0;
@@ -379,7 +416,6 @@
             if (selectedIdx === triviaQuestions[currentQuestionIdx].answer) {
                 quizScore += 1;
             }
-
             currentQuestionIdx++;
 
             if (currentQuestionIdx < triviaQuestions.length) {
@@ -406,26 +442,71 @@
             }
         }
 
-        window.triggerEmergencyDare = function() {
-            const dares = [
-                "Group Shot! Everyone must take a sip / shot together right now!",
-                "Julia leads a 10-second dance party on the spot!",
-                "Pose for a dramatic 90s band album cover photo right now!",
-                "Everyone compliment Julia using only 3-word sentences!"
-            ];
-            const randomDare = dares[Math.floor(Math.random() * dares.length)];
-            alert(`🚨 EMERGENCY DARE TRIGGERED 🚨\n\n${randomDare}`);
+        // --- DARE PIT LOGIC ---
+        window.toggleDareForm = function() {
+            const btn = document.getElementById('open-dare-btn');
+            const form = document.getElementById('dare-form-container');
+            if (form.classList.contains('hidden')) {
+                btn.classList.add('hidden');
+                form.classList.remove('hidden');
+            } else {
+                form.classList.add('hidden');
+                btn.classList.remove('hidden');
+                document.getElementById('dare-message').value = '';
+            }
         };
 
+        window.submitDare = async function() {
+            const targetId = document.getElementById('dare-target').value;
+            const message = document.getElementById('dare-message').value.trim();
+            const submitBtn = document.querySelector('#dare-form-container button:last-child');
+
+            if (!message) return alert("You have to write a dare!");
+
+            submitBtn.innerText = "Sending...";
+            submitBtn.disabled = true;
+
+            try {
+                await addDoc(collection(db, "dares"), {
+                    senderId: currentUser.id,
+                    senderName: currentUser.name,
+                    targetId: targetId,
+                    message: message,
+                    timestamp: new Date()
+                });
+                
+                alert("Dare submitted into the pit! ☠️");
+                toggleDareForm();
+            } catch (error) {
+                console.error("Dare error:", error);
+                alert("Failed to send dare. Try again.");
+            } finally {
+                submitBtn.innerText = "Send Dare 🔥";
+                submitBtn.disabled = false;
+            }
+        };
+
+        window.showDarePopup = function(dareData) {
+            document.getElementById('dare-sender-text').innerText = `Sent by: ${dareData.senderName}`;
+            document.getElementById('dare-message-text').innerText = dareData.message;
+            document.getElementById('incoming-dare-modal').classList.remove('hidden');
+            document.getElementById('incoming-dare-modal').classList.add('flex');
+        };
+
+        window.closeDarePopup = function() {
+            document.getElementById('incoming-dare-modal').classList.add('hidden');
+            document.getElementById('incoming-dare-modal').classList.remove('flex');
+        };
+
+        // --- CORE UI & LISTENERS ---
         function updateUIForLoggedInUser() {
             if (!currentUser) return;
             document.getElementById('onboarding-card').classList.add('hidden');
             document.getElementById('pregame-steps').classList.remove('hidden');
-            document.getElementById('activity-feed-section').classList.remove('hidden');
+            document.getElementById('challenges-section').classList.remove('hidden');
 
             const avatarDiv = document.getElementById('header-user-avatar');
             avatarDiv.innerText = currentUser.name ? currentUser.name.substring(0,2).toUpperCase() : 'VV';
-
             document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
 
             renderChallenges();
@@ -451,23 +532,22 @@
 
             challengesData.forEach(ch => {
                 const card = document.createElement('div');
-                card.className = "bg-white p-6 rounded-3xl border border-zinc-100 shadow-sm flex items-center gap-4";
+                card.className = "bg-white p-5 rounded-3xl border border-zinc-100 shadow-sm flex items-center gap-4";
                 
-                const points = `<span class="font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded-full text-xs">${ch.points} pts</span>`;
+                const points = `<span class="font-bold text-pink-600 bg-pink-100 px-2 py-1 rounded-full text-xs shrink-0">${ch.points} pts</span>`;
                 const location = `<span class="text-zinc-500 text-xs">${ch.location}</span>`;
 
                 card.innerHTML = `
-                    <div class="flex-grow">
-                        <div class="flex justify-between items-center mb-1">
-                            <h3 class="font-bold text-lg">${ch.title}</h3>
+                    <div class="flex-grow min-w-0">
+                        <div class="flex justify-between items-start gap-2 mb-1">
+                            <h3 class="font-bold text-base leading-tight truncate">${ch.title}</h3>
                             ${points}
                         </div>
-                        <p class="text-zinc-600 text-sm mb-1">Upload a photo to complete.</p>
                         ${location}
                     </div>
-                    <div>
+                    <div class="shrink-0">
                         <input type="file" id="input-${ch.id}" class="hidden" accept="image/*" capture="camera" onchange="handleChallengeUpload('${ch.id}', ${ch.points})">
-                        <label for="input-${ch.id}" class="bg-pink-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl cursor-pointer hover:bg-pink-700">+</label>
+                        <label for="input-${ch.id}" class="bg-pink-600 text-white w-12 h-12 rounded-full flex items-center justify-center font-bold text-xl cursor-pointer hover:bg-pink-700 shadow-md">+</label>
                     </div>
                 `;
                 challengeList.appendChild(card);
@@ -480,6 +560,7 @@
 
             if (!currentUser || !currentUser.id) return;
 
+            // 1. Current User Score
             onSnapshot(doc(db, "users", currentUser.id), (docSnap) => {
                 if (docSnap.exists()) {
                     const data = docSnap.data();
@@ -488,15 +569,21 @@
                 }
             });
 
+            // 2. Leaderboard & Dare Targets
             onSnapshot(collection(db, "users"), (snapshot) => {
                 const leaderboardList = document.getElementById('leaderboard-list');
                 leaderboardList.innerHTML = '';
                 
+                const dareTargetSelect = document.getElementById('dare-target');
+                const currentSelectValue = dareTargetSelect.value;
+                dareTargetSelect.innerHTML = '<option value="all">Everyone 🌍</option>';
+
                 const sortedUsers = snapshot.docs
                     .map(doc => ({id: doc.id, ...doc.data()}))
                     .sort((a,b) => (b.score || 0) - (a.score || 0));
 
                 sortedUsers.forEach((u, i) => {
+                    // Build Leaderboard
                     const item = document.createElement('div');
                     item.className = "flex items-center gap-3 p-3 border-b border-zinc-100 last:border-0";
                     item.innerHTML = `
@@ -508,12 +595,23 @@
                         <span class="font-bold text-pink-600">${u.score || 0} pts</span>
                     `;
                     leaderboardList.appendChild(item);
+
+                    // Build Dare Options (excluding self)
+                    if (u.id !== currentUser.id) {
+                        const opt = document.createElement('option');
+                        opt.value = u.id;
+                        opt.innerText = u.name;
+                        dareTargetSelect.appendChild(opt);
+                    }
                 });
+
+                if(currentSelectValue) dareTargetSelect.value = currentSelectValue;
             });
 
+            // 3. Photos (Feed) Collage
             onSnapshot(collection(db, "feed"), (snapshot) => {
-                const feedContainer = document.getElementById('feed-container');
-                feedContainer.innerHTML = '';
+                const photoCollage = document.getElementById('photo-collage');
+                photoCollage.innerHTML = '';
 
                 const sortedFeed = snapshot.docs
                     .map(doc => doc.data())
@@ -521,20 +619,32 @@
 
                 sortedFeed.forEach(f => {
                     const item = document.createElement('div');
-                    item.className = "bg-white p-5 rounded-2xl border border-zinc-100 shadow-sm";
+                    item.className = "relative aspect-square bg-zinc-200 rounded-xl overflow-hidden group shadow-sm";
                     item.innerHTML = `
-                        <div class="flex items-center gap-3 mb-3">
-                            <div class="w-9 h-9 rounded-full bg-pink-100 flex items-center justify-center text-pink-600 font-bold border border-pink-200 text-sm">
-                                ${f.userName ? f.userName.substring(0,2).toUpperCase() : 'VV'}
-                            </div>
-                            <p class="font-bold text-zinc-900">${f.userName} <span class="font-normal text-zinc-600">completed</span> ${f.challengeTitle}</p>
-                        </div>
-                        <div class="aspect-square bg-zinc-100 rounded-xl overflow-hidden">
-                            <img src="${f.photoUrl}" alt="Check-In" class="w-full h-full object-cover">
+                        <img src="${f.photoUrl}" alt="Challenge Photo" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-2">
+                            <span class="text-white text-xs font-bold truncate">${f.userName}</span>
+                            <span class="text-white/80 text-[10px] truncate">${f.challengeTitle}</span>
                         </div>
                     `;
-                    feedContainer.appendChild(item);
+                    photoCollage.appendChild(item);
                 });
+            });
+
+            // 4. Real-time Dares
+            if (unsubscribeDares) unsubscribeDares();
+            
+            unsubscribeDares = onSnapshot(collection(db, "dares"), (snapshot) => {
+                snapshot.docChanges().forEach((change) => {
+                    if (change.type === "added" && initialDaresLoaded) {
+                        const dare = change.doc.data();
+                        // If it's sent to 'all' or directly to the current user (and not sent BY the current user)
+                        if ((dare.targetId === 'all' || dare.targetId === currentUser.id) && dare.senderId !== currentUser.id) {
+                            showDarePopup(dare);
+                        }
+                    }
+                });
+                initialDaresLoaded = true; // Set to true after first fetch so we don't popup old dares
             });
         }
 
@@ -572,7 +682,7 @@
                     });
 
                     fileInput.value = '';
-                    alert(`Challenge Complete! +${points} pts!`);
+                    alert(`Challenge Complete! +${points} pts! Photo added to Vault.`);
                 };
 
             } catch (error) {
@@ -632,6 +742,7 @@
             });
         }
 
+        // Navigation Tab Logic
         const navBtns = document.querySelectorAll('.nav-btn');
         const tabContents = document.querySelectorAll('.tab-content');
 
@@ -645,8 +756,19 @@
                 btn.classList.remove('text-zinc-500');
 
                 tabContents.forEach(tab => tab.classList.add('hidden'));
+                tabContents.forEach(tab => tab.classList.remove('active'));
+                
                 const activeTabId = btn.getAttribute('data-tab');
-                document.getElementById(activeTabId).classList.remove('hidden');
+                const activeTab = document.getElementById(activeTabId);
+                activeTab.classList.remove('hidden');
+                
+                // Keep flex structure for dare pit if active
+                if(activeTabId === 'dare-pit') {
+                    activeTab.classList.add('flex');
+                } else {
+                    activeTab.classList.remove('flex');
+                    activeTab.classList.add('active');
+                }
             });
         });
 

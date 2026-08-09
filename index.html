@@ -688,42 +688,60 @@
                 const btn = document.createElement('button');
                 btn.className = "w-full p-3 text-left border border-amethyst/30 rounded-xl font-medium text-sm hover:border-plum hover:bg-lavender/40 transition-colors text-slate-800";
                 btn.innerText = opt;
-                btn.onclick = () => handleAnswer(idx);
+                btn.onclick = () => handleAnswer(idx, btn, optionsContainer);
                 optionsContainer.appendChild(btn);
             });
         }
 
-        async function handleAnswer(selectedIdx) {
-            if (selectedIdx === triviaQuestions[currentQuestionIdx].answer) {
+        async function handleAnswer(selectedIdx, buttonElement, optionsContainer) {
+            const correctIdx = triviaQuestions[currentQuestionIdx].answer;
+            const optionButtons = optionsContainer.querySelectorAll('button');
+
+            // Disable all options to prevent double-clicking
+            optionButtons.forEach(btn => btn.disabled = true);
+
+            if (selectedIdx === correctIdx) {
                 quizScore += 1;
-            }
-            currentQuestionIdx++;
-
-            if (currentQuestionIdx < triviaQuestions.length) {
-                renderQuizQuestion();
+                // Style selected button as correct (Green)
+                buttonElement.className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
             } else {
-                window.closeQuiz();
-                const totalPoints = quizScore * 20 + 10;
+                // Style selected button as wrong (Red)
+                buttonElement.className = "w-full p-3 text-left border-2 border-rose-400 bg-rose-50 text-rose-700 rounded-xl font-bold text-sm transition-colors";
                 
-                if (currentUser && currentUser.id) {
-                    try {
-                        await updateDoc(doc(db, "users", currentUser.id), {
-                            score: increment(totalPoints),
-                            triviaCompleted: true
-                        });
-                        
-                        currentUser.triviaCompleted = true;
-                        currentUser.score += totalPoints;
-                        localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+                // Highlight the correct answer
+                optionButtons[correctIdx].className = "w-full p-3 text-left border-2 border-moss bg-moss/20 text-fern rounded-xl font-bold text-sm transition-colors";
+            }
 
-                        alert(`🎉 Quiz complete! You scored ${quizScore}/${triviaQuestions.length} (+${totalPoints} pts)!\n\nTHE APP IS NOW UNLOCKED! 🔥`);
-                        updateLockStateUI();
+            // Wait 1.2 seconds to show the indicator before moving forward
+            setTimeout(async () => {
+                currentQuestionIdx++;
 
-                    } catch (e) {
-                        console.error("Error updating quiz score:", e);
+                if (currentQuestionIdx < triviaQuestions.length) {
+                    renderQuizQuestion();
+                } else {
+                    window.closeQuiz();
+                    const totalPoints = quizScore * 20 + 10;
+                    
+                    if (currentUser && currentUser.id) {
+                        try {
+                            await updateDoc(doc(db, "users", currentUser.id), {
+                                score: increment(totalPoints),
+                                triviaCompleted: true
+                            });
+                            
+                            currentUser.triviaCompleted = true;
+                            currentUser.score += totalPoints;
+                            localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+
+                            alert(`🎉 Quiz complete! You scored ${quizScore}/${triviaQuestions.length} (+${totalPoints} pts)!\n\nTHE APP IS NOW UNLOCKED! 🔥`);
+                            updateLockStateUI();
+
+                        } catch (e) {
+                            console.error("Error updating quiz score:", e);
+                        }
                     }
                 }
-            }
+            }, 1200);
         }
 
         function updateLockStateUI() {

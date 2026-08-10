@@ -42,7 +42,6 @@
         .tab-content { display: none; }
         .tab-content.active { display: block; }
         .dare-glow { box-shadow: 0 0 35px rgba(106, 79, 128, 0.45); }
-        .bride-special-glow { box-shadow: 0 0 25px rgba(177, 160, 209, 0.6); }
         details summary::-webkit-details-marker { display: none; }
     </style>
 </head>
@@ -213,7 +212,7 @@
                                 </button>
                             </div>
 
-                            <!-- NEWLY ADDED GAME: WHO KNOWS THE BRIDE BEST? -->
+                            <!-- WHO KNOWS THE BRIDE BEST -->
                             <div id="bride-best-card" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
                                 <div class="flex justify-between items-start mb-2">
                                     <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
@@ -227,7 +226,7 @@
                                 </button>
                             </div>
 
-                            <!-- 1. COLD FEET GAME CARD -->
+                            <!-- COLD FEET GAME CARD -->
                             <div id="cold-feet-card" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
                                 <div class="flex justify-between items-start mb-2">
                                     <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
@@ -241,7 +240,7 @@
                                 </button>
                             </div>
 
-                            <!-- 2. KISS THE GROOM GAME CARD -->
+                            <!-- KISS THE GROOM GAME CARD -->
                             <div id="kiss-groom-card" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
                                 <div class="flex justify-between items-start mb-2">
                                     <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
@@ -255,7 +254,7 @@
                                 </button>
                             </div>
 
-                            <!-- 3. COIN DROP GAME CARD -->
+                            <!-- COIN DROP GAME CARD -->
                             <div id="coin-drop-card" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm">
                                 <div class="flex justify-between items-start mb-2">
                                     <h3 class="font-display text-base font-bold text-plum flex items-center gap-1.5">
@@ -286,127 +285,13 @@
                         </div>
                     </details>
 
-                    <!-- CATEGORY 2: AT THE BAR -->
+                    <!-- CATEGORY: ONLY FOR JULIA -->
                     <details class="bg-white border border-amethyst/30 rounded-3xl overflow-hidden shadow-sm group">
                         <summary class="flex justify-between items-center p-4 font-display font-bold text-lg text-plum cursor-pointer bg-lavender/30 group-open:border-b group-open:border-lavender">
-                            <span class="flex items-center gap-2">🍸 At the Bar</span>
-                            <span class="text-xs font-bold text-plum bg-lavender px-3 py-1 rounded-full border border-amethyst/30">Phase 2</span>
+                            <span class="flex items-center gap-2">💍 Only for Julia</span>
+                            <span class="text-xs font-bold text-plum bg-lavender px-3 py-1 rounded-full border border-amethyst/30">Special</span>
                         </summary>
                         <div class="p-4 space-y-3 bg-white">
-
-                            <div id="card-joshs-twin" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Josh's Twin">Josh's Twin 👯‍♂️</h4>
-                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
-                                    </div>
-                                    <p class="challenge-desc text-xs text-earthen">Take a selfie with a stranger who vaguely resembles Josh.</p>
-                                </div>
-                                <div class="shrink-0 challenge-action-container">
-                                    <input type="file" id="input-joshs-twin" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('joshs-twin', 100)">
-                                    <label for="input-joshs-twin" id="label-joshs-twin" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
-                                </div>
-                            </div>
-
-                            <div id="card-serenade" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="Serenade">Serenade 🎶</h4>
-                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Get a group of strangers to sing a line of a romantic song to the bride.</p>
-                                    </div>
-                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button id="btn-serenade-1" onclick="claimChoiceChallenge('serenade', 100, 'Serenade (Success)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
-                                        Option 1: I did it! (+100)
-                                    </button>
-                                    <button id="btn-serenade-2" onclick="claimChoiceChallenge('serenade', 0, 'Serenade (Declined)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
-                                        Option 2: They weirdly didn't want to do it (0)
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div id="card-wedding-advice" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Wedding Advice">Wedding Advice 💍📹</h4>
-                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
-                                    </div>
-                                    <p class="challenge-desc text-xs text-earthen">Record a video of a couple married for 10+ years giving their best marital advice. (Compress video to be an extremely small file.)</p>
-                                </div>
-                                <div class="shrink-0 challenge-action-container">
-                                    <input type="file" id="input-wedding-advice" class="hidden challenge-input" accept="video/*" capture="environment" onchange="handleChallengeUpload('wedding-advice', 100)">
-                                    <label for="input-wedding-advice" id="label-wedding-advice" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
-                                </div>
-                            </div>
-
-                            <div id="card-the-toast" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="The Toast">The Toast 🥂</h4>
-                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Get a stranger at the bar to make a genuine (or hilarious) toast to the bride.</p>
-                                    </div>
-                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button id="btn-the-toast-1" onclick="claimChoiceChallenge('the-toast', 100, 'The Toast (Success)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
-                                        Option 1: I did it! (+100)
-                                    </button>
-                                    <button id="btn-the-toast-2" onclick="claimChoiceChallenge('the-toast', 0, 'The Toast (Declined)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
-                                        Option 2: They weirdly didn't want to do it (0)
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-                    </details>
-
-                    <!-- CATEGORY 3: AFTER THE BAR -->
-                    <details class="bg-white border border-amethyst/30 rounded-3xl overflow-hidden shadow-sm group">
-                        <summary class="flex justify-between items-center p-4 font-display font-bold text-lg text-plum cursor-pointer bg-lavender/30 group-open:border-b group-open:border-lavender">
-                            <span class="flex items-center gap-2">🌙 After the Bar</span>
-                            <span class="text-xs font-bold text-plum bg-lavender px-3 py-1 rounded-full border border-amethyst/30">Phase 3</span>
-                        </summary>
-                        <div class="p-4 space-y-3 bg-white">
-
-                            <div id="card-julia-memory" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Bride Memory Pose Recreation">Bride Memory Pose Recreation</h4>
-                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
-                                    </div>
-                                    <p class="challenge-desc text-xs text-earthen">Recreate Julia's signature photo pose.</p>
-                                </div>
-                                <div class="shrink-0 challenge-action-container">
-                                    <input type="file" id="input-julia-memory" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('julia-memory', 150)">
-                                    <label for="input-julia-memory" id="label-julia-memory" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
-                                </div>
-                            </div>
-
-                            <div id="card-harb-dare" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Request Guilty Pleasure Song">Request Guilty Pleasure Song</h4>
-                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
-                                    </div>
-                                    <p class="challenge-desc text-xs text-earthen">Request Julia's favorite song at The Harb / H2O.</p>
-                                </div>
-                                <div class="shrink-0 challenge-action-container">
-                                    <input type="file" id="input-harb-dare" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('harb-dare', 100)">
-                                    <label for="input-harb-dare" id="label-harb-dare" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
-                                </div>
-                            </div>
-
-                        </div>
-                    </details>
-
-                    <!-- CATEGORY: ONLY FOR JULIA (SPECIAL BRIDE SECTION - MOVED TO LAST & HIGHLIGHTED) -->
-                    <details open class="bg-gradient-to-br from-lavender/80 via-white to-lavender/40 border-2 border-amethyst rounded-3xl overflow-hidden bride-special-glow group">
-                        <summary class="flex justify-between items-center p-4 font-display font-bold text-lg text-plum cursor-pointer bg-gradient-to-r from-lavender to-amethyst/30 group-open:border-b group-open:border-amethyst/40">
-                            <span class="flex items-center gap-2 text-plum">👑✨ Only for Julia (The Bride's Royal Vault) ✨👑</span>
-                            <span class="text-xs font-extrabold text-white bg-plum px-3 py-1 rounded-full shadow-md border border-amethyst">VIP Exclusive</span>
-                        </summary>
-                        <div class="p-4 space-y-3 bg-white/9thought">
 
                             <div id="card-borrowed-stranger" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
                                 <div class="flex justify-between items-start">
@@ -487,6 +372,120 @@
                                 <div class="shrink-0 challenge-action-container">
                                     <input type="file" id="input-josh-doppelganger" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('josh-doppelganger', 150)">
                                     <label for="input-josh-doppelganger" id="label-josh-doppelganger" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </details>
+
+                    <!-- CATEGORY 2: AT THE BAR -->
+                    <details class="bg-white border border-amethyst/30 rounded-3xl overflow-hidden shadow-sm group">
+                        <summary class="flex justify-between items-center p-4 font-display font-bold text-lg text-plum cursor-pointer bg-lavender/30 group-open:border-b group-open:border-lavender">
+                            <span class="flex items-center gap-2">🍸 At the Bar</span>
+                            <span class="text-xs font-bold text-plum bg-lavender px-3 py-1 rounded-full border border-amethyst/30">Phase 2</span>
+                        </summary>
+                        <div class="p-4 space-y-3 bg-white">
+
+                            <div id="card-joshs-twin" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Josh's Twin">Josh's Twin 👯‍♂️</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
+                                    </div>
+                                    <p class="challenge-desc text-xs text-earthen">Take a selfie with a stranger who vaguely resembles Josh.</p>
+                                </div>
+                                <div class="shrink-0 challenge-action-container">
+                                    <input type="file" id="input-joshs-twin" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('joshs-twin', 100)">
+                                    <label for="input-joshs-twin" id="label-joshs-twin" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                </div>
+                            </div>
+
+                            <div id="card-serenade" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="Serenade">Serenade 🎶</h4>
+                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Get a group of strangers to sing a line of a romantic song to the bride.</p>
+                                    </div>
+                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 pt-1">
+                                    <button id="btn-serenade-1" onclick="claimChoiceChallenge('serenade', 100, 'Serenade (Success)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
+                                        Option 1: I did it! (+100)
+                                    </button>
+                                    <button id="btn-serenade-2" onclick="claimChoiceChallenge('serenade', 0, 'Serenade (Declined)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
+                                        Option 2: They weirdly didn't want to do it (0)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="card-wedding-advice" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Wedding Advice">Wedding Advice 💍📹</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
+                                    </div>
+                                    <p class="challenge-desc text-xs text-earthen">Record a video of a couple married for 10+ years giving their best marital advice.</p>
+                                </div>
+                                <div class="shrink-0 challenge-action-container">
+                                    <input type="file" id="input-wedding-advice" class="hidden challenge-input" accept="video/*" capture="environment" onchange="handleChallengeUpload('wedding-advice', 100)">
+                                    <label for="input-wedding-advice" id="label-wedding-advice" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                </div>
+                            </div>
+
+                            <div id="card-the-toast" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="The Toast">The Toast 🥂</h4>
+                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Get a stranger at the bar to make a genuine (or hilarious) toast to the bride.</p>
+                                    </div>
+                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 pt-1">
+                                    <button id="btn-the-toast-1" onclick="claimChoiceChallenge('the-toast', 100, 'The Toast (Success)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
+                                        Option 1: I did it! (+100)
+                                    </button>
+                                    <button id="btn-the-toast-2" onclick="claimChoiceChallenge('the-toast', 0, 'The Toast (Declined)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
+                                        Option 2: They weirdly didn't want to do it (0)
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </details>
+
+                    <!-- CATEGORY 3: AFTER THE BAR -->
+                    <details class="bg-white border border-amethyst/30 rounded-3xl overflow-hidden shadow-sm group">
+                        <summary class="flex justify-between items-center p-4 font-display font-bold text-lg text-plum cursor-pointer bg-lavender/30 group-open:border-b group-open:border-lavender">
+                            <span class="flex items-center gap-2">🌙 After the Bar</span>
+                            <span class="text-xs font-bold text-plum bg-lavender px-3 py-1 rounded-full border border-amethyst/30">Phase 3</span>
+                        </summary>
+                        <div class="p-4 space-y-3 bg-white">
+
+                            <div id="card-julia-memory" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Bride Memory Pose Recreation">Bride Memory Pose Recreation</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
+                                    </div>
+                                    <p class="challenge-desc text-xs text-earthen">Recreate Julia's signature photo pose.</p>
+                                </div>
+                                <div class="shrink-0 challenge-action-container">
+                                    <input type="file" id="input-julia-memory" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('julia-memory', 150)">
+                                    <label for="input-julia-memory" id="label-julia-memory" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                </div>
+                            </div>
+
+                            <div id="card-harb-dare" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Request Guilty Pleasure Song">Request Guilty Pleasure Song</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
+                                    </div>
+                                    <p class="challenge-desc text-xs text-earthen">Request Julia's favorite song at The Harb / H2O.</p>
+                                </div>
+                                <div class="shrink-0 challenge-action-container">
+                                    <input type="file" id="input-harb-dare" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('harb-dare', 100)">
+                                    <label for="input-harb-dare" id="label-harb-dare" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
@@ -698,10 +697,9 @@
             <div class="space-y-3 overflow-y-auto pr-1 flex-grow text-sm text-slate-700 font-medium">
                 <div class="bg-lavender/40 p-4 rounded-2xl border border-amethyst/20 space-y-2.5">
                     <h4 class="font-bold text-plum font-display text-base">The Ultimate Sabotage Game 🤫</h4>
-                    <p>Every single player starts the night armed with a stash of coins equal to the exact number of people at the party (check in with Dave or Dylan to confirm your starting bank)!</p>
+                    <p>Every single player starts the night armed with a stash of coins equal to the exact number of people at the party!</p>
                     <p><b>The Catch:</b> Every person chooses one completely ordinary word that becomes strictly off-limits for everyone else for the rest of the night.</p>
                     <p>Slip up and accidentally mention a forbidden word? You lose a coin on the spot! Keep your ears open and traps shut.</p>
-                    <p class="text-xs text-earthen italic border-t border-amethyst/20 pt-2">🏆 <b>Final Check-In:</b> Count your remaining coins at the end of the night under the "After the Bar" tab to see who survived with the biggest stash!</p>
                 </div>
             </div>
             <button onclick="closeCoinDropGame()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 transition-all shadow-md">Got it, let's play! 🪙</button>
@@ -719,7 +717,7 @@
         <button onclick="closeDarePopup()" class="bg-ivory text-plum hover:bg-white font-extrabold py-4 px-8 rounded-2xl text-lg transition-transform active:scale-95 shadow-2xl w-full max-w-sm">I ACCEPT / DISMISS</button>
     </div>
 
-    <!-- CHALLENGE SUCCESS POPUP MODAL -->
+    <!-- CHALLENGE SUCCESS MODAL -->
     <div id="challenge-success-modal" class="fixed inset-0 bg-plum/80 backdrop-blur-xs z-[100] hidden flex-col items-center justify-center p-6 text-center text-ivory space-y-5">
         <div class="animate-bounce text-5xl">🔥</div>
         <h2 class="font-display text-3xl font-extrabold tracking-tight text-lavender">Looking hot!</h2>
@@ -753,7 +751,6 @@
 
         let currentUser = null;
         let initialDaresLoaded = false;
-        let unsubscribeDares = null;
         let signupSelfieData = null;
         let cooldownTimerInterval = null;
 
@@ -766,7 +763,6 @@
         let currentQuestionIdx = 0;
         let quizScore = 0;
 
-        // PHOTO GAME DATA
         const photoGameQuestions = [
             { q: "How old was Julia in this photo?", imageUrl: "23", options: ["21 years old", "25 years old", "23 years old", "27 years old"], answer: 2 },
             { q: "How old was Julia in this photo?", imageUrl: "18.png", options: ["18 years old", "16 years old", "20 years old", "22 years old"], answer: 0 },
@@ -780,7 +776,6 @@
         let currentPhotoGameIdx = 0;
         let photoGameScore = 0;
 
-        // WHO KNOWS THE BRIDE BEST? DATA
         const brideBestQuestions = [
             { q: "The names of Julia's rats were:", options: ["Ella and Roxette", "Ella and Robin", "Ellie and Roxanne", "Effie and Roxanne"], answer: 2 },
             { q: "Julia and Melody made soap and water slip and slides and played until their knees stung. This took place in:", options: ["The backyard", "The kitchen", "Melody's bedroom", "Julia's bedroom"], answer: 1 },
@@ -796,20 +791,9 @@
         let brideBestScore = 0;
 
         const allChallengeIds = [
-            'pregame-photo',
-            'joshs-twin',
-            'serenade',
-            'wedding-advice',
-            'the-toast',
-            'julia-memory',
-            'harb-dare',
-            'cold-feet',
-            'kiss-groom',
-            'borrowed-stranger',
-            'premature-dance',
-            'false-proposal',
-            'vachon-signatures',
-            'josh-doppelganger'
+            'pregame-photo', 'joshs-twin', 'serenade', 'wedding-advice', 'the-toast',
+            'julia-memory', 'harb-dare', 'cold-feet', 'kiss-groom', 'borrowed-stranger',
+            'premature-dance', 'false-proposal', 'vachon-signatures', 'josh-doppelganger'
         ];
 
         window.previewSelfie = function(event) {
@@ -829,15 +813,9 @@
                     let height = img.height;
 
                     if (width > height) {
-                        if (width > maxDim) {
-                            height *= maxDim / width;
-                            width = maxDim;
-                        }
+                        if (width > maxDim) { height *= maxDim / width; width = maxDim; }
                     } else {
-                        if (height > maxDim) {
-                            width *= maxDim / height;
-                            height = maxDim;
-                        }
+                        if (height > maxDim) { width *= maxDim / height; height = maxDim; }
                     }
 
                     canvas.width = width;
@@ -876,10 +854,8 @@
         };
 
         window.signUpUser = async function() {
-            const nameInput = document.getElementById('username-input');
-            const passcodeInput = document.getElementById('passcode-input');
-            const name = nameInput.value.trim();
-            const passcode = passcodeInput.value.trim();
+            const name = document.getElementById('username-input').value.trim();
+            const passcode = document.getElementById('passcode-input').value.trim();
 
             if (!name) return alert("Please enter your name!");
             if (!passcode || passcode.length < 4) return alert("Please enter a 4-digit PIN!");
@@ -903,12 +879,11 @@
                     timestamp: serverTimestamp()
                 });
 
-                currentUser = { id: docRef.id, name: name, passcode: passcode, score: 0, selfieUrl: signupSelfieData, triviaCompleted: false, photoGameCompleted: false, brideBestCompleted: false, completedChallenges: [], lastDareTimestamp: null };
+                currentUser = { id: docRef.id, name, passcode, score: 0, selfieUrl: signupSelfieData, triviaCompleted: false, photoGameCompleted: false, brideBestCompleted: false, completedChallenges: [], lastDareTimestamp: null };
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser)); 
 
                 updateUIForLoggedInUser();
                 initializeRealtimeListeners();
-                
             } catch (error) {
                 console.error("Error signing up: ", error);
                 alert("Failed to create profile: " + error.message);
@@ -928,7 +903,7 @@
                 const querySnapshot = await getDocs(q);
 
                 if (querySnapshot.empty) {
-                    return alert("No account found with that name! Double check spelling or create a new profile.");
+                    return alert("No account found with that name!");
                 }
 
                 let foundUser = null;
@@ -939,16 +914,13 @@
                     }
                 });
 
-                if (!foundUser) {
-                    return alert("Incorrect PIN! Please try again.");
-                }
+                if (!foundUser) return alert("Incorrect PIN!");
 
                 currentUser = foundUser;
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser));
 
                 updateUIForLoggedInUser();
                 initializeRealtimeListeners();
-
             } catch (error) {
                 console.error("Login error: ", error);
                 alert("Failed to log in: " + error.message);
@@ -975,7 +947,7 @@
         };
 
         window.logOut = function() {
-            if (confirm("Are you sure you want to log out or switch user?")) {
+            if (confirm("Are you sure you want to log out?")) {
                 localStorage.removeItem('vachonUser');
                 currentUser = null;
                 window.location.reload();
@@ -1027,27 +999,22 @@
 
             setTimeout(async () => {
                 currentQuestionIdx++;
-
                 if (currentQuestionIdx < triviaQuestions.length) {
                     renderQuizQuestion();
                 } else {
                     window.closeQuiz();
                     const totalPoints = quizScore * 20 + 10;
-                    
                     if (currentUser && currentUser.id) {
                         try {
                             await updateDoc(doc(db, "users", currentUser.id), {
                                 score: increment(totalPoints),
                                 triviaCompleted: true
                             });
-                            
                             currentUser.triviaCompleted = true;
                             currentUser.score += totalPoints;
                             localStorage.setItem('vachonUser', JSON.stringify(currentUser));
-
                             alert(`🎉 Quiz complete! You scored ${quizScore}/${triviaQuestions.length} (+${totalPoints} pts)!`);
                             updateLockStateUI();
-
                         } catch (e) {
                             console.error("Error updating quiz score:", e);
                         }
@@ -1056,7 +1023,6 @@
             }, 1200);
         }
 
-        // PHOTO GAME FUNCTIONS
         window.startPhotoGame = function() {
             if (!currentUser) return alert("Please set up your profile first!");
             if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
@@ -1077,15 +1043,10 @@
             
             const imgEl = document.getElementById('photo-game-img');
             const placeholderEl = document.getElementById('photo-game-placeholder');
-
             if (qData.imageUrl) {
                 imgEl.src = qData.imageUrl;
                 imgEl.classList.remove('hidden');
                 placeholderEl.classList.add('hidden');
-            } else {
-                imgEl.classList.add('hidden');
-                placeholderEl.classList.remove('hidden');
-                placeholderEl.innerText = "📸";
             }
             
             const optionsContainer = document.getElementById('photo-game-options');
@@ -1103,7 +1064,6 @@
         async function handlePhotoGameAnswer(selectedIdx, buttonElement, optionsContainer) {
             const correctIdx = photoGameQuestions[currentPhotoGameIdx].answer;
             const optionButtons = optionsContainer.querySelectorAll('button');
-
             optionButtons.forEach(btn => btn.disabled = true);
 
             if (selectedIdx === correctIdx) {
@@ -1116,19 +1076,15 @@
 
             setTimeout(async () => {
                 currentPhotoGameIdx++;
-
                 if (currentPhotoGameIdx < photoGameQuestions.length) {
                     renderPhotoGameQuestion();
                 } else {
                     window.closePhotoGame();
                     const totalPoints = photoGameScore * 10 + 10;
-                    
                     if (currentUser && currentUser.id) {
                         try {
                             const userDoc = await getDoc(doc(db, "users", currentUser.id));
-                            const alreadyDone = userDoc.data().photoGameCompleted;
-                            
-                            if (!alreadyDone) {
+                            if (!userDoc.data().photoGameCompleted) {
                                 await updateDoc(doc(db, "users", currentUser.id), {
                                     score: increment(totalPoints),
                                     photoGameCompleted: true
@@ -1137,19 +1093,16 @@
                                 currentUser.score += totalPoints;
                                 localStorage.setItem('vachonUser', JSON.stringify(currentUser));
                             }
-
-                            alert(`📸 Photo Game complete! You scored ${photoGameScore}/${photoGameQuestions.length} (+${totalPoints} pts)!`);
+                            alert(`📸 Photo Game complete! (+${totalPoints} pts)!`);
                             updateLockStateUI();
-
                         } catch (e) {
-                            console.error("Error updating photo game score:", e);
+                            console.error(e);
                         }
                     }
                 }
             }, 1200);
         }
 
-        // WHO KNOWS THE BRIDE BEST? FUNCTIONS
         window.startBrideBestGame = function() {
             if (!currentUser) return alert("Please set up your profile first!");
             if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
@@ -1183,7 +1136,6 @@
         async function handleBrideBestAnswer(selectedIdx, buttonElement, optionsContainer) {
             const correctIdx = brideBestQuestions[currentBrideBestIdx].answer;
             const optionButtons = optionsContainer.querySelectorAll('button');
-
             optionButtons.forEach(btn => btn.disabled = true);
 
             if (selectedIdx === correctIdx) {
@@ -1196,19 +1148,15 @@
 
             setTimeout(async () => {
                 currentBrideBestIdx++;
-
                 if (currentBrideBestIdx < brideBestQuestions.length) {
                     renderBrideBestQuestion();
                 } else {
                     window.closeBrideBestGame();
                     const totalPoints = brideBestScore * 10 + 10;
-                    
                     if (currentUser && currentUser.id) {
                         try {
                             const userDoc = await getDoc(doc(db, "users", currentUser.id));
-                            const alreadyDone = userDoc.data().brideBestCompleted;
-                            
-                            if (!alreadyDone) {
+                            if (!userDoc.data().brideBestCompleted) {
                                 await updateDoc(doc(db, "users", currentUser.id), {
                                     score: increment(totalPoints),
                                     brideBestCompleted: true
@@ -1217,19 +1165,16 @@
                                 currentUser.score += totalPoints;
                                 localStorage.setItem('vachonUser', JSON.stringify(currentUser));
                             }
-
-                            alert(`💍 Who Knows the Bride Best? complete! You scored ${brideBestScore}/${brideBestQuestions.length} (+${totalPoints} pts)!`);
+                            alert(`💍 Who Knows the Bride Best complete! (+${totalPoints} pts)!`);
                             updateLockStateUI();
-
                         } catch (e) {
-                            console.error("Error updating bride best score:", e);
+                            console.error(e);
                         }
                     }
                 }
             }, 1200);
         }
 
-        // COLD FEET GAME FUNCTIONS
         window.startColdFeetGame = function() {
             if (!currentUser) return alert("Please set up your profile first!");
             if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
@@ -1247,38 +1192,26 @@
 
             if (completed.includes(challengeId)) {
                 closeColdFeetGame();
-                return alert("⚠️ You have already claimed points for Cold Feet!");
+                return alert("⚠️ Already claimed!");
             }
 
             try {
-                const userDoc = await getDoc(doc(db, "users", currentUser.id));
-                const currentCompleted = userDoc.data().completedChallenges || [];
-
-                if (currentCompleted.includes(challengeId)) {
-                    closeColdFeetGame();
-                    return alert("⚠️ You have already claimed points for Cold Feet!");
-                }
-
                 await updateDoc(doc(db, "users", currentUser.id), {
                     score: increment(points),
-                    completedChallenges: [...currentCompleted, challengeId]
+                    completedChallenges: [...completed, challengeId]
                 });
-
-                currentUser.completedChallenges = [...currentCompleted, challengeId];
+                currentUser.completedChallenges = [...completed, challengeId];
                 currentUser.score += points;
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser));
 
                 closeColdFeetGame();
                 updateLockStateUI();
                 showChallengeSuccessModal(isWinner ? "Cold Feet (Winning Team)" : "Cold Feet (Losing Team)", points);
-
             } catch (e) {
-                console.error("Error updating cold feet score:", e);
-                alert("Failed to record score.");
+                console.error(e);
             }
         };
 
-        // KISS THE GROOM GAME FUNCTIONS
         window.startKissGroomGame = function() {
             if (!currentUser) return alert("Please set up your profile first!");
             if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
@@ -1296,74 +1229,49 @@
 
             if (completed.includes(challengeId)) {
                 closeKissGroomGame();
-                return alert("⚠️ You have already recorded your Kiss the Groom status!");
+                return alert("⚠️ Already recorded!");
             }
 
             try {
-                const userDoc = await getDoc(doc(db, "users", currentUser.id));
-                const currentCompleted = userDoc.data().completedChallenges || [];
-
-                if (currentCompleted.includes(challengeId)) {
-                    closeKissGroomGame();
-                    return alert("⚠️ You have already recorded your Kiss the Groom status!");
-                }
-
                 await updateDoc(doc(db, "users", currentUser.id), {
                     score: increment(points),
-                    completedChallenges: [...currentCompleted, challengeId]
+                    completedChallenges: [...completed, challengeId]
                 });
-
-                currentUser.completedChallenges = [...currentCompleted, challengeId];
+                currentUser.completedChallenges = [...completed, challengeId];
                 currentUser.score += points;
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser));
 
                 closeKissGroomGame();
                 updateLockStateUI();
                 showChallengeSuccessModal(didKiss ? "Kiss the Groom" : "Kiss the Groom (Stayed in Lane)", points);
-
             } catch (e) {
-                console.error("Error updating kiss groom score:", e);
-                alert("Failed to record score.");
+                console.error(e);
             }
         };
 
-        // CHOICE CHALLENGES HANDLER
         window.claimChoiceChallenge = async function(challengeId, points, challengeTitle) {
             if (!currentUser) return alert("Please set up your profile first!");
             if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
 
             const completed = currentUser.completedChallenges || [];
-            if (completed.includes(challengeId)) {
-                return alert("⚠️ You have already recorded your choice for this challenge!");
-            }
+            if (completed.includes(challengeId)) return alert("⚠️ Already recorded!");
 
             try {
-                const userDoc = await getDoc(doc(db, "users", currentUser.id));
-                const currentCompleted = userDoc.data().completedChallenges || [];
-
-                if (currentCompleted.includes(challengeId)) {
-                    return alert("⚠️ You have already recorded your choice for this challenge!");
-                }
-
                 await updateDoc(doc(db, "users", currentUser.id), {
                     score: increment(points),
-                    completedChallenges: [...currentCompleted, challengeId]
+                    completedChallenges: [...completed, challengeId]
                 });
-
-                currentUser.completedChallenges = [...currentCompleted, challengeId];
+                currentUser.completedChallenges = [...completed, challengeId];
                 currentUser.score += points;
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser));
 
                 updateLockStateUI();
                 showChallengeSuccessModal(challengeTitle, points);
-
             } catch (e) {
-                console.error("Error updating choice challenge score:", e);
-                alert("Failed to record score.");
+                console.error(e);
             }
         };
 
-        // COIN DROP GAME FUNCTIONS
         window.startCoinDropGame = function() {
             if (!currentUser) return alert("Please set up your profile first!");
             if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
@@ -1383,239 +1291,44 @@
             const triviaBadge = document.getElementById('trivia-badge');
             const triviaDesc = document.getElementById('trivia-desc');
 
-            const photoGameBtn = document.getElementById('photo-game-btn');
-            const photoGameCard = document.getElementById('photo-game-card');
-            const photoGameBadge = document.getElementById('photo-game-badge');
-            const photoGameDesc = document.getElementById('photo-game-desc');
-            const isPhotoGameDone = currentUser && currentUser.photoGameCompleted;
-
-            const brideBestBtn = document.getElementById('bride-best-btn');
-            const brideBestCard = document.getElementById('bride-best-card');
-            const brideBestBadge = document.getElementById('bride-best-badge');
-            const brideBestDesc = document.getElementById('bride-best-desc');
-            const isBrideBestDone = currentUser && currentUser.brideBestCompleted;
-
-            // Cold Feet UI
-            const coldFeetBtn = document.getElementById('cold-feet-btn');
-            const coldFeetCard = document.getElementById('cold-feet-card');
-            const coldFeetBadge = document.getElementById('cold-feet-badge');
-            const coldFeetDesc = document.getElementById('cold-feet-desc');
-            const isColdFeetDone = currentUser && (currentUser.completedChallenges || []).includes('cold-feet');
-
-            // Kiss Groom UI
-            const kissGroomBtn = document.getElementById('kiss-groom-btn');
-            const kissGroomCard = document.getElementById('kiss-groom-card');
-            const kissGroomBadge = document.getElementById('kiss-groom-badge');
-            const kissGroomDesc = document.getElementById('kiss-groom-desc');
-            const isKissGroomDone = currentUser && (currentUser.completedChallenges || []).includes('kiss-groom');
-
             if (isUnlocked) {
                 if (triviaLockBanner) triviaLockBanner.classList.add('hidden');
-                
                 if (triviaBtn) {
                     triviaBtn.innerText = "Completed ✓";
                     triviaBtn.disabled = true;
                     triviaBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-90 cursor-not-allowed shadow-none";
                 }
-                if (triviaCard) {
-                    triviaCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
-                }
+                if (triviaCard) triviaCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
                 if (triviaBadge) {
                     triviaBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-1 rounded-full border border-moss/30";
                     triviaBadge.innerText = "Completed ✓";
                 }
-                if (triviaDesc) {
-                    triviaDesc.innerText = "You have successfully tested your knowledge and unlocked the adventure!";
-                }
+                if (triviaDesc) triviaDesc.innerText = "You have successfully tested your knowledge and unlocked the adventure!";
 
                 navButtons.forEach(btn => {
                     btn.classList.remove('disabled-tab', 'opacity-50');
                     const label = btn.querySelector('.tab-label');
-                    if (label) {
-                        label.innerText = label.innerText.replace(' 🔒', '');
-                    }
+                    if (label) label.innerText = label.innerText.replace(' 🔒', '');
                 });
-
             } else {
                 if (triviaLockBanner) triviaLockBanner.classList.remove('hidden');
             }
 
-            // Photo Game UI state update
-            if (isPhotoGameDone) {
-                if (photoGameBtn) {
-                    photoGameBtn.innerText = "Completed ✓";
-                    photoGameBtn.disabled = true;
-                    photoGameBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-90 cursor-not-allowed shadow-none";
-                }
-                if (photoGameCard) {
-                    photoGameCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
-                }
-                if (photoGameBadge) {
-                    photoGameBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-1 rounded-full border border-moss/30";
-                    photoGameBadge.innerText = "Completed ✓";
-                }
-                if (photoGameDesc) {
-                    photoGameDesc.innerText = "You successfully guessed Julia's ages!";
-                }
-            } else if (!isUnlocked) {
-                if (photoGameCard) photoGameCard.classList.add('opacity-60');
-                if (photoGameBtn) photoGameBtn.disabled = true;
-            } else {
-                if (photoGameCard) photoGameCard.classList.remove('opacity-60');
-                if (photoGameBtn) photoGameBtn.disabled = false;
-            }
-
-            // Who Knows the Bride Best UI state update
-            if (isBrideBestDone) {
-                if (brideBestBtn) {
-                    brideBestBtn.innerText = "Completed ✓";
-                    brideBestBtn.disabled = true;
-                    brideBestBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-90 cursor-not-allowed shadow-none";
-                }
-                if (brideBestCard) {
-                    brideBestCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
-                }
-                if (brideBestBadge) {
-                    brideBestBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-1 rounded-full border border-moss/30";
-                    brideBestBadge.innerText = "Completed ✓";
-                }
-                if (brideBestDesc) {
-                    brideBestDesc.innerText = "You've proven you know all about Julia's deepest childhood lore!";
-                }
-            } else if (!isUnlocked) {
-                if (brideBestCard) brideBestCard.classList.add('opacity-60');
-                if (brideBestBtn) brideBestBtn.disabled = true;
-            } else {
-                if (brideBestCard) brideBestCard.classList.remove('opacity-60');
-                if (brideBestBtn) brideBestBtn.disabled = false;
-            }
-
-            // Cold Feet UI state update
-            if (isColdFeetDone) {
-                if (coldFeetBtn) {
-                    coldFeetBtn.innerText = "Completed ✓";
-                    coldFeetBtn.disabled = true;
-                    coldFeetBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-90 cursor-not-allowed shadow-none";
-                }
-                if (coldFeetCard) {
-                    coldFeetCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
-                }
-                if (coldFeetBadge) {
-                    coldFeetBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-1 rounded-full border border-moss/30";
-                    coldFeetBadge.innerText = "Completed ✓";
-                }
-                if (coldFeetDesc) {
-                    coldFeetDesc.innerText = "You completed the Cold Feet ice melting challenge!";
-                }
-            } else if (!isUnlocked) {
-                if (coldFeetCard) coldFeetCard.classList.add('opacity-60');
-                if (coldFeetBtn) coldFeetBtn.disabled = true;
-            } else {
-                if (coldFeetCard) coldFeetCard.classList.remove('opacity-60');
-                if (coldFeetBtn) coldFeetBtn.disabled = false;
-            }
-
-            // Kiss Groom UI state update
-            if (isKissGroomDone) {
-                if (kissGroomBtn) {
-                    kissGroomBtn.innerText = "Completed ✓";
-                    kissGroomBtn.disabled = true;
-                    kissGroomBtn.className = "w-full bg-moss text-white p-3 rounded-xl font-bold text-sm opacity-90 cursor-not-allowed shadow-none";
-                }
-                if (kissGroomCard) {
-                    kissGroomCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
-                }
-                if (kissGroomBadge) {
-                    kissGroomBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-0.5 rounded-full border border-moss/30";
-                    kissGroomBadge.innerText = "Completed ✓";
-                }
-                if (kissGroomDesc) {
-                    kissGroomDesc.innerText = "You survived the blindfolded groom kiss challenge!";
-                }
-            } else if (!isUnlocked) {
-                if (kissGroomCard) kissGroomCard.classList.add('opacity-60');
-                if (kissGroomBtn) kissGroomBtn.disabled = true;
-            } else {
-                if (kissGroomCard) kissGroomCard.classList.remove('opacity-60');
-                if (kissGroomBtn) kissGroomBtn.disabled = false;
-            }
-
-            // Choice challenges state update
             const completedChallenges = currentUser && currentUser.completedChallenges ? currentUser.completedChallenges : [];
-            
-            ['borrowed-stranger', 'premature-dance', 'false-proposal', 'serenade', 'the-toast'].forEach(id => {
-                const isDone = completedChallenges.includes(id);
-                const btn1 = document.getElementById(`btn-${id}-1`);
-                const btn2 = document.getElementById(`btn-${id}-2`);
-                const card = document.getElementById(`card-${id}`);
-
-                if (isDone) {
-                    if (btn1) { btn1.disabled = true; btn1.classList.add('opacity-50', 'cursor-not-allowed'); }
-                    if (btn2) { btn2.disabled = true; btn2.classList.add('opacity-50', 'cursor-not-allowed'); }
-                    if (card) card.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm space-y-3 transition-all";
-                } else if (!isUnlocked) {
-                    if (btn1) { btn1.disabled = true; }
-                    if (btn2) { btn2.disabled = true; }
-                    if (card) card.classList.add('opacity-60');
-                } else {
-                    if (btn1) { btn1.disabled = false; btn1.classList.remove('opacity-50', 'cursor-not-allowed'); }
-                    if (btn2) { btn2.disabled = false; btn2.classList.remove('opacity-50', 'cursor-not-allowed'); }
-                    if (card) card.classList.remove('opacity-60');
-                }
-            });
-
-            // Update individual challenges completion status
             allChallengeIds.forEach(id => {
                 const card = document.getElementById(`card-${id}`);
                 const input = document.getElementById(`input-${id}`);
                 const label = document.getElementById(`label-${id}`);
-                
                 if (!card) return;
 
                 const isDone = completedChallenges.includes(id);
-                const badge = card.querySelector('.challenge-badge');
-                const desc = card.querySelector('.challenge-desc');
-
                 if (isDone) {
                     card.className = "challenge-card bg-moss/10 p-3.5 rounded-2xl border-2 border-moss/40 flex items-center justify-between gap-3 transition-all";
-                    if (badge) {
-                        badge.className = "challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30";
-                        badge.innerText = "Completed ✓";
-                    }
-                    if (desc) {
-                        desc.className = "challenge-desc text-xs text-fern font-medium";
-                        desc.innerText = "Challenge completed! Great job.";
-                    }
                     if (label) {
                         label.className = "bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm opacity-60 cursor-not-allowed shadow-none";
                         label.innerHTML = "✓";
                     }
-                    if (input) {
-                        input.disabled = true;
-                    }
-                } else {
-                    const isAppLocked = !isUnlocked;
-                    if (isAppLocked) {
-                        card.className = "challenge-card bg-ivory/40 p-3.5 rounded-2xl border border-amethyst/20 opacity-60 flex items-center justify-between gap-3 transition-all";
-                        if (label) {
-                            label.className = "bg-earthen/50 text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-not-allowed shadow-sm transition-colors";
-                        }
-                        if (input) {
-                            input.disabled = true;
-                        }
-                    } else {
-                        card.className = "challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/30 flex items-center justify-between gap-3 transition-all";
-                        if (badge) {
-                            badge.className = "challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30";
-                        }
-                        if (label) {
-                            label.className = "bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors";
-                            label.innerHTML = "+";
-                        }
-                        if (input) {
-                            input.disabled = false;
-                        }
-                    }
+                    if (input) input.disabled = true;
                 }
             });
         }
@@ -1642,11 +1355,10 @@
 
             if (currentUser.lastDareTimestamp) {
                 const lastTime = currentUser.lastDareTimestamp.toDate ? currentUser.lastDareTimestamp.toDate() : new Date(currentUser.lastDareTimestamp);
-                const diffMs = new Date() - lastTime;
-                const diffMins = diffMs / (1000 * 60);
+                const diffMins = (new Date() - lastTime) / (1000 * 60);
                 if (diffMins < 30) {
                     const remainingMins = Math.ceil(30 - diffMins);
-                    return alert(`⏳ You are on a dare cooldown! Please wait another ${remainingMins} minutes before submitting a new dare.`);
+                    return alert(`⏳ Cooldown active! Please wait another ${remainingMins} minutes.`);
                 }
             }
 
@@ -1664,72 +1376,26 @@
                     timestamp: now
                 });
                 
-                await updateDoc(doc(db, "users", currentUser.id), {
-                    lastDareTimestamp: now
-                });
-
+                await updateDoc(doc(db, "users", currentUser.id), { lastDareTimestamp: now });
                 currentUser.lastDareTimestamp = now;
                 localStorage.setItem('vachonUser', JSON.stringify(currentUser));
 
                 alert("Dare submitted into the pit! ☠️");
                 toggleDareForm();
-                checkDareCooldown();
             } catch (error) {
-                console.error("Dare error:", error);
-                alert("Failed to send dare. Try again.");
+                console.error(error);
+                alert("Failed to send dare.");
             } finally {
                 submitBtn.innerText = "Send Dare 🔥";
                 submitBtn.disabled = false;
             }
         };
 
-        function checkDareCooldown() {
-            const banner = document.getElementById('dare-cooldown-banner');
-            const openBtn = document.getElementById('open-dare-btn');
-            const timerSpan = document.getElementById('dare-countdown-timer');
-
-            if (cooldownTimerInterval) clearInterval(cooldownTimerInterval);
-
-            if (!currentUser || !currentUser.lastDareTimestamp) {
-                banner.classList.add('hidden');
-                openBtn.classList.remove('opacity-50', 'pointer-events-none');
-                return;
-            }
-
-            const lastTime = currentUser.lastDareTimestamp.toDate ? currentUser.lastDareTimestamp.toDate() : new Date(currentUser.lastDareTimestamp);
-            
-            const updateTimer = () => {
-                const now = new Date();
-                const diffMs = now - lastTime;
-                const thirtyMinsMs = 30 * 60 * 1000;
-
-                if (diffMs < thirtyMinsMs) {
-                    const remainingMs = thirtyMinsMs - diffMs;
-                    const mins = Math.floor(remainingMs / (1000 * 60));
-                    const secs = Math.floor((remainingMs % (1000 * 60)) / 1000);
-
-                    timerSpan.innerText = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-                    banner.classList.remove('hidden');
-                    openBtn.classList.add('opacity-50', 'pointer-events-none');
-                } else {
-                    banner.classList.add('hidden');
-                    openBtn.classList.remove('opacity-50', 'pointer-events-none');
-                    if (cooldownTimerInterval) clearInterval(cooldownTimerInterval);
-                }
-            };
-
-            updateTimer();
-            cooldownTimerInterval = setInterval(updateTimer, 1000);
-        }
-
         window.updateDareStatus = async function(dareId, status) {
             try {
-                await updateDoc(doc(db, "dares", dareId), {
-                    status: status
-                });
+                await updateDoc(doc(db, "dares", dareId), { status });
             } catch (e) {
-                console.error("Error updating dare status:", e);
-                alert("Failed to update status.");
+                console.error(e);
             }
         };
 
@@ -1761,7 +1427,6 @@
 
         function updateUIForLoggedInUser() {
             if (!currentUser) return;
-            
             document.getElementById('auth-screen').classList.add('hidden');
             document.getElementById('app').classList.remove('hidden');
 
@@ -1774,7 +1439,6 @@
 
             document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
             updateLockStateUI();
-            checkDareCooldown();
         }
 
         function checkExistingUser() {
@@ -1793,7 +1457,6 @@
 
         function initializeRealtimeListeners() {
             document.getElementById('loading').classList.add('hidden');
-
             if (!currentUser || !currentUser.id) return;
 
             onSnapshot(doc(db, "users", currentUser.id), (docSnap) => {
@@ -1808,7 +1471,6 @@
                     
                     document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
                     updateLockStateUI();
-                    checkDareCooldown();
                 }
             });
 
@@ -1855,8 +1517,149 @@
                 const sortedFeed = snapshot.docs
                     .map(doc => doc.data())
                     .sort((a,b) => b.timestamp - a.timestamp);
+
+                sortedFeed.forEach(f => {
+                    const item = document.createElement('div');
+                    item.className = "bg-white p-2 rounded-2xl border border-amethyst/30 shadow-sm space-y-1";
+                    item.innerHTML = `
+                        <div class="h-36 rounded-xl overflow-hidden bg-lavender/40">
+                            <img src="${f.imageUrl}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="p-1">
+                            <p class="font-bold text-xs text-plum">${f.userName || 'Someone'}</p>
+                            <p class="text-[10px] text-earthen">${f.challengeName || 'Challenge Photo'}</p>
+                        </div>
+                    `;
+                    photoCollage.appendChild(item);
+                });
+            });
+
+            onSnapshot(collection(db, "dares"), (snapshot) => {
+                const dareFeedList = document.getElementById('dare-feed-list');
+                dareFeedList.innerHTML = '';
+
+                snapshot.docs.forEach(docSnap => {
+                    const dare = { id: docSnap.id, ...docSnap.data() };
+                    
+                    if (!initialDaresLoaded && dare.status === 'active') {
+                        if (currentUser && (dare.targetId === 'all' || dare.targetId === currentUser.id) && dare.senderId !== currentUser.id) {
+                            showDarePopup(dare);
+                        }
+                    }
+
+                    const item = document.createElement('div');
+                    item.className = "bg-white p-4 rounded-2xl border border-amethyst/30 shadow-sm space-y-2";
+                    item.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <span class="text-[10px] font-bold text-earthen uppercase tracking-wider">From: ${dare.senderName}</span>
+                            <span class="text-[10px] font-extrabold px-2 py-0.5 rounded-full ${dare.status === 'active' ? 'bg-amber-100 text-amber-800' : 'bg-moss/20 text-fern'}">${dare.status}</span>
+                        </div>
+                        <p class="font-display font-bold text-sm text-slate-800">${dare.message}</p>
+                        ${dare.status === 'active' ? `
+                            <div class="flex gap-2 pt-1">
+                                <button onclick="updateDareStatus('${dare.id}', 'completed')" class="flex-1 bg-moss text-white py-2 rounded-xl font-bold text-xs hover:bg-fern transition-colors">Done 🔥</button>
+                                <button onclick="updateDareStatus('${dare.id}', 'dismissed')" class="flex-1 bg-lavender text-plum py-2 rounded-xl font-bold text-xs hover:bg-lavender/80 transition-colors">Dismiss</button>
+                            </div>
+                        ` : ''}
+                    `;
+                    dareFeedList.appendChild(item);
+                });
+
+                initialDaresLoaded = true;
             });
         }
+
+        window.handleChallengeUpload = async function(challengeId, points) {
+            const fileInput = document.getElementById(`input-${challengeId}`);
+            if (!fileInput || !fileInput.files || !fileInput.files[0]) return;
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+
+            reader.onload = async function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = async () => {
+                    const canvas = document.createElement('canvas');
+                    const ctx = canvas.getContext('2d');
+                    const maxDim = 500;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > maxDim) { height *= maxDim / width; width = maxDim; }
+                    } else {
+                        if (height > maxDim) { width *= maxDim / height; height = maxDim; }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const resizedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
+                    const challengeTitleEl = document.querySelector(`#card-${challengeId} [data-challenge-title]`) || document.querySelector(`#card-${challengeId} h4`);
+                    const challengeTitle = challengeTitleEl ? challengeTitleEl.innerText : "Challenge";
+
+                    try {
+                        await addDoc(collection(db, "feed"), {
+                            userId: currentUser.id,
+                            userName: currentUser.name,
+                            challengeId: challengeId,
+                            challengeName: challengeTitle,
+                            imageUrl: resizedDataUrl,
+                            timestamp: Date.now()
+                        });
+
+                        const userDoc = await getDoc(doc(db, "users", currentUser.id));
+                        const currentCompleted = userDoc.data().completedChallenges || [];
+
+                        if (!currentCompleted.includes(challengeId)) {
+                            await updateDoc(doc(db, "users", currentUser.id), {
+                                score: increment(points),
+                                completedChallenges: [...currentCompleted, challengeId]
+                            });
+                            currentUser.completedChallenges = [...currentCompleted, challengeId];
+                            currentUser.score += points;
+                            localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+                        }
+
+                        updateLockStateUI();
+                        showChallengeSuccessModal(challengeTitle, points);
+                    } catch (err) {
+                        console.error(err);
+                        alert("Failed to upload photo.");
+                    }
+                };
+            };
+            reader.readAsDataURL(file);
+        };
+
+        const navBtns = document.querySelectorAll('.nav-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                if (btn.classList.contains('disabled-tab')) {
+                    return alert("🔒 Complete Julia Trivia first!");
+                }
+
+                const targetTab = btn.getAttribute('data-tab');
+                navBtns.forEach(b => {
+                    b.className = "nav-btn py-2.5 px-1 text-center text-earthen flex flex-col items-center justify-center gap-0.5 transition-all";
+                });
+                btn.className = "nav-btn py-2.5 px-1 text-center active text-white bg-plum rounded-2xl shadow-md transform transition-all scale-105 flex flex-col items-center justify-center gap-0.5";
+
+                tabContents.forEach(tc => {
+                    if (tc.id === targetTab) {
+                        tc.classList.remove('hidden');
+                        tc.classList.add('active');
+                    } else {
+                        tc.classList.add('hidden');
+                        tc.classList.remove('active');
+                    }
+                });
+            });
+        });
 
         checkExistingUser();
     </script>

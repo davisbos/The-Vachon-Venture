@@ -285,99 +285,6 @@
                         </div>
                     </details>
 
-                    <!-- CATEGORY: ONLY FOR JULIA -->
-                    <details class="bg-white border border-amethyst/30 rounded-3xl overflow-hidden shadow-sm group">
-                        <summary class="flex justify-between items-center p-4 font-display font-bold text-lg text-plum cursor-pointer bg-lavender/30 group-open:border-b group-open:border-lavender">
-                            <span class="flex items-center gap-2">💍 Only for Julia</span>
-                            <span class="text-xs font-bold text-plum bg-lavender px-3 py-1 rounded-full border border-amethyst/30">Special</span>
-                        </summary>
-                        <div class="p-4 space-y-3 bg-white">
-
-                            <div id="card-borrowed-stranger" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="Borrowed from a Stranger">Borrowed from a Stranger 🧢</h4>
-                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Convince a stranger to lend you something for the night (e.g. hat, jacket, ring).</p>
-                                    </div>
-                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button id="btn-borrowed-stranger-1" onclick="claimChoiceChallenge('borrowed-stranger', 100, 'Borrowed from a Stranger (Success)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
-                                        Option 1: I succeeded! (+100)
-                                    </button>
-                                    <button id="btn-borrowed-stranger-2" onclick="claimChoiceChallenge('borrowed-stranger', 0, 'Borrowed from a Stranger (No one gave)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
-                                        Option 2: No one gave me their things (0)
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div id="card-premature-dance" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="Premature First Dance">Premature First Dance 💃</h4>
-                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Slow dance with a friendly stranger for 15 seconds while someone plays phone music.</p>
-                                    </div>
-                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button id="btn-premature-dance-1" onclick="claimChoiceChallenge('premature-dance', 100, 'Premature First Dance (Success)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
-                                        Option 1: I succeeded! (+100)
-                                    </button>
-                                    <button id="btn-premature-dance-2" onclick="claimChoiceChallenge('premature-dance', 0, 'Premature First Dance (Sadly not)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
-                                        Option 2: Sadly not (0)
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div id="card-false-proposal" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="False Proposal for Julia">False Proposal for Julia 💍</h4>
-                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Convince a stranger to get down on one knee and pretend to propose.</p>
-                                    </div>
-                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
-                                </div>
-                                <div class="grid grid-cols-2 gap-2 pt-1">
-                                    <button id="btn-false-proposal-1" onclick="claimChoiceChallenge('false-proposal', 100, 'False Proposal for Julia (Done)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
-                                        Option 1: Done! (+100)
-                                    </button>
-                                    <button id="btn-false-proposal-2" onclick="claimChoiceChallenge('false-proposal', 0, 'False Proposal for Julia (Refused)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
-                                        Option 2: I would never if not Josh (0)
-                                    </button>
-                                </div>
-                            </div>
-
-                            <div id="card-vachon-signatures" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Vachon V.I.P. Signatures">Vachon V.I.P. Signatures ✍️</h4>
-                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
-                                    </div>
-                                    <p class="challenge-desc text-xs text-earthen">Collect 5 signatures on a shirt/sash from people offering quick wedding advice (Snap photo)!</p>
-                                </div>
-                                <div class="shrink-0 challenge-action-container">
-                                    <input type="file" id="input-vachon-signatures" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('vachon-signatures', 150)">
-                                    <label for="input-vachon-signatures" id="label-vachon-signatures" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
-                                </div>
-                            </div>
-
-                            <div id="card-josh-doppelganger" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="The Josh Doppelganger">The Josh Doppelganger 🔍</h4>
-                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
-                                    </div>
-                                    <p class="challenge-desc text-xs text-earthen">Find someone named Josh (or sharing the groom's name) and take a photo!</p>
-                                </div>
-                                <div class="shrink-0 challenge-action-container">
-                                    <input type="file" id="input-josh-doppelganger" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('josh-doppelganger', 150)">
-                                    <label for="input-josh-doppelganger" id="label-josh-doppelganger" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
-                                </div>
-                            </div>
-
-                        </div>
-                    </details>
-
                     <!-- CATEGORY 2: AT THE BAR -->
                     <details class="bg-white border border-amethyst/30 rounded-3xl overflow-hidden shadow-sm group">
                         <summary class="flex justify-between items-center p-4 font-display font-bold text-lg text-plum cursor-pointer bg-lavender/30 group-open:border-b group-open:border-lavender">
@@ -486,6 +393,99 @@
                                 <div class="shrink-0 challenge-action-container">
                                     <input type="file" id="input-harb-dare" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('harb-dare', 100)">
                                     <label for="input-harb-dare" id="label-harb-dare" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                </div>
+                            </div>
+
+                        </div>
+                    </details>
+
+                    <!-- CATEGORY: ONLY FOR JULIA (MOVED TO BOTTOM & LOCKED) -->
+                    <details id="julia-section-details" class="bg-gradient-to-r from-plum via-[#543869] to-plum border-2 border-amethyst rounded-3xl overflow-hidden shadow-xl group text-white">
+                        <summary onclick="handleJuliaHeaderClick(event)" class="flex justify-between items-center p-5 font-display font-extrabold text-xl text-ivory cursor-pointer bg-black/20 group-open:border-b group-open:border-amethyst/40 transition-all hover:bg-black/30">
+                            <span class="flex items-center gap-2.5">👑✨ Only for Julia ✨👑</span>
+                            <span id="julia-badge-status" class="text-xs font-bold text-plum bg-ivory px-3.5 py-1 rounded-full shadow-md">Locked 🔒</span>
+                        </summary>
+                        <div class="p-4 space-y-3 bg-white text-slate-900">
+
+                            <div id="card-borrowed-stranger" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="Borrowed from a Stranger">Borrowed from a Stranger 🧢</h4>
+                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Convince a stranger to lend you something for the night (e.g. hat, jacket, ring).</p>
+                                    </div>
+                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 pt-1">
+                                    <button id="btn-borrowed-stranger-1" onclick="claimChoiceChallenge('borrowed-stranger', 100, 'Borrowed from a Stranger (Success)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
+                                        Option 1: I succeeded! (+100)
+                                    </button>
+                                    <button id="btn-borrowed-stranger-2" onclick="claimChoiceChallenge('borrowed-stranger', 0, 'Borrowed from a Stranger (No one gave)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
+                                        Option 2: No one gave me their things (0)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="card-premature-dance" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="Premature First Dance">Premature First Dance 💃</h4>
+                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Slow dance with a friendly stranger for 15 seconds while someone plays phone music.</p>
+                                    </div>
+                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 pt-1">
+                                    <button id="btn-premature-dance-1" onclick="claimChoiceChallenge('premature-dance', 100, 'Premature First Dance (Success)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
+                                        Option 1: I succeeded! (+100)
+                                    </button>
+                                    <button id="btn-premature-dance-2" onclick="claimChoiceChallenge('premature-dance', 0, 'Premature First Dance (Sadly not)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
+                                        Option 2: Sadly not (0)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="card-false-proposal" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="False Proposal for Julia">False Proposal for Julia 💍</h4>
+                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Convince a stranger to get down on one knee and pretend to propose.</p>
+                                    </div>
+                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 pt-1">
+                                    <button id="btn-false-proposal-1" onclick="claimChoiceChallenge('false-proposal', 100, 'False Proposal for Julia (Done)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
+                                        Option 1: Done! (+100)
+                                    </button>
+                                    <button id="btn-false-proposal-2" onclick="claimChoiceChallenge('false-proposal', 0, 'False Proposal for Julia (Refused)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
+                                        Option 2: I would never if not Josh (0)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="card-vachon-signatures" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Vachon V.I.P. Signatures">Vachon V.I.P. Signatures ✍️</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
+                                    </div>
+                                    <p class="challenge-desc text-xs text-earthen">Collect 5 signatures on a shirt/sash from people offering quick wedding advice (Snap photo)!</p>
+                                </div>
+                                <div class="shrink-0 challenge-action-container">
+                                    <input type="file" id="input-vachon-signatures" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('vachon-signatures', 150)">
+                                    <label for="input-vachon-signatures" id="label-vachon-signatures" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                </div>
+                            </div>
+
+                            <div id="card-josh-doppelganger" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-0.5">
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="The Josh Doppelganger">The Josh Doppelganger 🔍</h4>
+                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
+                                    </div>
+                                    <p class="challenge-desc text-xs text-earthen">Find someone named Josh (or sharing the groom's name) and take a photo!</p>
+                                </div>
+                                <div class="shrink-0 challenge-action-container">
+                                    <input type="file" id="input-josh-doppelganger" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('josh-doppelganger', 150)">
+                                    <label for="input-josh-doppelganger" id="label-josh-doppelganger" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
@@ -753,6 +753,28 @@
         let initialDaresLoaded = false;
         let signupSelfieData = null;
         let cooldownTimerInterval = null;
+        let isJuliaUnlocked = false;
+
+        window.handleJuliaHeaderClick = function(event) {
+            if (!isJuliaUnlocked) {
+                event.preventDefault(); // Stop details from opening natively until unlocked
+                const check1 = confirm("Are you Julia?");
+                if (!check1) {
+                    alert("Access denied! Nice try impostor 🕵️‍♀️");
+                    return;
+                }
+                const check2 = confirm("Are you REALLY Julia?");
+                if (!check2) {
+                    alert("Caught you! Only Queen Julia can enter 👑");
+                    return;
+                }
+                isJuliaUnlocked = true;
+                document.getElementById('julia-badge-status').innerText = "Unlocked ✓";
+                document.getElementById('julia-badge-status').className = "text-xs font-bold text-white bg-moss px-3.5 py-1 rounded-full shadow-md";
+                document.getElementById('julia-section-details').open = true;
+                alert("Access granted, Queen Julia! ✨👑");
+            }
+        };
 
         const triviaQuestions = [
             { q: "How did Julia and Josh meet?", options: ["Online gaming", "University", "Through Denise", "Tinder"], answer: 0 },

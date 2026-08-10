@@ -386,59 +386,67 @@
                         </summary>
                         <div class="p-4 space-y-3 bg-white">
 
-                            <div id="card-mudtown-toast" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
+                            <div id="card-joshs-twin" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Toast at Mudtown Station">Toast at Mudtown Station</h4>
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Josh's Twin">Josh's Twin 👯‍♂️</h4>
                                         <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
                                     </div>
-                                    <p class="challenge-desc text-xs text-earthen">Take a photo proposing a toast to Julia.</p>
+                                    <p class="challenge-desc text-xs text-earthen">Take a selfie with a stranger who vaguely resembles Josh.</p>
                                 </div>
                                 <div class="shrink-0 challenge-action-container">
-                                    <input type="file" id="input-mudtown-toast" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('mudtown-toast', 100)">
-                                    <label for="input-mudtown-toast" id="label-mudtown-toast" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                    <input type="file" id="input-joshs-twin" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('joshs-twin', 100)">
+                                    <label for="input-joshs-twin" id="label-joshs-twin" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
-                            <div id="card-rumpus-cocktail" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
+                            <div id="card-serenade" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="Serenade">Serenade 🎶</h4>
+                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Get a group of strangers to sing a line of a romantic song to the bride.</p>
+                                    </div>
+                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 pt-1">
+                                    <button id="btn-serenade-1" onclick="claimChoiceChallenge('serenade', 100, 'Serenade (Success)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
+                                        Option 1: I did it! (+100)
+                                    </button>
+                                    <button id="btn-serenade-2" onclick="claimChoiceChallenge('serenade', 0, 'Serenade (Declined)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
+                                        Option 2: They weirdly didn't want to do it (0)
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="card-wedding-advice" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Cocktail at The Rumpus Room">Cocktail at The Rumpus Room</h4>
+                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Wedding Advice">Wedding Advice 💍📹</h4>
                                         <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+100 pts</span>
                                     </div>
-                                    <p class="challenge-desc text-xs text-earthen">Snap a signature cocktail photo.</p>
+                                    <p class="challenge-desc text-xs text-earthen">Record a video of a couple married for 10+ years giving their best marital advice. (Compress video to be an extremely small file.)</p>
                                 </div>
                                 <div class="shrink-0 challenge-action-container">
-                                    <input type="file" id="input-rumpus-cocktail" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('rumpus-cocktail', 100)">
-                                    <label for="input-rumpus-cocktail" id="label-rumpus-cocktail" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                    <input type="file" id="input-wedding-advice" class="hidden challenge-input" accept="video/*" capture="environment" onchange="handleChallengeUpload('wedding-advice', 100)">
+                                    <label for="input-wedding-advice" id="label-wedding-advice" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
                                 </div>
                             </div>
 
-                            <div id="card-groom-selfie" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Groom Name Double Selfie">Groom Name Double Selfie</h4>
-                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+150 pts</span>
+                            <div id="card-the-toast" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="The Toast">The Toast 🥂</h4>
+                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Get a stranger at the bar to make a genuine (or hilarious) toast to the bride.</p>
                                     </div>
-                                    <p class="challenge-desc text-xs text-earthen">Find someone with the groom's name and snap a photo.</p>
+                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 / 0 pts</span>
                                 </div>
-                                <div class="shrink-0 challenge-action-container">
-                                    <input type="file" id="input-groom-selfie" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('groom-selfie', 150)">
-                                    <label for="input-groom-selfie" id="label-groom-selfie" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
-                                </div>
-                            </div>
-
-                            <div id="card-wedding-finds" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
-                                <div>
-                                    <div class="flex items-center gap-2 mb-0.5">
-                                        <h4 class="font-bold text-sm text-slate-800" data-challenge-title="Old/New/Borrowed/Blue Find">Old/New/Borrowed/Blue Find</h4>
-                                        <span class="challenge-badge text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30">+200 pts</span>
-                                    </div>
-                                    <p class="challenge-desc text-xs text-earthen">Find and photograph one of the traditional items.</p>
-                                </div>
-                                <div class="shrink-0 challenge-action-container">
-                                    <input type="file" id="input-wedding-finds" class="hidden challenge-input" accept="image/*" capture="camera" onchange="handleChallengeUpload('wedding-finds', 200)">
-                                    <label for="input-wedding-finds" id="label-wedding-finds" class="bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors">+</label>
+                                <div class="grid grid-cols-2 gap-2 pt-1">
+                                    <button id="btn-the-toast-1" onclick="claimChoiceChallenge('the-toast', 100, 'The Toast (Success)')" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
+                                        Option 1: I did it! (+100)
+                                    </button>
+                                    <button id="btn-the-toast-2" onclick="claimChoiceChallenge('the-toast', 0, 'The Toast (Declined)')" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
+                                        Option 2: They weirdly didn't want to do it (0)
+                                    </button>
                                 </div>
                             </div>
 
@@ -788,10 +796,10 @@
 
         const allChallengeIds = [
             'pregame-photo',
-            'mudtown-toast',
-            'rumpus-cocktail',
-            'groom-selfie',
-            'wedding-finds',
+            'joshs-twin',
+            'serenade',
+            'wedding-advice',
+            'the-toast',
             'julia-memory',
             'harb-dare',
             'cold-feet',
@@ -1517,7 +1525,7 @@
                     kissGroomCard.className = "bg-moss/10 border-2 border-moss/40 p-4 rounded-2xl shadow-sm transition-all";
                 }
                 if (kissGroomBadge) {
-                    kissGroomBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30";
+                    kissGroomBadge.className = "text-[10px] font-extrabold text-fern bg-moss/20 px-2.5 py-0.5 rounded-full border border-moss/30";
                     kissGroomBadge.innerText = "Completed ✓";
                 }
                 if (kissGroomDesc) {
@@ -1534,7 +1542,7 @@
             // Choice challenges state update
             const completedChallenges = currentUser && currentUser.completedChallenges ? currentUser.completedChallenges : [];
             
-            ['borrowed-stranger', 'premature-dance', 'false-proposal'].forEach(id => {
+            ['borrowed-stranger', 'premature-dance', 'false-proposal', 'serenade', 'the-toast'].forEach(id => {
                 const isDone = completedChallenges.includes(id);
                 const btn1 = document.getElementById(`btn-${id}-1`);
                 const btn2 = document.getElementById(`btn-${id}-2`);
@@ -1849,12 +1857,14 @@
 
                 sortedFeed.forEach(f => {
                     const item = document.createElement('div');
-                    item.className = "relative aspect-square bg-slate-100 rounded-2xl overflow-hidden group shadow-sm border border-amethyst/20";
+                    item.className = "bg-white p-2 rounded-2xl border border-amethyst/30 shadow-sm space-y-1.5";
                     item.innerHTML = `
-                        <img src="${f.photoUrl}" alt="Challenge Photo" class="w-full h-full object-cover">
-                        <div class="absolute inset-0 bg-gradient-to-t from-plum/90 via-transparent to-transparent opacity-90 flex flex-col justify-end p-2.5">
-                            <span class="text-ivory text-xs font-bold truncate">${f.userName}</span>
-                            <span class="text-lavender text-[10px] truncate">${f.challengeTitle || 'Challenge'}</span>
+                        <div class="w-full h-36 rounded-xl overflow-hidden bg-lavender/40">
+                            <img src="${f.imageUrl}" class="w-full h-full object-cover">
+                        </div>
+                        <div class="px-1 pb-1">
+                            <p class="font-bold text-xs text-slate-800">${f.userName}</p>
+                            <p class="text-[10px] text-earthen">${f.challengeTitle}</p>
                         </div>
                     `;
                     photoCollage.appendChild(item);
@@ -1862,140 +1872,63 @@
             });
 
             if (unsubscribeDares) unsubscribeDares();
-            
             unsubscribeDares = onSnapshot(collection(db, "dares"), (snapshot) => {
-                const dareFeedList = document.getElementById('dare-feed-list');
-                dareFeedList.innerHTML = '';
+                const feedList = document.getElementById('dare-feed-list');
+                feedList.innerHTML = '';
 
-                const sortedDares = snapshot.docs
-                    .map(docSnap => ({ id: docSnap.id, ...docSnap.data() }))
-                    .sort((a, b) => {
-                        const timeA = a.timestamp?.toDate ? a.timestamp.toDate() : new Date(0);
-                        const timeB = b.timestamp?.toDate ? b.timestamp.toDate() : new Date(0);
-                        return timeB - timeA;
-                    });
-
-                sortedDares.forEach((dare) => {
-                    const card = document.createElement('div');
-                    card.className = "bg-white p-4 rounded-2xl border border-amethyst/30 shadow-sm space-y-2";
-                    
-                    let statusBadge = '';
-                    if (dare.status === 'accepted') {
-                        statusBadge = `<span class="text-[10px] font-extrabold bg-moss/20 text-fern px-2.5 py-0.5 rounded-full border border-moss/30">Accepted ✓</span>`;
-                    } else if (dare.status === 'denied') {
-                        statusBadge = `<span class="text-[10px] font-extrabold bg-rose-50 text-rose-600 px-2.5 py-0.5 rounded-full border border-rose-200">Denied ✕</span>`;
-                    } else {
-                        statusBadge = `<span class="text-[10px] font-extrabold bg-lavender text-plum px-2.5 py-0.5 rounded-full border border-amethyst/30">Active 🔥</span>`;
-                    }
-
-                    card.innerHTML = `
-                        <div class="flex justify-between items-start">
-                            <span class="text-xs font-bold text-earthen">From: <strong class="text-plum">${dare.senderName || 'Anonymous'}</strong></span>
-                            ${statusBadge}
-                        </div>
-                        <p class="font-display font-bold text-slate-800 text-sm">${dare.message}</p>
-                        ${(!dare.status || dare.status === 'active') ? `
-                            <div class="flex gap-2 pt-1">
-                                <button onclick="updateDareStatus('${dare.id}', 'accepted')" class="flex-1 bg-moss/20 text-fern hover:bg-moss hover:text-white py-2 rounded-xl text-xs font-bold transition-all border border-moss/30">Accept</button>
-                                <button onclick="updateDareStatus('${dare.id}', 'denied')" class="flex-1 bg-rose-50 text-rose-700 hover:bg-rose-600 hover:text-white py-2 rounded-xl text-xs font-bold transition-all border border-rose-200">Deny</button>
-                            </div>
-                        ` : ''}
-                    `;
-                    dareFeedList.appendChild(card);
-
-                    if (initialDaresLoaded && changeTypeIsAdded(snapshot, dare.id)) {
-                        if ((dare.targetId === 'all' || dare.targetId === currentUser.id) && dare.senderId !== currentUser.id) {
-                            showDarePopup(dare);
+                let activeDares = [];
+                snapshot.forEach(docSnap => {
+                    const d = { id: docSnap.id, ...docSnap.data() };
+                    if (d.status === 'active') {
+                        activeDares.push(d);
+                        if (!initialDaresLoaded && d.targetId === currentUser.id) {
+                            showDarePopup(d);
                         }
                     }
                 });
 
                 initialDaresLoaded = true;
-            });
-        }
 
-        function changeTypeIsAdded(snapshot, id) {
-            let isNew = false;
-            snapshot.docChanges().forEach(change => {
-                if (change.type === "added" && change.doc.id === id) {
-                    isNew = true;
+                if (activeDares.length === 0) {
+                    feedList.innerHTML = `<p class="text-center text-xs text-earthen py-4">No active dares right now. The coast is clear! 🛡️</p>`;
+                    return;
                 }
+
+                activeDares.forEach(d => {
+                    const isForMe = d.targetId === currentUser.id;
+                    const item = document.createElement('div');
+                    item.className = `p-4 rounded-3xl border ${isForMe ? 'border-plum bg-lavender/50 dare-glow' : 'border-amethyst/30 bg-white'} space-y-3`;
+                    item.innerHTML = `
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="text-[10px] font-bold uppercase tracking-wider text-earthen">From ${d.senderName} ${d.targetId === 'all' ? '→ Everyone 🌍' : '→ Target'}</span>
+                                <h4 class="font-display text-base font-extrabold text-plum mt-0.5">${d.message}</h4>
+                            </div>
+                        </div>
+                        <div class="flex gap-2 pt-1">
+                            <button onclick="updateDareStatus('${d.id}', 'completed')" class="flex-1 bg-moss text-white py-2 px-3 rounded-xl font-bold text-xs hover:bg-fern transition-colors">Done! 🔥</button>
+                            <button onclick="updateDareStatus('${d.id}', 'dismissed')" class="flex-1 bg-rose-50 text-rose-700 py-2 px-3 rounded-xl font-bold text-xs hover:bg-rose-100 transition-colors">Dismiss ✗</button>
+                        </div>
+                    `;
+                    feedList.appendChild(item);
+                });
             });
-            return isNew;
         }
 
         window.handleChallengeUpload = async function(challengeId, points) {
-            if (!currentUser || !currentUser.triviaCompleted) {
-                return alert("🔒 You must complete the Julia Trivia on the Home page first!");
-            }
-
-            const completed = currentUser.completedChallenges || [];
-            if (completed.includes(challengeId)) {
-                return alert("⚠️ You have already completed this challenge!");
-            }
-
             const fileInput = document.getElementById(`input-${challengeId}`);
             const file = fileInput.files[0];
             if (!file) return;
 
-            const challengeCardEl = fileInput.closest('.challenge-card');
-            const titleEl = challengeCardEl ? challengeCardEl.querySelector('[data-challenge-title]') : null;
-            const challengeTitle = titleEl ? titleEl.innerText : "Challenge";
-
-            try {
-                const stampedImageBlob = await stampImageWithVenture(file);
-                
-                const reader = new FileReader();
-                reader.readAsDataURL(stampedImageBlob);
-                reader.onloadend = async () => {
-                    const base64Image = reader.result;
-
-                    const userDoc = await getDoc(doc(db, "users", currentUser.id));
-                    const currentCompleted = userDoc.data().completedChallenges || [];
-
-                    if (currentCompleted.includes(challengeId)) {
-                        fileInput.value = '';
-                        return alert("⚠️ You have already completed this challenge!");
-                    }
-
-                    await updateDoc(doc(db, "users", currentUser.id), {
-                        score: increment(points),
-                        completedChallenges: [...currentCompleted, challengeId]
-                    });
-
-                    currentUser.completedChallenges = [...currentCompleted, challengeId];
-                    localStorage.setItem('vachonUser', JSON.stringify(currentUser));
-
-                    await addDoc(collection(db, "feed"), {
-                        userName: currentUser.name,
-                        userId: currentUser.id,
-                        challengeId: challengeId,
-                        challengeTitle: challengeTitle,
-                        photoUrl: base64Image,
-                        timestamp: new Date()
-                    });
-
-                    fileInput.value = '';
-                    updateLockStateUI();
-                    showChallengeSuccessModal(challengeTitle, points);
-                };
-
-            } catch (error) {
-                console.error("Upload error:", error);
-                alert("Something went wrong with processing the photo.");
-            }
-        };
-
-        function stampImageWithVenture(file) {
-            return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.onload = async function(e) {
                 const img = new Image();
-                img.src = URL.createObjectURL(file);
-                
-                img.onload = () => {
+                img.src = e.target.result;
+                img.onload = async () => {
                     const canvas = document.createElement('canvas');
                     const ctx = canvas.getContext('2d');
                     
-                    const maxDim = 800;
+                    const maxDim = 500;
                     let width = img.width;
                     let height = img.height;
 
@@ -2013,73 +1946,79 @@
 
                     canvas.width = width;
                     canvas.height = height;
-
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    ctx.save();
-                    ctx.translate(canvas.width, canvas.height);
-                    ctx.rotate(-Math.PI / 4);
-                    ctx.fillStyle = "#6A4F80";
-                    ctx.fillRect(-300, -50, 600, 70);
-                    
-                    ctx.fillStyle = "#FFF8F0";
-                    ctx.font = 'bold 28px -apple-system';
-                    ctx.textAlign = "center";
-                    ctx.fillText("Vachon Venture", 0, -5);
-                    ctx.restore();
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.6);
 
-                    canvas.toBlob((blob) => {
-                        URL.revokeObjectURL(img.src);
-                        resolve(blob);
-                    }, 'image/jpeg', 0.6);
+                    const card = document.getElementById(`card-${challengeId}`);
+                    const challengeTitle = card.querySelector('[data-challenge-title]').getAttribute('data-challenge-title');
+
+                    try {
+                        await addDoc(collection(db, "feed"), {
+                            userId: currentUser.id,
+                            userName: currentUser.name,
+                            challengeId: challengeId,
+                            challengeTitle: challengeTitle,
+                            imageUrl: compressedDataUrl,
+                            timestamp: serverTimestamp()
+                        });
+
+                        const userDoc = await getDoc(doc(db, "users", currentUser.id));
+                        const currentCompleted = userDoc.data().completedChallenges || [];
+
+                        if (!currentCompleted.includes(challengeId)) {
+                            await updateDoc(doc(db, "users", currentUser.id), {
+                                score: increment(points),
+                                completedChallenges: [...currentCompleted, challengeId]
+                            });
+
+                            currentUser.completedChallenges = [...currentCompleted, challengeId];
+                            currentUser.score += points;
+                            localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+                            updateLockStateUI();
+                        }
+
+                        showChallengeSuccessModal(challengeTitle, points);
+
+                    } catch (err) {
+                        console.error("Upload error:", err);
+                        alert("Failed to upload challenge submission.");
+                    }
                 };
-                img.onerror = reject;
-            });
-        }
+            };
+            reader.readAsDataURL(file);
+        };
 
-        const navBtns = document.querySelectorAll('.nav-btn');
-        const tabContents = document.querySelectorAll('.tab-content');
-
-        navBtns.forEach(btn => {
+        const navButtons = document.querySelectorAll('.nav-btn');
+        navButtons.forEach(btn => {
             btn.addEventListener('click', () => {
-                const isHomeTab = btn.getAttribute('data-tab') === 'quest';
-
-                if (!isHomeTab && (!currentUser || !currentUser.triviaCompleted)) {
-                    alert("🔒 App Locked!\n\nYou must complete Julia Trivia on the Home page first to unlock other features!");
-                    return;
+                if (btn.classList.contains('disabled-tab')) {
+                    return alert("🔒 Complete Julia Trivia first to unlock this section!");
                 }
 
-                navBtns.forEach(b => {
-                    b.classList.remove('text-white', 'bg-plum', 'shadow-md', 'scale-105');
+                const targetTab = btn.getAttribute('data-tab');
+
+                navButtons.forEach(b => {
+                    b.classList.remove('active', 'text-white', 'bg-plum', 'rounded-2xl', 'shadow-md', 'scale-105');
                     b.classList.add('text-earthen');
                 });
+                btn.classList.add('active', 'text-white', 'bg-plum', 'rounded-2xl', 'shadow-md', 'scale-105');
+                btn.classList.remove('text-earthen');
 
-                if (isHomeTab) {
-                    btn.classList.add('text-white', 'bg-plum', 'shadow-md', 'scale-105');
-                    btn.classList.remove('text-earthen');
-                } else {
-                    btn.classList.add('text-plum');
-                    btn.classList.remove('text-earthen');
-                }
+                document.querySelectorAll('.tab-content').forEach(tab => {
+                    tab.classList.remove('active');
+                    tab.classList.add('hidden');
+                });
 
-                tabContents.forEach(tab => tab.classList.add('hidden'));
-                tabContents.forEach(tab => tab.classList.remove('active'));
-                
-                const activeTabId = btn.getAttribute('data-tab');
-                const activeTab = document.getElementById(activeTabId);
-                activeTab.classList.remove('hidden');
-                
-                if(activeTabId === 'dare-pit') {
-                    activeTab.classList.add('flex');
-                } else {
-                    activeTab.classList.remove('flex');
+                const activeTab = document.getElementById(targetTab);
+                if (activeTab) {
+                    activeTab.classList.remove('hidden');
                     activeTab.classList.add('active');
                 }
             });
         });
 
-        window.addEventListener('DOMContentLoaded', checkExistingUser);
-
+        window.onload = checkExistingUser;
     </script>
 </body>
 </html>

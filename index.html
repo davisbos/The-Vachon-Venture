@@ -149,13 +149,21 @@
     <div id="app" class="hidden">
         
         <!-- HEADER (Clickable Profile) -->
-        <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-amethyst/20 p-4 flex items-center justify-between shadow-sm">
-            <h1 class="font-display text-xl font-extrabold text-plum">Vachon Venture</h1>
-            <div id="user-profile-header" onclick="toggleProfileModal()" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity bg-lavender/60 py-1.5 px-3 rounded-full border border-amethyst/30">
-                <span id="header-user-score" class="font-extrabold text-xs text-plum">0 pts</span>
-                <div id="header-user-avatar" class="w-7 h-7 rounded-full bg-plum text-ivory flex items-center justify-center font-bold text-xs overflow-hidden border border-amethyst">
-                    VV
+        <header class="bg-white/90 backdrop-blur-md sticky top-0 z-40 border-b border-amethyst/20 shadow-sm">
+            <div class="p-4 flex items-center justify-between">
+                <h1 class="font-display text-xl font-extrabold text-plum">Vachon Venture</h1>
+                <div id="user-profile-header" onclick="toggleProfileModal()" class="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity bg-lavender/60 py-1.5 px-3 rounded-full border border-amethyst/30">
+                    <span id="header-user-score" class="font-extrabold text-xs text-plum">0 pts</span>
+                    <div id="header-user-avatar" class="w-7 h-7 rounded-full bg-plum text-ivory flex items-center justify-center font-bold text-xs overflow-hidden border border-amethyst">
+                        VV
+                    </div>
                 </div>
+            </div>
+            <!-- SUBTLE COUNTDOWN STRIP -->
+            <div class="px-4 pb-1.5 -mt-1 text-center border-t border-amethyst/10 pt-1">
+                <p class="text-[9px] font-bold text-earthen/70 tracking-wide uppercase">
+                    ⏳ The Final Countdown (To Forever): <span id="final-countdown-timer" class="text-plum/80">calculating…</span>
+                </p>
             </div>
         </header>
 
@@ -391,6 +399,20 @@
                                         Option 2: They weirdly didn't want to do it (0)
                                     </button>
                                 </div>
+                            </div>
+
+                            <!-- BUY JULIA A SHOT (UNLIMITED, REPEATABLE) -->
+                            <div id="card-buy-julia-shot" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="Buy Julia a Shot">Buy Julia a Shot 🥃</h4>
+                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Every time you buy Julia a shot, cash in the points. No limit — keep 'em coming all night!</p>
+                                    </div>
+                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+100 pts · 🔄 Unlimited</span>
+                                </div>
+                                <button id="btn-buy-julia-shot" onclick="buyJuliaShot()" class="w-full bg-plum text-ivory p-3 rounded-xl font-bold text-sm hover:bg-plum/90 shadow-md transition-all active:scale-98">
+                                    I Bought Her a Shot! 🥂 <span class="opacity-80 font-semibold">(<span id="julia-shots-count">0</span> so far)</span>
+                                </button>
                             </div>
 
                         </div>
@@ -1401,6 +1423,30 @@
             }
         };
 
+        window.buyJuliaShot = async function() {
+            if (!currentUser) return alert("Please set up your profile first!");
+            if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
+
+            const points = 100;
+            try {
+                await updateDoc(doc(db, "users", currentUser.id), {
+                    score: increment(points),
+                    juliaShotsCount: increment(1)
+                });
+                currentUser.score += points;
+                currentUser.juliaShotsCount = (currentUser.juliaShotsCount || 0) + 1;
+                localStorage.setItem('vachonUser', JSON.stringify(currentUser));
+
+                const countEl = document.getElementById('julia-shots-count');
+                if (countEl) countEl.innerText = currentUser.juliaShotsCount;
+                document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
+
+                showChallengeSuccessModal("Bought Julia a Shot 🥃", points);
+            } catch (e) {
+                console.error(e);
+            }
+        };
+
         const finalVachonAwards = [
             "🪙 Coin Drop Champion",
             "🕺 Most Likely to Still Be Dancing at 3 AM",
@@ -1587,19 +1633,56 @@
 
             const completedChallenges = currentUser && currentUser.completedChallenges ? currentUser.completedChallenges : [];
             allChallengeIds.forEach(id => {
-                const card = document.getElementById(`card-${id}`);
-                const input = document.getElementById(`input-${id}`);
-                const label = document.getElementById(`label-${id}`);
+                // Most cards are id="card-<id>", but a couple of the mini-game cards
+                // (cold-feet, kiss-groom) were built as id="<id>-card" — check both.
+                const card = document.getElementById(`card-${id}`) || document.getElementById(`${id}-card`);
                 if (!card) return;
 
                 const isDone = completedChallenges.includes(id);
-                if (isDone) {
-                    card.className = "challenge-card bg-moss/10 p-3.5 rounded-2xl border-2 border-moss/40 flex items-center justify-between gap-3 transition-all";
-                    if (label) {
-                        label.className = "bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm opacity-60 cursor-not-allowed shadow-none";
-                        label.innerHTML = "✓";
+
+                if (card.classList.contains('challenge-card')) {
+                    // TYPE A: quick "+" photo/video upload challenges
+                    const input = document.getElementById(`input-${id}`);
+                    const label = document.getElementById(`label-${id}`);
+                    if (isDone) {
+                        card.className = "challenge-card bg-moss/10 p-3.5 rounded-2xl border-2 border-moss/40 flex items-center justify-between gap-3 transition-all";
+                        if (label) {
+                            label.className = "bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-sm opacity-60 cursor-not-allowed shadow-none";
+                            label.innerHTML = "✓";
+                        }
+                        if (input) input.disabled = true;
+                    } else {
+                        card.className = "challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all";
+                        if (label) {
+                            label.className = "bg-moss text-white w-9 h-9 rounded-full flex items-center justify-center font-bold text-lg cursor-pointer hover:bg-fern shadow-sm transition-colors";
+                            label.innerHTML = "+";
+                        }
+                        if (input) input.disabled = false;
                     }
-                    if (input) input.disabled = true;
+                } else {
+                    // TYPE B: choice challenges & mini-games (gradient cards) — done ones
+                    // get quietly greyed out (using the existing palette) rather than hidden,
+                    // so it's obvious at a glance what's already been logged.
+                    const buttons = card.querySelectorAll('button');
+                    let doneTag = card.querySelector('.done-tag');
+                    const titleEl = card.querySelector('[data-challenge-title], h3, h4');
+
+                    if (isDone) {
+                        card.classList.remove('border-amethyst');
+                        card.classList.add('border-amethyst/15', 'opacity-55', 'saturate-50');
+                        buttons.forEach(b => { b.disabled = true; b.classList.add('cursor-not-allowed'); });
+                        if (!doneTag && titleEl) {
+                            doneTag = document.createElement('span');
+                            doneTag.className = "done-tag text-[9px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30 ml-1.5 align-middle";
+                            doneTag.innerText = "✓ Logged";
+                            titleEl.appendChild(doneTag);
+                        }
+                    } else {
+                        card.classList.add('border-amethyst');
+                        card.classList.remove('border-amethyst/15', 'opacity-55', 'saturate-50');
+                        buttons.forEach(b => { b.disabled = false; b.classList.remove('cursor-not-allowed'); });
+                        if (doneTag) doneTag.remove();
+                    }
                 }
             });
         }
@@ -1709,6 +1792,8 @@
             }
 
             document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
+            const shotsCountEl = document.getElementById('julia-shots-count');
+            if (shotsCountEl) shotsCountEl.innerText = currentUser.juliaShotsCount || 0;
             updateLockStateUI();
         }
 
@@ -1753,8 +1838,11 @@
                     currentUser.brideBestCompleted = data.brideBestCompleted;
                     currentUser.completedChallenges = data.completedChallenges || [];
                     currentUser.lastDareTimestamp = data.lastDareTimestamp;
+                    currentUser.juliaShotsCount = data.juliaShotsCount || 0;
                     
                     document.getElementById('header-user-score').innerText = `${currentUser.score} pts`;
+                    const shotsCountEl = document.getElementById('julia-shots-count');
+                    if (shotsCountEl) shotsCountEl.innerText = currentUser.juliaShotsCount;
                     updateLockStateUI();
                 }
             });
@@ -2026,6 +2114,31 @@
                 });
             });
         });
+
+        // "THE FINAL COUNTDOWN (TO FOREVER)" — runs quietly at the top of the screen,
+        // counting down to 6:00 PM on August 29. Purely cosmetic, doesn't touch game logic.
+        function updateFinalCountdown() {
+            const timerEl = document.getElementById('final-countdown-timer');
+            if (!timerEl) return;
+
+            const target = new Date('2026-08-29T18:00:00');
+            const now = new Date();
+            const diff = target - now;
+
+            if (diff <= 0) {
+                timerEl.innerText = "It's here! 🤍";
+                return;
+            }
+
+            const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+            const mins = Math.floor((diff / (1000 * 60)) % 60);
+            const secs = Math.floor((diff / 1000) % 60);
+
+            timerEl.innerText = `${days}d ${hours}h ${mins}m ${secs}s`;
+        }
+        updateFinalCountdown();
+        setInterval(updateFinalCountdown, 1000);
 
         checkExistingUser();
     </script>

@@ -55,6 +55,24 @@
         </div>
     </div>
 
+    <!-- Watchdog: if the main app script errors out or fails to load (e.g. blocked network request),
+         this plain script still runs and forces the loading screen away after a few seconds so the
+         page never gets stuck, and logs a hint to the console for debugging. -->
+    <script>
+        window.addEventListener('error', function (e) {
+            console.error('Page error:', e.message, e.filename, e.lineno);
+        });
+        setTimeout(function () {
+            var loading = document.getElementById('loading');
+            if (loading && !loading.classList.contains('hidden')) {
+                console.warn('Loading screen watchdog triggered — the app script likely errored or a network request (e.g. Firebase) failed. Check the console above for the real error.');
+                loading.classList.add('hidden');
+                var authScreen = document.getElementById('auth-screen');
+                if (authScreen) authScreen.classList.remove('hidden');
+            }
+        }, 6000);
+    </script>
+
     <!-- SEPARATE AUTH SCREEN (LOGIN & SIGNUP ONLY) -->
     <div id="auth-screen" class="min-h-screen flex items-center justify-center p-4 bg-gradient-to-b from-lavender via-ivory to-ivory">
         <div class="bg-white/80 backdrop-blur-md p-6 rounded-3xl border border-amethyst/30 shadow-xl space-y-6 max-w-md w-full my-auto">
@@ -1435,7 +1453,7 @@
             }
         };
 
-        window.startFinalVachonAwards = function() {
+        window.startFinalVachonAwards = async function() {
             if (!currentUser) return alert("Please set up your profile first!");
             if (!currentUser.triviaCompleted) return alert("🔒 Complete Julia Trivia first!");
             if ((currentUser.completedChallenges || []).includes('final-vachon-awards')) return alert("⚠️ Already recorded!");
@@ -1657,14 +1675,28 @@
         }
 
         function checkExistingUser() {
-            const savedUser = localStorage.getItem('vachonUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                setTimeout(() => {
-                    updateUIForLoggedInUser();
-                    initializeRealtimeListeners();
-                }, 800);
-            } else {
+            try {
+                const savedUser = localStorage.getItem('vachonUser');
+                if (savedUser) {
+                    currentUser = JSON.parse(savedUser);
+                    setTimeout(() => {
+                        try {
+                            updateUIForLoggedInUser();
+                            initializeRealtimeListeners();
+                        } catch (e) {
+                            console.error('Error restoring logged-in user, falling back to login screen:', e);
+                            localStorage.removeItem('vachonUser');
+                            document.getElementById('loading').classList.add('hidden');
+                            document.getElementById('app').classList.add('hidden');
+                            document.getElementById('auth-screen').classList.remove('hidden');
+                        }
+                    }, 800);
+                } else {
+                    document.getElementById('loading').classList.add('hidden');
+                    document.getElementById('auth-screen').classList.remove('hidden');
+                }
+            } catch (e) {
+                console.error('Error checking existing user, falling back to login screen:', e);
                 document.getElementById('loading').classList.add('hidden');
                 document.getElementById('auth-screen').classList.remove('hidden');
             }

@@ -286,6 +286,24 @@
                                 </button>
                             </div>
 
+                            <div id="card-julia-mashup" class="bg-gradient-to-br from-lavender/50 to-ivory border-2 border-amethyst p-4 rounded-2xl shadow-sm space-y-3">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h4 class="font-display text-base font-bold text-plum flex items-center gap-1.5" data-challenge-title="Julia's Big Performance">Julia's Big Performance 💃</h4>
+                                        <p class="challenge-desc text-xs text-slate-700 mt-1 font-medium">Julia's picked tonight's song and mashed together everyone's dance moves into one epic performance. You be the judge — did she nail it, or does she owe a drink?</p>
+                                    </div>
+                                    <span class="challenge-badge text-[10px] font-extrabold text-plum bg-lavender px-2.5 py-1 rounded-full border border-amethyst/30 shrink-0">+50 pts</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 pt-1">
+                                    <button id="btn-julia-mashup-1" onclick="claimChoiceChallenge('julia-mashup', 50, &quot;Julia's Big Performance (Aced It)&quot;)" class="p-2.5 text-center border-2 border-moss bg-moss/10 hover:bg-moss/20 text-fern rounded-xl font-bold text-xs transition-all">
+                                        🏆 She aced it!
+                                    </button>
+                                    <button id="btn-julia-mashup-2" onclick="claimChoiceChallenge('julia-mashup', 50, &quot;Julia's Big Performance (Botched It)&quot;)" class="p-2.5 text-center border-2 border-rose-300 bg-rose-50 hover:bg-rose-100 text-rose-700 rounded-xl font-bold text-xs transition-all">
+                                        🍹 She botched it - drink!
+                                    </button>
+                                </div>
+                            </div>
+
                             <div id="card-pregame-photo" class="challenge-card bg-ivory/60 p-3.5 rounded-2xl border border-amethyst/20 flex items-center justify-between gap-3 transition-all">
                                 <div>
                                     <div class="flex items-center gap-2 mb-0.5">
@@ -904,7 +922,7 @@
         const allChallengeIds = [
             'pregame-photo', 'joshs-twin', 'serenade', 'wedding-advice', 'the-toast',
             'coin-drop-final', 'morning-after-mugshots', 'final-vachon-awards', 'cold-feet', 'kiss-groom', 'borrowed-stranger',
-            'premature-dance', 'false-proposal', 'vachon-signatures', 'josh-doppelganger'
+            'premature-dance', 'false-proposal', 'vachon-signatures', 'josh-doppelganger', 'julia-mashup'
         ];
 
         window.previewSelfie = function(event) {

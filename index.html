@@ -1664,18 +1664,27 @@
                     // get quietly greyed out (using the existing palette) rather than hidden,
                     // so it's obvious at a glance what's already been logged.
                     const buttons = card.querySelectorAll('button');
+                    const badgeEl = card.querySelector('.challenge-badge');
                     let doneTag = card.querySelector('.done-tag');
-                    const titleEl = card.querySelector('[data-challenge-title], h3, h4');
+
+                    // Stack the points badge and the "done" pill vertically (instead of
+                    // squeezing the pill into the title row, which made it wrap into a blob).
+                    if (badgeEl && (!badgeEl.parentElement.classList || !badgeEl.parentElement.classList.contains('badge-stack'))) {
+                        const wrap = document.createElement('div');
+                        wrap.className = "badge-stack flex flex-col items-end gap-1 shrink-0";
+                        badgeEl.parentElement.insertBefore(wrap, badgeEl);
+                        wrap.appendChild(badgeEl);
+                    }
 
                     if (isDone) {
                         card.classList.remove('border-amethyst');
                         card.classList.add('border-amethyst/15', 'opacity-55', 'saturate-50');
                         buttons.forEach(b => { b.disabled = true; b.classList.add('cursor-not-allowed'); });
-                        if (!doneTag && titleEl) {
+                        if (!doneTag && badgeEl) {
                             doneTag = document.createElement('span');
-                            doneTag.className = "done-tag text-[9px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30 ml-1.5 align-middle";
+                            doneTag.className = "done-tag text-[9px] font-extrabold text-fern bg-moss/20 px-2 py-0.5 rounded-full border border-moss/30 whitespace-nowrap";
                             doneTag.innerText = "✓ Logged";
-                            titleEl.appendChild(doneTag);
+                            badgeEl.parentElement.appendChild(doneTag);
                         }
                     } else {
                         card.classList.add('border-amethyst');
